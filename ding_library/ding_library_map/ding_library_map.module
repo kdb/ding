@@ -2,8 +2,10 @@
 // $Id$
 
 /**
- * @file ding_library_map.module
- * Displays library nodes on a map with additional information shown on mouse over
+ * @file
+ * Displays library nodes on a map.
+ *
+ * Display additional information on mouse over.
  */
 
 /**
