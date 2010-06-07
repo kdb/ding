@@ -1944,6 +1944,9 @@ function _ding_content_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('title', 'Anbefalinger');
+  $handler->override_option('footer', '<a href="/taksonomi/artikel/anmeldelse">Se alle anbefalinger</a>');
+  $handler->override_option('footer_format', '1');
+  $handler->override_option('footer_empty', 1);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('style_options', array(
