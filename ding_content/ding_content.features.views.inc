@@ -437,6 +437,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array(
     'uid' => array(
@@ -465,6 +466,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
@@ -535,6 +537,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
@@ -613,6 +616,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array(
     'field_library_ref_nid' => array(
@@ -674,6 +678,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
@@ -762,6 +767,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array(
     'field_library_ref_nid' => array(
@@ -1138,6 +1144,7 @@ function _ding_content_views_default_views() {
     'path_override' => 0,
     'title_override' => 'title_override',
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
@@ -1937,6 +1944,9 @@ function _ding_content_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('title', 'Anbefalinger');
+  $handler->override_option('footer', '<a href="/taksonomi/artikel/anmeldelse">Se alle anbefalinger</a>');
+  $handler->override_option('footer_format', '1');
+  $handler->override_option('footer_empty', 1);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('style_options', array(
@@ -2145,6 +2155,7 @@ function _ding_content_views_default_views() {
     'path_override' => FALSE,
     'title_override' => FALSE,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array(
     'term_node_tid_depth' => array(
@@ -2876,6 +2887,7 @@ function _ding_content_views_default_views() {
     'path_override' => 0,
     'title_override' => 0,
     'exposed_form' => FALSE,
+    'fields_override' => FALSE,
   ));
   $handler->override_option('argument_input', array(
     'uid' => array(
