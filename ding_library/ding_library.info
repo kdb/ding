@@ -4,5 +4,4 @@ description = Controls the main library content type.
 package = Ding!
 core = 6.x
 dependencies[] = ding_base
-dependencies[] = ding_slug
 
