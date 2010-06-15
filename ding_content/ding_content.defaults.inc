@@ -56,8 +56,8 @@ function _ding_content_content_default_fields() {
       'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
-      'max_resolution' => 0,
-      'min_resolution' => 0,
+      'max_resolution' => '0',
+      'min_resolution' => '0',
       'alt' => '',
       'custom_alt' => 0,
       'title' => '',
@@ -65,6 +65,20 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => 1,
+      'insert_styles' => array(
+        'auto' => 0,
+        'link' => 0,
+        'image' => 0,
+        'imagecache_180_x' => 0,
+        'imagecache_ting_search_carousel' => 0,
+        'imagecache_680_200_crop' => 0,
+        'imagecache_120_120' => 0,
+        'imagecache_80_x' => 0,
+      ),
+      'insert_default' => 'auto',
+      'insert_class' => '',
+      'insert_width' => '',
       'label' => 'Indholdsbilleder',
       'weight' => '3',
       'description' => 'Upload af billeder til indsættelse i brødteksten.',
@@ -445,8 +459,8 @@ function _ding_content_content_default_fields() {
       'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
-      'max_resolution' => 0,
-      'min_resolution' => 0,
+      'max_resolution' => '0',
+      'min_resolution' => '0',
       'alt' => '',
       'custom_alt' => 0,
       'title' => '',
@@ -454,6 +468,20 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => 1,
+      'insert_styles' => array(
+        'auto' => 0,
+        'link' => 0,
+        'image' => 0,
+        'imagecache_180_x' => 0,
+        'imagecache_ting_search_carousel' => 0,
+        'imagecache_680_200_crop' => 0,
+        'imagecache_120_120' => 0,
+        'imagecache_80_x' => 0,
+      ),
+      'insert_default' => 'auto',
+      'insert_class' => '',
+      'insert_width' => '',
       'label' => 'Indholdsbilleder',
       'weight' => '4',
       'description' => 'Upload af billeder til indsættelse i brødteksten.',
@@ -776,8 +804,8 @@ function _ding_content_content_default_fields() {
       'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
+      'max_resolution' => '0',
+      'min_resolution' => '0',
       'alt' => '',
       'custom_alt' => 0,
       'title' => '',
@@ -785,6 +813,20 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => 1,
+      'insert_styles' => array(
+        'auto' => 0,
+        'link' => 0,
+        'image' => 0,
+        'imagecache_180_x' => 0,
+        'imagecache_ting_search_carousel' => 0,
+        'imagecache_680_200_crop' => 0,
+        'imagecache_120_120' => 0,
+        'imagecache_80_x' => 0,
+      ),
+      'insert_default' => 'auto',
+      'insert_class' => '',
+      'insert_width' => '',
       'label' => 'Listevisningsbillede',
       'weight' => '5',
       'description' => 'Billede til brug i indholdslister. Dette billede beskæres automatisk til at være kvadratisk, 120x120 pixels.',
@@ -955,8 +997,8 @@ function _ding_content_content_default_fields() {
       'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
-      'max_resolution' => 0,
-      'min_resolution' => 0,
+      'max_resolution' => '0',
+      'min_resolution' => '0',
       'alt' => '',
       'custom_alt' => 0,
       'title' => '',
@@ -964,6 +1006,20 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => 1,
+      'insert_styles' => array(
+        'auto' => 0,
+        'link' => 0,
+        'image' => 0,
+        'imagecache_180_x' => 0,
+        'imagecache_ting_search_carousel' => 0,
+        'imagecache_680_200_crop' => 0,
+        'imagecache_120_120' => 0,
+        'imagecache_80_x' => 0,
+      ),
+      'insert_default' => 'auto',
+      'insert_class' => '',
+      'insert_width' => '',
       'label' => 'Indholdsbilleder',
       'weight' => '1',
       'description' => 'Upload af billeder til indsættelse i brødteksten.',
@@ -2330,7 +2386,7 @@ function _ding_content_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_topic';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
 
   $export['comment_topic'] = $strongarm;
   $strongarm = new stdClass;
@@ -2563,9 +2619,7 @@ function _ding_content_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_topic';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
+  $strongarm->value = array();
 
   $export['node_options_topic'] = $strongarm;
   $strongarm = new stdClass;
