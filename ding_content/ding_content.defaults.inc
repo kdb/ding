@@ -152,7 +152,7 @@ function _ding_content_content_default_fields() {
       'insert_class' => '',
       'insert_width' => '',
       'label' => 'Vedhæftede filer',
-      'weight' => '11',
+      'weight' => '5',
       'description' => '',
       'type' => 'filefield_widget',
       'module' => 'filefield',
@@ -402,7 +402,7 @@ function _ding_content_content_default_fields() {
     'active' => '1',
     'widget' => array(
       'label' => 'Materialer',
-      'weight' => '10',
+      'weight' => '6',
       'description' => 'Du kan lave en søgning og vælge at lave en relation til et materiale eller et værk.',
       'type' => 'ting_reference_default',
       'module' => 'ting_reference',
@@ -1021,7 +1021,7 @@ function _ding_content_content_default_fields() {
       'insert_class' => '',
       'insert_width' => '',
       'label' => 'Indholdsbilleder',
-      'weight' => '1',
+      'weight' => '2',
       'description' => 'Upload af billeder til indsættelse i brødteksten.',
       'type' => 'imagefield_widget',
       'module' => 'imagefield',
@@ -1158,7 +1158,7 @@ function _ding_content_content_default_fields() {
       'default_image' => NULL,
       'use_default_image' => 0,
       'label' => 'Listevisningsbillede',
-      'weight' => '2',
+      'weight' => '3',
       'description' => 'Billede til brug i indholdslister. Dette billede beskæres automatisk til at være kvadratisk, 120x120 pixels.',
       'type' => 'imagefield_widget',
       'module' => 'imagefield',
@@ -1221,7 +1221,7 @@ function _ding_content_content_default_fields() {
       ),
       'default_value_php' => NULL,
       'label' => 'Beskrivelse',
-      'weight' => '-1',
+      'weight' => 0,
       'description' => '',
       'type' => 'text_textarea',
       'module' => 'text',
@@ -2403,11 +2403,12 @@ function _ding_content_strongarm() {
   $strongarm->value = array(
     'title' => '0',
     'body_field' => '2',
-    'revision_information' => '7',
-    'comment_settings' => '9',
-    'menu' => '6',
-    'taxonomy' => '5',
-    'path' => '8',
+    'revision_information' => '9',
+    'comment_settings' => '11',
+    'menu' => '8',
+    'taxonomy' => '7',
+    'path' => '10',
+    'scheduler_settings' => '12',
   );
 
   $export['content_extra_weights_article'] = $strongarm;
@@ -2431,13 +2432,14 @@ function _ding_content_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'content_extra_weights_feature';
   $strongarm->value = array(
-    'title' => '-5',
-    'body_field' => '0',
-    'revision_information' => '3',
-    'comment_settings' => '4',
-    'menu' => '-3',
-    'taxonomy' => '-2',
-    'path' => '5',
+    'title' => '-3',
+    'body_field' => '1',
+    'revision_information' => '4',
+    'comment_settings' => '5',
+    'menu' => '-2',
+    'taxonomy' => '-1',
+    'path' => '6',
+    'scheduler_settings' => '7',
   );
 
   $export['content_extra_weights_feature'] = $strongarm;
