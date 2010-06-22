@@ -813,7 +813,7 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
-      'insert' => 1,
+      'insert' => 0,
       'insert_styles' => array(
         'auto' => 0,
         'link' => 0,
