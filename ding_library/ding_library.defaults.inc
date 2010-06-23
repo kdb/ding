@@ -325,6 +325,7 @@ function _ding_library_content_default_fields() {
     'title' => 'required',
     'title_value' => '',
     'enable_tokens' => 0,
+    'validate_url' => '',
     'widget' => array(
       'default_value' => array(
         '0' => array(
@@ -463,10 +464,7 @@ function _ding_library_content_default_fields() {
     'multiple' => '1',
     'module' => 'office_hours',
     'active' => '1',
-    'granularity' => '30',
-    'limit_start' => '',
-    'limit_end' => '',
-    'validate_hours' => 0,
+    'allow_hours_past_midnight' => '',
     'display_none_as_closed' => 1,
     'widget' => array(
       'default_value' => array(
@@ -668,6 +666,194 @@ function _ding_library_imagecache_default_presets() {
     ),
   );
   return $items;
+}
+
+/**
+ * Helper to implementation of hook_rules_defaults().
+ */
+function _ding_library_rules_defaults() {
+  return array(
+    'rules' => array(
+      'ding_library_1' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'library_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Library',
+          'ding_library' => 'ding_library',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Created content is Library',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'article' => 'article',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'view' => 'library_list',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_library_2' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'library_updated',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Library',
+          'ding_library' => 'ding_library',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'library' => 'library',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is Bibliotek',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'library_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_library_3' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_delete',
+        '#label' => 'library_deleted',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Library',
+          'ding_library' => 'ding_library',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'library' => 'library',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Deleted content is Bibliotek',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'library_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+    ),
+  );
 }
 
 /**

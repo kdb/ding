@@ -19,6 +19,15 @@ function ding_library_imagecache_default_presets() {
 }
 
 /**
+ * Implementation of hook_rules_defaults().
+ */
+function ding_library_rules_defaults() {
+  module_load_include('inc', 'ding_library', 'ding_library.defaults');
+  $args = func_get_args();
+  return call_user_func_array('_ding_library_rules_defaults', $args);
+}
+
+/**
  * Implementation of hook_strongarm().
  */
 function ding_library_strongarm() {

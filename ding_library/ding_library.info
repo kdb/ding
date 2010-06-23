@@ -1,9 +1,7 @@
-; $Id$
-name = Ding! library
-description = Controls the main library content type.
-package = Ding!
-core = 6.x
-dependencies[] = ding_base
+core = "6.x"
+dependencies[] = "cache_actions"
+dependencies[] = "ding_base"
+dependencies[] = "ding_content"
 dependencies[] = "ding_feature_ref"
 dependencies[] = "email"
 dependencies[] = "office_hours"
@@ -19,6 +17,7 @@ features[content][] = "library-field_pc_booking_method"
 features[content][] = "library-field_pc_booking_url"
 features[ctools][] = "strongarm:strongarm:1"
 features[imagecache][] = "680_200_crop"
+features[rules_categories][] = "Library"
 features[variable][] = "ant_library"
 features[variable][] = "comment_library"
 features[variable][] = "content_extra_weights_library"
@@ -27,4 +26,6 @@ features[variable][] = "location_defaultnum_library"
 features[variable][] = "location_maxnum_library"
 features[variable][] = "location_settings_node_library"
 features[variable][] = "node_options_library"
-
+name = "Ding! library"
+package = "Ding!"
+project = "ding_library"
