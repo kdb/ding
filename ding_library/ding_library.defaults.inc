@@ -701,7 +701,7 @@ function _ding_library_rules_defaults() {
             '#name' => 'rules_condition_content_is_type',
             '#settings' => array(
               'type' => array(
-                'article' => 'article',
+                'library' => 'library',
               ),
               '#argument map' => array(
                 'node' => 'node',
