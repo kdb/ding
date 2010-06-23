@@ -2631,7 +2631,7 @@ function _ding_content_views_default_views() {
     'perm' => 'access content',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'rules',
   ));
   $handler->override_option('title', 'Blogindlæg');
   $handler->override_option('empty', 'Ingen blogindlæg fundet.');
