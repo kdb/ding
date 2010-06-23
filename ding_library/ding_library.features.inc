@@ -36,3 +36,11 @@ function ding_library_strongarm() {
   return call_user_func_array('_ding_library_strongarm', $args);
 }
 
+/**
+ * Implementation of hook_views_default_views().
+ */
+function ding_library_views_default_views() {
+  module_load_include('inc', 'ding_library', 'ding_library.features.views');
+  $args = func_get_args();
+  return call_user_func_array('_ding_library_views_default_views', $args);
+}
