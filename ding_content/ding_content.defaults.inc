@@ -2052,7 +2052,7 @@ function _ding_content_imagecache_default_presets() {
  * Helper to implementation of hook_rules_defaults().
  */
 function _ding_content_rules_defaults() {
-  $rules = array(
+  return array(
     'rules' => array(
       'ding_content_1' => array(
         '#type' => 'rule',
@@ -2283,7 +2283,7 @@ function _ding_content_rules_defaults() {
                 'view' => array(
                   'type' => 'string',
                   'label' => 'View',
-                 'description' => 'Specify the view you want to clear.',
+                  'description' => 'Specify the view you want to clear.',
                 ),
               ),
               'module' => 'Cache Actions',
@@ -2461,7 +2461,7 @@ function _ding_content_rules_defaults() {
                 'view' => array(
                   'type' => 'string',
                   'label' => 'View',
-                 'description' => 'Specify the view you want to clear.',
+                  'description' => 'Specify the view you want to clear.',
                 ),
               ),
               'module' => 'Cache Actions',
@@ -2590,8 +2590,6 @@ function _ding_content_rules_defaults() {
       ),
     ),
   );
-
-  return $rules;
 }
 
 /**

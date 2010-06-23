@@ -356,7 +356,7 @@ function _ding_content_views_default_views() {
     'perm' => 'access content',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'rules',
   ));
   $handler->override_option('empty', 'Ingen blogindlæg fundet.');
   $handler->override_option('empty_format', '1');
@@ -2506,7 +2506,7 @@ function _ding_content_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'rules',
   ));
   $handler->override_option('title', 'Emnesamlinger');
   $handler->override_option('empty', 'Ingen emnesamlinger.');
