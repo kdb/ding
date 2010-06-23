@@ -343,6 +343,10 @@ function ding_library_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
     return array('version' => 1);
   }
+
+  module_load_include('inc', 'ding_library', 'ding_library.defaults');
+  $args = func_get_args();
+  return call_user_func_array('_ding_library_ctools_plugin_api', $args);
 }
 
 /**
@@ -514,4 +518,6 @@ function ding_slug_get_by_nid($nid) {
   $slug = db_result(db_query("SELECT slug FROM {ding_library} WHERE nid=%d;", $nid));
   return $slug;
 }
+
+include_once('ding_library.features.inc');
 

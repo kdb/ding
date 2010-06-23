@@ -137,4 +137,3 @@ features[views][] = "user_comments_list"
 name = "Ding! content"
 package = "Ding!"
 project = "ding_content"
-
