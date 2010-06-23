@@ -2049,6 +2049,552 @@ function _ding_content_imagecache_default_presets() {
 }
 
 /**
+ * Helper to implementation of hook_rules_defaults().
+ */
+function _ding_content_rules_defaults() {
+  $rules = array(
+    'rules' => array(
+      'ding_content_1' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'event_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Created content is event',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'event' => 'event',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'view' => 'event_list',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_2' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'event_updated',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'event' => 'event',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is event',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'event_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_3' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_delete',
+        '#label' => 'event_deleted',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'event' => 'event',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Deleted content is event',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'event_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_4' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'article_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Created content is article',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'article' => 'article',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'view' => 'article_list',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                 'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_5' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'article_updated',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'article' => 'article',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is article',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'article_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_6' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_delete',
+        '#label' => 'article_deleted',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'article' => 'article',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Deleted content is article',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'article_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_7' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'topic_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#info' => array(
+              'label' => 'Created content is topic',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'topic' => 'topic',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              'view' => 'topic_list',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                 'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_8' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'topic_updated',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'topic' => 'topic',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is topic',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'topic_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'ding_content_9' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_delete',
+        '#label' => 'topic_deleted',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'Content',
+          'ding_content' => 'ding_content',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'topic' => 'topic',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Deleted content is topic',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'topic_list',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+    ),
+  );
+
+  return $rules;
+}
+
+/**
  * Helper to implementation of hook_strongarm().
  */
 function _ding_content_strongarm() {

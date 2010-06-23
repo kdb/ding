@@ -19,6 +19,15 @@ function ding_content_imagecache_default_presets() {
 }
 
 /**
+ * Implementation of hook_rules_defaults().
+ */
+function ding_content_rules_defaults() {
+  module_load_include('inc', 'ding_content', 'ding_content.defaults');
+  $args = func_get_args();
+  return call_user_func_array('_ding_content_rules_defaults', $args);
+}
+
+/**
  * Implementation of hook_strongarm().
  */
 function ding_content_strongarm() {
