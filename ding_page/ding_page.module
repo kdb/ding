@@ -108,3 +108,5 @@ function ding_page_view($node, $teaser = FALSE, $page = FALSE) {
   $node = node_prepare($node, $teaser);
   return $node;
 }
+
+include_once('ding_page.features.inc');
