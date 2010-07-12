@@ -100,7 +100,12 @@ function ding_content_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '1800',
+      ),
+    );
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
