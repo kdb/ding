@@ -71,3 +71,4 @@ function ding_base_date_formats() {
   );
 }
 
+include_once('ding_base.features.inc');

@@ -4,4 +4,8 @@ description = Base module providing formats and APIs used across all Ding module
 package = Ding!
 core = 6.x
 dependencies[] = date_api
-
+dependencies[] = "strongarm"
+features[ctools][] = "strongarm:strongarm:1"
+features[variable][] = "page_manager_node_view_disabled"
+features[variable][] = "page_manager_term_view_disabled"
+features[variable][] = "page_manager_user_view_disabled"
