@@ -418,7 +418,7 @@ function _ding_page_ctools_plugin_api() {
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => 1);
   }
-  else if ($module == "strongarm" && $api == "strongarm") {
+  elseif ($module == "strongarm" && $api == "strongarm") {
     return array("version" => 1);
   }
 }
@@ -731,5 +731,12 @@ function _ding_page_strongarm() {
   );
 
   $export['node_options_page'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_page_pattern';
+  $strongarm->value = '[menupath-raw]';
+
+  $export['pathauto_node_page_pattern'] = $strongarm;
   return $export;
 }
