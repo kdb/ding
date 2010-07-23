@@ -74,6 +74,12 @@ function ding_feature_ref_widget(&$form, &$form_state, $field, $items, $delta = 
  */
 function ding_feature_ref_feature_widget_validate($element, &$form_state, $form) {
   $name = $element['#field_name'];
+
+  // Don’t try to iterate if there’s no array.
+  if (!isset($form_state['values'][$name])) {
+    return;
+  }
+
   $values = array();
 
   foreach ($form_state['values'][$name] as $nid => $val) {
