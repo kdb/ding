@@ -141,3 +141,55 @@ function ding_library_update_6004() {
   return $ret;
 }
 
+/**
+ * Install PURL.
+ */
+function ding_library_update_6005() {
+  $ret = array();
+
+  // Start out with installing PURL.
+  drupal_install_modules(array('purl'));
+  $modules = module_list();
+  if (!isset($modules['purl'])) {
+    return array('#abort' => array('success' => FALSE, 'query' => 'Could not enable PURL.'));
+  }
+  $ret[] = array('success' => TRUE, 'query' => 'Enabled PURL successfully.');
+
+  return $ret;
+}
+
+/**
+ * Change slugs to be handled by PURL.
+ */
+function ding_library_update_6006() {
+  $ret = array();
+
+  // Force CTools to load, so PURL can use its API
+  ctools_include('plugins');
+
+  // Select the existing slugs.
+  // INNER JOIN on vid to get only the current slugs.
+  $query = db_query("
+    SELECT n.nid, dl.slug FROM {ding_library} AS dl
+    INNER JOIN {node} AS n USING (vid)
+    WHERE slug IS NOT NULL;
+  ");
+
+  // Save the slugs as PURLs.
+  while ($row = db_fetch_array($query)) {
+    purl_save(array(
+      'id' => $row['nid'],
+      'provider' => 'ding_library',
+      'value' => $row['slug'],
+    ));
+  }
+
+  // Drop the slug column.
+  db_drop_field($ret, 'ding_library', 'slug');
+
+  // Delete columns that have vid=0 – those are broken values.
+  $ret[] = update_sql('DELETE FROM {ding_library} WHERE vid = 0;');
+
+  return $ret;
+}
+

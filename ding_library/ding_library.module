@@ -230,6 +230,7 @@ function ding_library_update($node) {
       // drupal_write_record() does not support updating a column to NULL.
       db_query('UPDATE {ding_library} SET branch_id = NULL WHERE nid = %d AND vid = %d', $node->nid, $node->vid);
     }
+
     if ($node->library_page_type == 'portal') {
       // Check if this library already has a menu.
       if (db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name = 'ding_library_%d' LIMIT 1", $node->nid))) {
@@ -283,8 +284,7 @@ function ding_library_load($node) {
   unset($additions->vid);
   unset($additions->nid);
 
-  // Legacy attribute for old code that used the ding_slug module.
-  $additions->ding_slug = $additions->slug;
+  $additions->slug = ding_library_get_slug($node->nid);
 
   return $additions;
 }
@@ -347,6 +347,19 @@ function ding_library_ctools_plugin_api($module, $api) {
   module_load_include('inc', 'ding_library', 'ding_library.defaults');
   $args = func_get_args();
   return call_user_func_array('_ding_library_ctools_plugin_api', $args);
+}
+
+/**
+ * Implementation of hook_purl_provider().
+ */
+function ding_library_purl_provider() {
+  return array(
+    'ding_library' => array(
+      'name' => t('Ding! Library'),
+      'description' => t('Loads a Ding! Library based on its slug'),
+      'example' => 'my-library',
+    ),
+  );
 }
 
 /**
@@ -417,8 +430,8 @@ function ding_library_token_values($type, $object = NULL, $options = array()) {
     // If there is no slug set on the object, try looking it up
     // in the database, otherwise return the node id.
     else {
-      $slug = db_result(db_query("SELECT slug FROM {ding_library} WHERE nid = %d;", $node->nid));
-      if (empty($slug)) {
+      $slug = ding_library_get_slug($node->nid);
+      if (!$slug) {
         $slug = $node->nid;
       }
 
@@ -433,7 +446,8 @@ function ding_library_token_values($type, $object = NULL, $options = array()) {
     if (!isset($tokens['ding_library_slug'])) {
       // Look up the slug of the related library.
       if (isset($node->field_library_ref[0]['nid']) && !empty($node->field_library_ref[0]['nid'])) {
-        $slug = db_result(db_query("SELECT slug FROM {ding_library} WHERE nid = %d LIMIT 1;", $node->field_library_ref[0]['nid']));
+        $slug = ding_library_get_slug($node->field_library_ref[0]['nid']);
+
         if ($slug) {
           $tokens['ding_library_slug'] = check_plain($slug);
         }
@@ -512,11 +526,19 @@ function ding_library_slugify($input) {
  * @param integer $nid
  *    The node ID.
  * @return string
- *    The slug matching the node.
+ *    The slug matching the node or boolean FALSE if no match.
  */
 function ding_library_get_slug($nid) {
-  $slug = db_result(db_query("SELECT slug FROM {ding_library} WHERE nid=%d;", $nid));
-  return $slug;
+  // Load the slug from PURL.
+  $purl = purl_load(array(
+    'id' => $nid,
+    'provider' => 'ding_library'
+  ));
+
+  if (is_array($purl) && !empty($purl['value'])) {
+    return $purl['value'];
+  }
+  return FALSE;
 }
 
 include_once('ding_library.features.inc');
