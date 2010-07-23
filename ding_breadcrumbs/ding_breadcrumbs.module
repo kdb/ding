@@ -27,10 +27,10 @@ function ding_breadcrumbs_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         $trail[] = l($library->title, 'node/' . $library->nid);
 
         if ($node->type == 'article') {
-          $trail[] = l(t('Blog'), 'biblioteker/' . $library->ding_slug . '/blog');
+          $trail[] = l(t('Blog'), 'biblioteker/' . $library->slug . '/blog');
         }
         elseif ($node->type == 'event') {
-          $trail[] = l(t('Events'), 'biblioteker/' . $library->ding_slug . '/arrangementer');
+          $trail[] = l(t('Events'), 'biblioteker/' . $library->slug . '/arrangementer');
         }
       }
     }

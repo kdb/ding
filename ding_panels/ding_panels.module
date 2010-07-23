@@ -51,8 +51,8 @@ function ding_panels_ctools_plugin_directory($module, $plugin) {
  */
 function ding_panels_content_preprocess_library_title(&$variables) {
   $node = $variables['node'];
-  if (isset($node->ding_slug) && !empty($node->ding_slug)) {
-    $base_path = 'biblioteker/' . $node->ding_slug;
+  if (isset($node->slug) && !empty($node->slug)) {
+    $base_path = 'biblioteker/' . $node->slug;
   }
   else {
     $base_path = 'biblioteker/' . $node->nid;

@@ -256,12 +256,12 @@ function ding_library_admin_slugs_form_submit($form, &$form_state) {
           'nid' => $nid,
           'title' => $form['records'][$nid]['#title'],
           'old_slug' => $form_state['values']['existing_slugs'][$nid],
-          'new_slug' => ding_slug_slugify($slug),
+          'new_slug' => ding_library_slugify($slug),
         );
       }
       else {
         // Create a new slug.
-        db_query("INSERT INTO {ding_library} (slug, nid) VALUES ('%s', %d)", ding_slug_slugify($slug), $nid);
+        db_query("INSERT INTO {ding_library} (slug, nid) VALUES ('%s', %d)", ding_library_slugify($slug), $nid);
       }
     }
   }
