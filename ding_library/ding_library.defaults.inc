@@ -252,6 +252,7 @@ function _ding_library_content_default_fields() {
     'widget' => array(
       'file_extensions' => 'png gif jpg jpeg',
       'file_path' => '',
+      'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
       'max_resolution' => 0,
@@ -260,10 +261,9 @@ function _ding_library_content_default_fields() {
       'custom_alt' => 1,
       'title' => '',
       'custom_title' => 0,
+      'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
-      'progress_indicator' => 'bar',
-      'title_type' => 'textfield',
       'label' => 'Hovedbillede',
       'weight' => '-2',
       'description' => 'Hovedbilledet bruges på bibliotekets side i størrelsen 680x200',
@@ -283,7 +283,7 @@ function _ding_library_content_default_fields() {
         'format' => 'above',
       ),
       'teaser' => array(
-        'format' => 'default',
+        'format' => 'title_plain',
         'exclude' => 0,
       ),
       'full' => array(
@@ -493,9 +493,10 @@ function _ding_library_content_default_fields() {
     'field_name' => 'field_pc_booking_method',
     'type_name' => 'library',
     'display_settings' => array(
+      'weight' => '10',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -553,9 +554,10 @@ popup',
     'field_name' => 'field_pc_booking_url',
     'type_name' => 'library',
     'display_settings' => array(
+      'weight' => '9',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -907,6 +909,13 @@ function _ding_library_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'location_geocode_dk';
+  $strongarm->value = 'google';
+
+  $export['location_geocode_dk'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'location_maxnum_library';
   $strongarm->value = '1';
 
@@ -924,56 +933,56 @@ function _ding_library_strongarm() {
     'form' => array(
       'weight' => '0',
       'collapsible' => 1,
-      'collapsed' => 1,
+      'collapsed' => 0,
       'fields' => array(
         'name' => array(
           'collect' => '1',
           'default' => '',
-          'weight' => '2',
+          'weight' => '-100',
         ),
         'street' => array(
           'collect' => '2',
           'default' => '',
-          'weight' => '4',
+          'weight' => '-99',
         ),
         'additional' => array(
           'collect' => '1',
           'default' => '',
-          'weight' => '6',
-        ),
-        'city' => array(
-          'collect' => '2',
-          'default' => '',
-          'weight' => '8',
-        ),
-        'province' => array(
-          'collect' => '0',
-          'default' => '',
-          'weight' => '10',
+          'weight' => '-98',
         ),
         'postal_code' => array(
           'collect' => '2',
           'default' => '',
-          'weight' => '12',
+          'weight' => '-97',
+        ),
+        'city' => array(
+          'collect' => '2',
+          'default' => '',
+          'weight' => '-96',
+        ),
+        'province' => array(
+          'collect' => '0',
+          'default' => '',
+          'weight' => '-95',
         ),
         'country' => array(
-          'collect' => '4',
+          'collect' => '2',
           'default' => 'dk',
-          'weight' => '14',
+          'weight' => '-94',
         ),
         'locpick' => array(
           'collect' => '0',
-          'weight' => '20',
+          'weight' => '-93',
         ),
         'phone' => array(
           'collect' => '1',
           'default' => '',
-          'weight' => '25',
+          'weight' => '-92',
         ),
         'fax' => array(
           'collect' => '1',
           'default' => '',
-          'weight' => '30',
+          'weight' => '-91',
         ),
       ),
     ),
