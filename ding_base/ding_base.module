@@ -35,6 +35,11 @@ function ding_base_date_formats() {
     ),
     array(
       'type' => 'date_short',
+      'format' => 'd-m-Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_short',
       'format' => 'm/d/Y',
       'locales' => array(),
     ),
