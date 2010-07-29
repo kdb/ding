@@ -214,13 +214,13 @@ function _ding_content_content_default_fields() {
     'advanced_view_args' => '',
     'widget' => array(
       'autocomplete_match' => 'contains',
+      'size' => 60,
       'default_value' => array(
         '0' => array(
           'nid' => '',
         ),
       ),
       'default_value_php' => NULL,
-      'size' => 60,
       'label' => 'Biblioteker',
       'weight' => '-1',
       'description' => '',
@@ -676,6 +676,20 @@ function _ding_content_content_default_fields() {
       'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
+      'insert' => 0,
+      'insert_styles' => array(
+        'auto' => 0,
+        'link' => 0,
+        'image' => 0,
+        'imagecache_180_x' => 0,
+        'imagecache_ting_search_carousel' => 0,
+        'imagecache_680_200_crop' => 0,
+        'imagecache_120_120' => 0,
+        'imagecache_80_x' => 0,
+      ),
+      'insert_default' => 'auto',
+      'insert_class' => '',
+      'insert_width' => '',
       'label' => 'Vedhæftede filer',
       'weight' => '10',
       'description' => '',
@@ -739,13 +753,13 @@ function _ding_content_content_default_fields() {
     'advanced_view_args' => '',
     'widget' => array(
       'autocomplete_match' => 'contains',
+      'size' => 60,
       'default_value' => array(
         '0' => array(
           'nid' => '',
         ),
       ),
       'default_value_php' => NULL,
-      'size' => 60,
       'label' => 'Bibliotek',
       'weight' => '-2',
       'description' => '',
@@ -1083,13 +1097,13 @@ function _ding_content_content_default_fields() {
     'advanced_view_args' => '',
     'widget' => array(
       'autocomplete_match' => 'contains',
+      'size' => 60,
       'default_value' => array(
         '0' => array(
           'nid' => '',
         ),
       ),
       'default_value_php' => NULL,
-      'size' => 60,
       'label' => 'Bibliotek',
       'weight' => '-4',
       'description' => '',
@@ -1571,6 +1585,7 @@ function _ding_content_content_default_fields() {
     'widget' => array(
       'file_extensions' => 'png gif jpg jpeg',
       'file_path' => 'profile_image/[uid]',
+      'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
       'max_resolution' => 0,
@@ -1579,10 +1594,9 @@ function _ding_content_content_default_fields() {
       'custom_alt' => 0,
       'title' => '',
       'custom_title' => 0,
+      'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
-      'progress_indicator' => 'bar',
-      'title_type' => 'textfield',
       'label' => 'Profilbillede',
       'weight' => '-2',
       'description' => 'Vælg et portrætbillede. Det beskæres til at være kvadratisk.',
@@ -1914,13 +1928,13 @@ function _ding_content_content_default_fields() {
     'advanced_view_args' => '',
     'widget' => array(
       'autocomplete_match' => 'contains',
+      'size' => 60,
       'default_value' => array(
         '0' => array(
           'nid' => '',
         ),
       ),
       'default_value_php' => NULL,
-      'size' => 60,
       'label' => 'Bibliotek',
       'weight' => '3',
       'description' => '',
