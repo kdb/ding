@@ -541,5 +541,26 @@ function ding_library_get_slug($nid) {
   return FALSE;
 }
 
+/**
+ * Load a library node based on its slug.
+ *
+ * @param $slug
+ *   Slug text string.
+ * @return
+ *   Loaded node object or boolean FALSE if no match.
+ */
+function ding_library_load_by_slug($slug) {
+  $purl = purl_load(array(
+    'provider' => 'ding_library',
+    'value' => $slug,
+  ));
+
+  if ($purl && $purl['id'] > 0) {
+    return node_load($purl['id']);
+  }
+
+  return FALSE;
+}
+
 include_once('ding_library.features.inc');
 

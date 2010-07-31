@@ -40,21 +40,16 @@ function ding_panels_ding_slug_context($arg = NULL, $conf = NULL, $empty = FALSE
   // Cast argument to an integer to see if it looks like a node ID.
   $num = intval($arg);
   if (is_numeric($num) && $num > 0) {
-    $nid = $num;
+    $node = node_load($num);
   }
   // Try looking up the argument as a slug
   elseif (strlen($arg) > 1) {
-    $nid = db_result(db_query("SELECT nid FROM {ding_library} WHERE slug='%s'", $arg));
+    $node = ding_library_load_by_slug($arg);
   }
   else {
     return FALSE;
   }
 
-  if (!$nid || !is_numeric($nid)) {
-    return FALSE;
-  }
-
-  $node = node_load($nid);
   if (!$node) {
     return FALSE;
   }
