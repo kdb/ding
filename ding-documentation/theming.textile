@@ -37,8 +37,8 @@ overall design file
 * panels-twocol-left-stacked.tpl.php
 
 * ding_event_similar_events.tpl.php
-* ding_panels_content_libary_location.tpl.php
-* ding_panels_content_libary_title.tpl.php
+* ding_panels_content_library_location.tpl.php
+* ding_panels_content_library_title.tpl.php
 
 
 h4. content templates
@@ -59,7 +59,7 @@ Library
 * views-view-fields--library-list--page.tpl.php
 	listing of the librarys
 * location.tpl.php
-	defnes the location element for a libary
+	defnes the location element for a library
 
 search
 * ting_record.tpl.php

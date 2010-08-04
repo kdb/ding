@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file ding_panels_content_libary_location.tpl.php
+ * @file ding_panels_content_library_location.tpl.php
  * Library location, map, etc.
  */
 

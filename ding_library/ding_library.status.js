@@ -9,7 +9,7 @@ Drupal.behaviors.dingLibraryStatus = function () {
   var settings = Drupal.settings.officeHours['node' + Drupal.settings.dingLibraryNids[0]];
   $.getJSON(settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + settings.field_name, {}, function (response, textStatus) {
     $.each(response.data, function (nid, hoursData) {
-      $('#node-' + nid + ' .libary-openstatus')
+      $('#node-' + nid + ' .library-openstatus')
         .text(hoursData.status_local);
     });
   });
