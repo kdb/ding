@@ -181,16 +181,16 @@ function ding_content_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = 'Biblioteker';
-  $display->hide_title = TRUE;
-  $display->title_pane = 8;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
@@ -209,6 +209,7 @@ function ding_content_default_page_manager_pages() {
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -217,8 +218,8 @@ function ding_content_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'empty',
+        0 => 'empty',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -231,6 +232,7 @@ function ding_content_default_page_manager_pages() {
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'top';
     $pane->type = 'library_map';
@@ -248,9 +250,12 @@ function ding_content_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['top'][0] = 'new-3';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['librarty_list'] = $page;
+  $pages['library_list'] = $page;
+
 
   /**
    * Panel 'page-article_list'.
@@ -365,7 +370,7 @@ function ding_content_default_page_manager_pages() {
   $page->path = 'biblioteker/%slug/bookpc';
   $page->access = array(
     'plugins' => array(
-      '1' => array(
+      1 => array(
         'name' => 'perm',
         'settings' => array(
           'perm' => 'access content',
@@ -406,15 +411,24 @@ function ding_content_default_page_manager_pages() {
     ),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = 'Book pc';
-  $display->hide_title = FALSE;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'library';
@@ -427,13 +441,16 @@ function ding_content_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -446,13 +463,16 @@ function ding_content_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -465,13 +485,16 @@ function ding_content_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-3'] = $pane;
     $display->panels['right'][1] = 'new-3';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -480,40 +503,49 @@ function ding_content_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'argument_ding_slug_1',
-        '2' => 'empty',
+        0 => 'empty',
+        1 => 'argument_ding_slug_1',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
     $display->content['new-4'] = $pane;
     $display->panels['right'][2] = 'new-4';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-5';
     $pane->panel = 'top';
-    $pane->type = 'library';
+    $pane->type = 'library_title';
     $pane->subtype = 'library_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'display_header_image' => FALSE,
+      'header_image_imagecache_preset' => '2',
+      'display_navigation_links' => TRUE,
       'context' => 'argument_ding_slug_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-5'] = $pane;
     $display->panels['top'][0] = 'new-5';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['library_pc_booking'] = $page;
@@ -559,15 +591,24 @@ function ding_content_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'views';
@@ -587,19 +628,22 @@ function ding_content_default_page_manager_pages() {
       'url' => '',
       'display' => 'default',
       'context' => array(
-        '0' => 'argument_ding_slug_1.nid',
+        0 => 'argument_ding_slug_1.nid',
       ),
       'override_title' => 1,
       'override_title_text' => 'Lokale emnesamlinger',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -608,40 +652,49 @@ function ding_content_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'argument_ding_slug_1',
-        '2' => 'empty',
+        0 => 'empty',
+        1 => 'argument_ding_slug_1',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'top';
-    $pane->type = 'library';
+    $pane->type = 'library_title';
     $pane->subtype = 'library_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'display_header_image' => FALSE,
+      'header_image_imagecache_preset' => '2',
+      'display_navigation_links' => TRUE,
       'context' => 'argument_ding_slug_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['top'][0] = 'new-3';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['library_local'] = $page;
@@ -1034,14 +1087,14 @@ function ding_content_default_page_manager_handlers() {
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
-        '0' => array(
+        0 => array(
           'name' => 'perm',
           'settings' => array(
             'perm' => 'access content',
           ),
           'context' => 'logged-in-user',
         ),
-        '1' => array(
+        1 => array(
           'name' => 'library_page_type',
           'settings' => array(
             'library_page_type' => 'portal',
@@ -1053,14 +1106,25 @@ function ding_content_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'threecol_left_stacked_right';
   $display->layout_settings = array();
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'middle' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'library_portal';
@@ -1071,15 +1135,19 @@ function ding_content_default_page_manager_handlers() {
       'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'default_menu' => 'menu-organisation',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'node_body';
@@ -1092,13 +1160,16 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -1107,17 +1178,20 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
+        0 => 'argument_nid_1',
       ),
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-3'] = $pane;
     $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -1130,13 +1204,16 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-4'] = $pane;
     $display->panels['right'][0] = 'new-4';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -1151,6 +1228,7 @@ function ding_content_default_page_manager_handlers() {
     $pane->cache = array();
     $pane->style = array(
       'style' => 'ding_box',
+      'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
@@ -1158,6 +1236,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-5'] = $pane;
     $display->panels['right'][1] = 'new-5';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-6';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -1166,34 +1245,41 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
-        '1' => 'empty',
+        0 => 'argument_nid_1',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
     $display->content['new-6'] = $pane;
     $display->panels['right'][2] = 'new-6';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-7';
     $pane->panel = 'top';
-    $pane->type = 'library';
+    $pane->type = 'library_title';
     $pane->subtype = 'library_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'display_header_image' => TRUE,
+      'header_image_imagecache_preset' => '680_200_crop',
+      'display_navigation_links' => FALSE,
       'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -1669,14 +1755,14 @@ function ding_content_default_page_manager_handlers() {
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
-        '0' => array(
+        0 => array(
           'name' => 'perm',
           'settings' => array(
             'perm' => 'access content',
           ),
           'context' => 'logged-in-user',
         ),
-        '1' => array(
+        1 => array(
           'name' => 'library_page_type',
           'settings' => array(
             'library_page_type' => 'normal',
@@ -1688,14 +1774,25 @@ function ding_content_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'threecol_left_stacked';
   $display->layout_settings = array();
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'middle' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
@@ -1704,17 +1801,20 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
+        0 => 'argument_nid_1',
       ),
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -1723,11 +1823,13 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
+        0 => 'argument_nid_1',
       ),
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array(
       'css_id' => 'event-list',
       'css_class' => '',
@@ -1737,6 +1839,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'library';
@@ -1751,6 +1854,7 @@ function ding_content_default_page_manager_handlers() {
     $pane->cache = array();
     $pane->style = array(
       'style' => 'ding_box',
+      'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
@@ -1758,6 +1862,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-3'] = $pane;
     $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -1770,13 +1875,16 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-4'] = $pane;
     $display->panels['right'][0] = 'new-4';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -1791,6 +1899,7 @@ function ding_content_default_page_manager_handlers() {
     $pane->cache = array();
     $pane->style = array(
       'style' => 'ding_box',
+      'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
@@ -1798,6 +1907,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-5'] = $pane;
     $display->panels['right'][1] = 'new-5';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-6';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -1806,34 +1916,41 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
-        '1' => 'empty',
+        0 => 'argument_nid_1',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
     $display->content['new-6'] = $pane;
     $display->panels['right'][2] = 'new-6';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-7';
     $pane->panel = 'top';
-    $pane->type = 'library';
+    $pane->type = 'library_title';
     $pane->subtype = 'library_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'display_header_image' => TRUE,
+      'header_image_imagecache_preset' => '680_200_crop',
+      'display_navigation_links' => TRUE,
       'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
-      'display_header_image' => TRUE,
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -1843,6 +1960,7 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $handlers['node_view_panel_context'] = $handler;
+
 
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -1961,7 +2079,7 @@ function ding_content_default_page_manager_handlers() {
     'css_cache_file' => '',
     'contexts' => array(),
     'relationships' => array(
-      '0' => array(
+      0 => array(
         'context' => 'argument_nid_1',
         'name' => 'related_library',
         'id' => 2,
@@ -1971,14 +2089,14 @@ function ding_content_default_page_manager_handlers() {
     ),
     'access' => array(
       'plugins' => array(
-        '0' => array(
+        0 => array(
           'name' => 'perm',
           'settings' => array(
             'perm' => 'access content',
           ),
           'context' => 'logged-in-user',
         ),
-        '1' => array(
+        1 => array(
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
@@ -1990,8 +2108,10 @@ function ding_content_default_page_manager_handlers() {
       ),
       'logic' => 'and',
     ),
+    'pipeline' => 'standard',
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array();
@@ -2000,6 +2120,7 @@ function ding_content_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'node_content';
@@ -2026,6 +2147,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'library';
@@ -2045,6 +2167,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
     $pane->type = 'block';
@@ -2065,6 +2188,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-3'] = $pane;
     $display->panels['right'][1] = 'new-3';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -2073,8 +2197,8 @@ function ding_content_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'argument_nid_1',
-        '1' => 'relationship_related_library_2',
+        0 => 'argument_nid_1',
+        1 => 'relationship_related_library_2',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -2087,6 +2211,7 @@ function ding_content_default_page_manager_handlers() {
     $display->content['new-4'] = $pane;
     $display->panels['right'][2] = 'new-4';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-5';
     $pane->panel = 'top';
     $pane->type = 'library';
@@ -2105,7 +2230,7 @@ function ding_content_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-5'] = $pane;
     $display->panels['top'][0] = 'new-5';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $handlers['node_view_panel_context_7'] = $handler;
