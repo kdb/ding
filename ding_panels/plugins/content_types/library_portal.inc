@@ -1,7 +1,8 @@
-<?php // $Id$
+<?php
+// $Id$
 
 /**
- * @file library_portal.inc
+ * @file
  * Provides several library portal page related panels content types.
  */
 
@@ -14,29 +15,12 @@
  */
 function ding_panels_library_portal_ctools_content_types() {
   return array(
-    'title' => t('Library page'),
+    'title' => t('Library portal navigation'),
+    'description' => t('Shows the CMS menu - if available, it will show the portal library specific menu.'),
+    'category' => t('Library page'),
+    'single' => TRUE,
+    'required context' => new ctools_context_required(t('Node'), 'node'),
   );
-}
-
-/**
- * Callback function to supply a list of content types.
- */
-function ding_panels_library_portal_content_type_content_types() {
-  $types = array(
-    'library_portal_navigation' => array(
-      'title' => t('Library portal navigation.'),
-      'description' => t('Shows the CMS menu - if available, it will show the portal library specific menu.'),
-    ),
-  );
-
-  // Append our default settings to every type.
-  foreach ($types as $name => $type) {
-    $types[$name] += array(
-      'category' => t('Library page'),
-      'required context' => new ctools_context_optional(t('Node'), 'node'),
-    );
-  }
-  return $types;
 }
 
 /**
@@ -45,11 +29,9 @@ function ding_panels_library_portal_content_type_content_types() {
 function ding_panels_library_portal_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
   $library = isset($context->data) ? drupal_clone($context->data) : NULL;
-  switch($subtype) {
-    case 'library_portal_navigation':
-      $block->content = _ding_panels_library_portal_navigation_render($library, $conf['default_menu']);
-      break;
-  }
+
+  $block->content = _ding_panels_library_portal_navigation_render($library, $conf['default_menu']);
+
   return $block;
 }
 
@@ -57,30 +39,23 @@ function ding_panels_library_portal_content_type_render($subtype, $conf, $panel_
  * Return the pane titles.
  */
 function ding_panels_library_portal_content_type_admin_title($subtype, $conf, $context) {
-  switch($subtype) {
-  case 'library_portal_navigation':
-    return t('"@s":  Library portal navigation', array('@s' => $context->identifier));
-  }
+  return t('"@s":  Library portal navigation', array('@s' => $context->identifier));
 }
 
 /**
  * Returns an edit form for the content type.
  */
 function ding_panels_library_portal_content_type_edit_form(&$form, &$form_state) {
-  switch($form_state['subtype_name']) {
-    case 'library_portal_navigation':
-      $form['default_menu'] = array(
-        '#type' => 'select',
-        '#title' => t('Default menu'),
-        '#description' => t('If a menu related to the library node can not be found, show this menu instead.'),
-        '#options' => array_merge(array(t('- None -')), menu_get_menus()),
-        '#default_value' => $form_state['conf']['default_menu'],
-      );
+  $form['default_menu'] = array(
+    '#type' => 'select',
+    '#title' => t('Default menu'),
+    '#description' => t('If a menu related to the library node can not be found, show this menu instead.'),
+    '#options' => array_merge(array(t('- None -')), menu_get_menus()),
+    '#default_value' => $form_state['conf']['default_menu'],
+  );
 
-      // Add a 'none' option to the menu options.
-      array_unshift($form['default_menu']['#default_value'], t('- None -'));
-      break;
-  }
+  // Add a 'none' option to the menu options.
+  array_unshift($form['default_menu']['#default_value'], t('- None -'));
 
   return $form;
 }
@@ -89,11 +64,7 @@ function ding_panels_library_portal_content_type_edit_form(&$form, &$form_state)
  * Submit handler for the content type editing form.
  */
 function ding_panels_library_portal_content_type_edit_form_submit(&$form, &$form_state) {
-  switch($form_state['subtype_name']) {
-    case 'library_portal_navigation':
-      $form_state['conf']['default_menu'] = $form_state['values']['default_menu'];
-      break;
-  }
+  $form_state['conf']['default_menu'] = $form_state['values']['default_menu'];
 }
 
 /**
