@@ -10,7 +10,13 @@ Drupal.behaviors.dingLibraryStatus = function () {
   $.getJSON(settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + settings.field_name, {}, function (response, textStatus) {
     $.each(response.data, function (nid, hoursData) {
       $('#node-' + nid + ' .library-openstatus')
-        .text(hoursData.status_local);
+        // Update the label.
+        .text(hoursData.status_local)
+        // Remove the existing status classes.
+        .removeClass('open')
+        .removeClass('closed')
+        // Add the current status as a class.
+        .addClass(hoursData.status);
     });
   });
 };
