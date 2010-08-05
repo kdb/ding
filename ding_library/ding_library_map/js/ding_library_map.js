@@ -177,8 +177,11 @@ Drupal.dingLibraryMap = function(mapId, options) {
     this.init();
   };
 
-  this.info(mapId, options);
-  this.resize(mapId, options);
-  this.goTo(mapId, options);
+  // Initialize the map if Drupal.gmap is available.
+  if (Drupal.gmap) {
+    this.info(mapId, options);
+    this.resize(mapId, options);
+    this.goTo(mapId, options);
+  }
 };
 
