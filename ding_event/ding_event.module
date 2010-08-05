@@ -143,6 +143,11 @@ function ding_event_get_similar($node, $count = 5) {
 
   // Boost all events with the same taxonomy terms.
   foreach ($node->taxonomy as $term) {
+    // Skip this term if we don't have similar term data for it.
+    if (!is_array($data['terms'][$term->tid])) {
+      continue;
+    }
+
     foreach ($data['terms'][$term->tid] as $nid) {
       $events[$nid] += 2;
     }
