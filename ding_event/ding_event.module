@@ -1,8 +1,11 @@
-<?php // $Id$
+<?php
+// $Id$
 
 /**
- * @file ding_event.module
- * Provides the similar events functionality to the Ding! project.
+ * @file
+ * Module for handling event nodes.
+ *
+ * Implements similar events, KultuNaut feeds, etc.
  */
 
 /**
@@ -43,7 +46,6 @@ function ding_event_theme() {
     'ding_event_similar_events' => array(
       'arguments' => array('event_nids' => NULL),
       'template' => 'ding_event_similar_events',
-      'preprocess functions' => array('ding_event_similar_events_preprocess'),
     ),
     'ding_event_kultunaut_feed' => array(
       'arguments' => array('feed' => NULL),
@@ -178,7 +180,7 @@ function ding_event_get_similar($node, $count = 5) {
 /**
  * Variable preprocessing for the ding_event_similar_events template.
  */
-function ding_event_similar_events_preprocess($variables) {
+function ding_event_preprocess_ding_event_similar_events($variables) {
   $variables['events'] = array();
   // Load the node for each event, so Morten can theme them :)
   foreach ($variables['event_nids'] as $nid) {
