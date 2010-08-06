@@ -156,10 +156,6 @@ function ding_user_ctools_plugin_api($module, $api) {
  */
 function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
-    case 'user_profile_form':
-      $form['locale']['#access'] = user_access('administer users');
-      $form['contact']['#access'] = user_access('administer users');
-      break;
     case 'user_login':
     case 'user_login_block':
       // If we have secure pages enabled, redirect login posts to SSL.
@@ -175,6 +171,10 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       unset($form['links']);
       break;
     case 'user_profile_form':
+      // Hide advanced account settings from regular users.
+      $form['locale']['#access'] = user_access('administer users');
+      $form['contact']['#access'] = user_access('administer users');
+
       $account = $form['_account']['#value'];
 
       // Remove or hide the standard user account settings we don't need.
