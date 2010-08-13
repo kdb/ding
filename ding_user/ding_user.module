@@ -158,10 +158,15 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-      // If we have secure pages enabled, redirect login posts to SSL.
-      if (function_exists('securepages_init')) {
-        $form['#action'] = 'https://' . $_SERVER['HTTP_HOST'] . url($_GET['q'], array('query' => drupal_get_destination()));
-      }
+      // If we have secure pages enabled, use its url function to 
+      // generate a secure URL for logging in.
+      $url_function = (function_exists('securepages_url')) ? 'securepages_url' : 'url';
+
+      // Set the POST callback to point to the main user login page to
+      // avoid caching issues.
+      $form['#action'] = $url_function('user/login', array(
+        'query' => array('destination' => drupal_get_path_alias($_GET['q'])),
+      ));
 
       // Replace Drupal's standard user/pass authentication with our own.
       $key = array_search('user_login_authenticate_validate', $form['#validate']);
