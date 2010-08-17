@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Helper to implementation of hook_content_default_fields().
+ * Implementation of hook_content_default_fields().
  */
-function _ding_content_content_default_fields() {
+function ding_content_content_default_fields() {
   $fields = array();
 
   // Exported field: field_content_images
-  $fields[] = array(
+  $fields['article-field_content_images'] = array(
     'field_name' => 'field_content_images',
     'type_name' => 'article',
     'display_settings' => array(
@@ -88,7 +88,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_file_attachments
-  $fields[] = array(
+  $fields['article-field_file_attachments'] = array(
     'field_name' => 'field_file_attachments',
     'type_name' => 'article',
     'display_settings' => array(
@@ -160,7 +160,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_library_ref
-  $fields[] = array(
+  $fields['article-field_library_ref'] = array(
     'field_name' => 'field_library_ref',
     'type_name' => 'article',
     'display_settings' => array(
@@ -230,7 +230,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_list_image
-  $fields[] = array(
+  $fields['article-field_list_image'] = array(
     'field_name' => 'field_list_image',
     'type_name' => 'article',
     'display_settings' => array(
@@ -288,6 +288,11 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => NULL,
+      'insert_styles' => NULL,
+      'insert_default' => NULL,
+      'insert_class' => NULL,
+      'insert_width' => NULL,
       'label' => 'Listevisningsbillede',
       'weight' => '4',
       'description' => 'Billede til brug i indholdslister. Dette billede beskæres automatisk til at være kvadratisk, 120x120 pixels.',
@@ -297,7 +302,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['article-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'article',
     'display_settings' => array(
@@ -360,7 +365,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_ting_refs
-  $fields[] = array(
+  $fields['article-field_ting_refs'] = array(
     'field_name' => 'field_ting_refs',
     'type_name' => 'article',
     'display_settings' => array(
@@ -410,7 +415,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_content_images
-  $fields[] = array(
+  $fields['event-field_content_images'] = array(
     'field_name' => 'field_content_images',
     'type_name' => 'event',
     'display_settings' => array(
@@ -491,7 +496,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_datetime
-  $fields[] = array(
+  $fields['event-field_datetime'] = array(
     'field_name' => 'field_datetime',
     'type_name' => 'event',
     'display_settings' => array(
@@ -564,7 +569,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_entry_price
-  $fields[] = array(
+  $fields['event-field_entry_price'] = array(
     'field_name' => 'field_entry_price',
     'type_name' => 'event',
     'display_settings' => array(
@@ -627,7 +632,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_file_attachments
-  $fields[] = array(
+  $fields['event-field_file_attachments'] = array(
     'field_name' => 'field_file_attachments',
     'type_name' => 'event',
     'display_settings' => array(
@@ -699,7 +704,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_library_ref
-  $fields[] = array(
+  $fields['event-field_library_ref'] = array(
     'field_name' => 'field_library_ref',
     'type_name' => 'event',
     'display_settings' => array(
@@ -769,7 +774,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_list_image
-  $fields[] = array(
+  $fields['event-field_list_image'] = array(
     'field_name' => 'field_list_image',
     'type_name' => 'event',
     'display_settings' => array(
@@ -850,7 +855,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['event-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'event',
     'display_settings' => array(
@@ -913,7 +918,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_ting_refs
-  $fields[] = array(
+  $fields['event-field_ting_refs'] = array(
     'field_name' => 'field_ting_refs',
     'type_name' => 'event',
     'display_settings' => array(
@@ -962,7 +967,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_content_images
-  $fields[] = array(
+  $fields['feature-field_content_images'] = array(
     'field_name' => 'field_content_images',
     'type_name' => 'feature',
     'display_settings' => array(
@@ -1043,7 +1048,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_library_ref
-  $fields[] = array(
+  $fields['feature-field_library_ref'] = array(
     'field_name' => 'field_library_ref',
     'type_name' => 'feature',
     'display_settings' => array(
@@ -1113,7 +1118,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_list_image
-  $fields[] = array(
+  $fields['feature-field_list_image'] = array(
     'field_name' => 'field_list_image',
     'type_name' => 'feature',
     'display_settings' => array(
@@ -1171,6 +1176,11 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => NULL,
+      'insert_styles' => NULL,
+      'insert_default' => NULL,
+      'insert_class' => NULL,
+      'insert_width' => NULL,
       'label' => 'Listevisningsbillede',
       'weight' => '3',
       'description' => 'Billede til brug i indholdslister. Dette billede beskæres automatisk til at være kvadratisk, 120x120 pixels.',
@@ -1180,7 +1190,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['feature-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'feature',
     'display_settings' => array(
@@ -1243,7 +1253,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_link
-  $fields[] = array(
+  $fields['flexifield_link-field_link'] = array(
     'field_name' => 'field_link',
     'type_name' => 'flexifield_link',
     'display_settings' => array(
@@ -1307,7 +1317,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['flexifield_link-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'flexifield_link',
     'display_settings' => array(
@@ -1370,7 +1380,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['flexifield_text-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'flexifield_text',
     'display_settings' => array(
@@ -1433,7 +1443,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_title
-  $fields[] = array(
+  $fields['flexifield_text-field_title'] = array(
     'field_name' => 'field_title',
     'type_name' => 'flexifield_text',
     'display_settings' => array(
@@ -1490,7 +1500,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_ting_refs
-  $fields[] = array(
+  $fields['flexifield_ting_refs-field_ting_refs'] = array(
     'field_name' => 'field_ting_refs',
     'type_name' => 'flexifield_ting_refs',
     'display_settings' => array(
@@ -1539,7 +1549,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_image
-  $fields[] = array(
+  $fields['profile-field_image'] = array(
     'field_name' => 'field_image',
     'type_name' => 'profile',
     'display_settings' => array(
@@ -1597,6 +1607,11 @@ function _ding_content_content_default_fields() {
       'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'insert' => NULL,
+      'insert_styles' => NULL,
+      'insert_default' => NULL,
+      'insert_class' => NULL,
+      'insert_width' => NULL,
       'label' => 'Profilbillede',
       'weight' => '-2',
       'description' => 'Vælg et portrætbillede. Det beskæres til at være kvadratisk.',
@@ -1606,7 +1621,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_multi_library_ref
-  $fields[] = array(
+  $fields['profile-field_multi_library_ref'] = array(
     'field_name' => 'field_multi_library_ref',
     'type_name' => 'profile',
     'display_settings' => array(
@@ -1676,7 +1691,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_staff_title
-  $fields[] = array(
+  $fields['profile-field_staff_title'] = array(
     'field_name' => 'field_staff_title',
     'type_name' => 'profile',
     'display_settings' => array(
@@ -1739,7 +1754,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_work_area
-  $fields[] = array(
+  $fields['profile-field_work_area'] = array(
     'field_name' => 'field_work_area',
     'type_name' => 'profile',
     'display_settings' => array(
@@ -1801,7 +1816,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_flexifield_topic
-  $fields[] = array(
+  $fields['topic-field_flexifield_topic'] = array(
     'field_name' => 'field_flexifield_topic',
     'type_name' => 'topic',
     'display_settings' => array(
@@ -1874,7 +1889,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_library_ref
-  $fields[] = array(
+  $fields['topic-field_library_ref'] = array(
     'field_name' => 'field_library_ref',
     'type_name' => 'topic',
     'display_settings' => array(
@@ -1944,7 +1959,7 @@ function _ding_content_content_default_fields() {
   );
 
   // Exported field: field_teaser
-  $fields[] = array(
+  $fields['topic-field_teaser'] = array(
     'field_name' => 'field_teaser',
     'type_name' => 'topic',
     'display_settings' => array(
@@ -2007,1282 +2022,23 @@ function _ding_content_content_default_fields() {
   );
 
   // Translatables
-  array(
-    t('Arbejder med'),
-    t('Beskrivelse'),
-    t('Bibliotek'),
-    t('Biblioteker'),
-    t('Entré'),
-    t('Indholdsbilleder'),
-    t('Link'),
-    t('Listevisningsbillede'),
-    t('Materialer'),
-    t('Materialer og links'),
-    t('Overskrift'),
-    t('Profilbillede'),
-    t('Smagsprøve'),
-    t('Stilling'),
-    t('Tid & dato'),
-    t('Vedhæftede filer'),
-  );
+  // Included for use with string extractors like potx.
+  t('Arbejder med');
+  t('Beskrivelse');
+  t('Bibliotek');
+  t('Biblioteker');
+  t('Entré');
+  t('Indholdsbilleder');
+  t('Link');
+  t('Listevisningsbillede');
+  t('Materialer');
+  t('Materialer og links');
+  t('Overskrift');
+  t('Profilbillede');
+  t('Smagsprøve');
+  t('Stilling');
+  t('Tid & dato');
+  t('Vedhæftede filer');
 
   return $fields;
-}
-
-/**
- * Helper to implementation of hook_ctools_plugin_api().
- */
-function _ding_content_ctools_plugin_api() {
-  $args = func_get_args();
-  $module = array_shift($args);
-  $api = array_shift($args);
-  if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => 1);
-  }
-}
-
-/**
- * Helper to implementation of hook_imagecache_default_presets().
- */
-function _ding_content_imagecache_default_presets() {
-  $items = array(
-    '120_120' => array(
-      'presetname' => '120_120',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale_and_crop',
-          'data' => array(
-            'width' => '120',
-            'height' => '120',
-          ),
-        ),
-      ),
-    ),
-  );
-  return $items;
-}
-
-/**
- * Helper to implementation of hook_rules_defaults().
- */
-function _ding_content_rules_defaults() {
-  return array(
-    'rules' => array(
-      'ding_content_4' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_insert',
-        '#label' => 'article_saved',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'article' => 'article',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Created content is article',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#info' => array(
-              'label' => 'Clear the cache of a article_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'article_list',
-            ),
-            '#type' => 'action',
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a user_blog_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'user_blog_list',
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_5' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'article_updated',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'article' => 'article',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is article',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a article_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'article_list',
-            ),
-            '#type' => 'action',
-          ),
-          '1' => array(
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'user_blog_list',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#info' => array(
-              'label' => 'Clear the cache of a user_blog_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_6' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_delete',
-        '#label' => 'article_deleted',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Deleted content is article',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'article' => 'article',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'article_list',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#info' => array(
-              'label' => 'Clear the cache of a article_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'user_blog_list',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#info' => array(
-              'label' => 'Clear the cache of a user_blog_list view.',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_1' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_insert',
-        '#label' => 'event_saved',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#info' => array(
-              'label' => 'Created content is event',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'event' => 'event',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'event_list',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_2' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'event_updated',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'event' => 'event',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is event',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'event_list',
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_3' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_delete',
-        '#label' => 'event_deleted',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'event' => 'event',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Deleted content is event',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'event_list',
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_7' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_insert',
-        '#label' => 'topic_saved',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#info' => array(
-              'label' => 'Created content is topic',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'topic' => 'topic',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'topic_list',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_8' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'topic_updated',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'topic' => 'topic',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is topic',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'topic_list',
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'ding_content_9' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_delete',
-        '#label' => 'topic_deleted',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'Content',
-          'ding_content' => 'ding_content',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'topic' => 'topic',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Deleted content is topic',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the cache of a specific view.',
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'View',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
-            '#settings' => array(
-              'view' => 'topic_list',
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-    ),
-  );
-}
-
-/**
- * Helper to implementation of hook_strongarm().
- */
-function _ding_content_strongarm() {
-  $export = array();
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_pattern_profile';
-  $strongarm->value = '[ding_user_display_name]';
-
-  $export['ant_pattern_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_php_profile';
-  $strongarm->value = 0;
-
-  $export['ant_php_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_profile';
-  $strongarm->value = '1';
-
-  $export['ant_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_article';
-  $strongarm->value = 0;
-
-  $export['comment_anonymous_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_event';
-  $strongarm->value = 0;
-
-  $export['comment_anonymous_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_feature';
-  $strongarm->value = 0;
-
-  $export['comment_anonymous_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_profile';
-  $strongarm->value = 0;
-
-  $export['comment_anonymous_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_topic';
-  $strongarm->value = 0;
-
-  $export['comment_anonymous_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_article';
-  $strongarm->value = '2';
-
-  $export['comment_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_controls_article';
-  $strongarm->value = '3';
-
-  $export['comment_controls_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_controls_event';
-  $strongarm->value = '3';
-
-  $export['comment_controls_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_controls_feature';
-  $strongarm->value = '3';
-
-  $export['comment_controls_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_controls_profile';
-  $strongarm->value = '3';
-
-  $export['comment_controls_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_controls_topic';
-  $strongarm->value = '3';
-
-  $export['comment_controls_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_article';
-  $strongarm->value = '4';
-
-  $export['comment_default_mode_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_event';
-  $strongarm->value = '4';
-
-  $export['comment_default_mode_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_feature';
-  $strongarm->value = '4';
-
-  $export['comment_default_mode_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_profile';
-  $strongarm->value = '4';
-
-  $export['comment_default_mode_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_topic';
-  $strongarm->value = '4';
-
-  $export['comment_default_mode_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_order_article';
-  $strongarm->value = '2';
-
-  $export['comment_default_order_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_order_event';
-  $strongarm->value = '1';
-
-  $export['comment_default_order_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_order_feature';
-  $strongarm->value = '1';
-
-  $export['comment_default_order_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_order_profile';
-  $strongarm->value = '1';
-
-  $export['comment_default_order_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_order_topic';
-  $strongarm->value = '1';
-
-  $export['comment_default_order_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_article';
-  $strongarm->value = '50';
-
-  $export['comment_default_per_page_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_event';
-  $strongarm->value = '50';
-
-  $export['comment_default_per_page_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_feature';
-  $strongarm->value = '50';
-
-  $export['comment_default_per_page_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_profile';
-  $strongarm->value = '50';
-
-  $export['comment_default_per_page_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_topic';
-  $strongarm->value = '50';
-
-  $export['comment_default_per_page_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_event';
-  $strongarm->value = '2';
-
-  $export['comment_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_feature';
-  $strongarm->value = '0';
-
-  $export['comment_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_article';
-  $strongarm->value = '1';
-
-  $export['comment_form_location_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_event';
-  $strongarm->value = '0';
-
-  $export['comment_form_location_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_feature';
-  $strongarm->value = '0';
-
-  $export['comment_form_location_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_profile';
-  $strongarm->value = '0';
-
-  $export['comment_form_location_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_topic';
-  $strongarm->value = '0';
-
-  $export['comment_form_location_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_article';
-  $strongarm->value = '0';
-
-  $export['comment_preview_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_event';
-  $strongarm->value = '1';
-
-  $export['comment_preview_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_feature';
-  $strongarm->value = '1';
-
-  $export['comment_preview_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_profile';
-  $strongarm->value = '1';
-
-  $export['comment_preview_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_topic';
-  $strongarm->value = '1';
-
-  $export['comment_preview_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_profile';
-  $strongarm->value = '0';
-
-  $export['comment_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_article';
-  $strongarm->value = '0';
-
-  $export['comment_subject_field_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_event';
-  $strongarm->value = '1';
-
-  $export['comment_subject_field_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_feature';
-  $strongarm->value = '0';
-
-  $export['comment_subject_field_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_profile';
-  $strongarm->value = '1';
-
-  $export['comment_subject_field_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_topic';
-  $strongarm->value = '1';
-
-  $export['comment_subject_field_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_topic';
-  $strongarm->value = '2';
-
-  $export['comment_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'configurable_timezones';
-  $strongarm->value = '0';
-
-  $export['configurable_timezones'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_article';
-  $strongarm->value = array(
-    'title' => '0',
-    'body_field' => '2',
-    'revision_information' => '9',
-    'comment_settings' => '11',
-    'menu' => '8',
-    'taxonomy' => '7',
-    'path' => '10',
-    'scheduler_settings' => '12',
-  );
-
-  $export['content_extra_weights_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_event';
-  $strongarm->value = array(
-    'title' => '0',
-    'body_field' => '3',
-    'revision_information' => '6',
-    'comment_settings' => '8',
-    'menu' => '1',
-    'taxonomy' => '-1',
-    'path' => '7',
-  );
-
-  $export['content_extra_weights_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_feature';
-  $strongarm->value = array(
-    'title' => '-3',
-    'body_field' => '1',
-    'revision_information' => '4',
-    'comment_settings' => '5',
-    'menu' => '-2',
-    'taxonomy' => '-1',
-    'path' => '6',
-    'scheduler_settings' => '7',
-  );
-
-  $export['content_extra_weights_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_flexifield_link';
-  $strongarm->value = array(
-    'revision_information' => '20',
-    'comment_settings' => '30',
-    'menu' => '-2',
-    'path' => '30',
-  );
-
-  $export['content_extra_weights_flexifield_link'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_flexifield_text';
-  $strongarm->value = array(
-    'revision_information' => '20',
-    'comment_settings' => '30',
-    'menu' => '-2',
-    'path' => '30',
-  );
-
-  $export['content_extra_weights_flexifield_text'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_flexifield_ting_refs';
-  $strongarm->value = array(
-    'revision_information' => '-1',
-    'comment_settings' => '1',
-    'menu' => '-2',
-    'path' => '0',
-  );
-
-  $export['content_extra_weights_flexifield_ting_refs'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_profile';
-  $strongarm->value = array(
-    'title' => '-1',
-    'body_field' => '3',
-    'revision_information' => '5',
-    'comment_settings' => '6',
-    'menu' => '4',
-    'taxonomy' => '-3',
-    'path' => '7',
-  );
-
-  $export['content_extra_weights_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_extra_weights_topic';
-  $strongarm->value = array(
-    'title' => '4',
-    'revision_information' => '7',
-    'comment_settings' => '9',
-    'menu' => '6',
-    'path' => '8',
-  );
-
-  $export['content_extra_weights_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'content_profile_use_profile';
-  $strongarm->value = 1;
-
-  $export['content_profile_use_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'imageapi_jpeg_quality';
-  $strongarm->value = '85';
-
-  $export['imageapi_jpeg_quality'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_article';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_article'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_event';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_event'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_feature';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
-
-  $export['node_options_feature'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_feature_local';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_feature_local'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_flexifield_links';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_flexifield_links'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_flexifield_ting_object_refs';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_flexifield_ting_object_refs'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_forum';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
-
-  $export['node_options_forum'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_profile';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
-
-  $export['node_options_profile'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_staff';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
-
-  $export['node_options_staff'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_tema';
-  $strongarm->value = array(
-    '0' => 'status',
-    '1' => 'promote',
-  );
-
-  $export['node_options_tema'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_topic';
-  $strongarm->value = array(
-    '0' => 'status',
-  );
-
-  $export['node_options_topic'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_article_pattern';
-  $strongarm->value = 'biblioteker/[ding_library_slug]/blog/[title-raw]';
-
-  $export['pathauto_node_article_pattern'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_event_pattern';
-  $strongarm->value = 'biblioteker/[ding_library_slug]/event/[title-raw]';
-
-  $export['pathauto_node_event_pattern'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_feature_pattern';
-  $strongarm->value = 'biblioteker/[ding_library_slug]/facilitet/[title-raw]';
-
-  $export['pathauto_node_feature_pattern'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_profile_pattern';
-  $strongarm->value = 'medarbejdere/[ding_user_display_name_raw]';
-
-  $export['pathauto_node_profile_pattern'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'site_frontpage';
-  $strongarm->value = 'front_panel';
-
-  $export['site_frontpage'] = $strongarm;
-  return $export;
 }
