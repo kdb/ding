@@ -6,6 +6,15 @@
 function ding_base_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: access comments
+  $permissions['access comments'] = array(
+    'name' => 'access comments',
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
+  );
+
   // Exported permission: access content
   $permissions['access content'] = array(
     'name' => 'access content',
