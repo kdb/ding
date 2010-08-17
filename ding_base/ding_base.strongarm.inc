@@ -1,21 +1,9 @@
 <?php
 
 /**
- * Helper to implementation of hook_ctools_plugin_api().
+ * Implementation of hook_strongarm().
  */
-function _ding_base_ctools_plugin_api() {
-  $args = func_get_args();
-  $module = array_shift($args);
-  $api = array_shift($args);
-  if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => 1);
-  }
-}
-
-/**
- * Helper to implementation of hook_strongarm().
- */
-function _ding_base_strongarm() {
+function ding_base_strongarm() {
   $export = array();
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -141,10 +129,10 @@ function _ding_base_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_modulelist';
   $strongarm->value = array(
-    '0' => 'contact',
-    '1' => 'node',
-    '2' => 'taxonomy',
-    '3' => 'user',
+    0 => 'contact',
+    1 => 'node',
+    2 => 'taxonomy',
+    3 => 'user',
   );
 
   $export['pathauto_modulelist'] = $strongarm;
@@ -166,7 +154,7 @@ function _ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pattern';
-  $strongarm->value = '';
+  $strongarm->value = 'content/[title-raw]';
 
   $export['pathauto_node_pattern'] = $strongarm;
   $strongarm = new stdClass;
@@ -278,7 +266,7 @@ function _ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_punctuation_hyphen';
-  $strongarm->value = '1';
+  $strongarm->value = 1;
 
   $export['pathauto_punctuation_hyphen'] = $strongarm;
   $strongarm = new stdClass;
@@ -446,7 +434,7 @@ function _ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_taxonomy_pattern';
-  $strongarm->value = 'taksonomi/[vocab-raw]/[catpath-raw]';
+  $strongarm->value = '[vocab-raw]/[catpath-raw]';
 
   $export['pathauto_taxonomy_pattern'] = $strongarm;
   $strongarm = new stdClass;
@@ -481,7 +469,7 @@ function _ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_user_pattern';
-  $strongarm->value = 'profil/[ding_user_display_name_raw]';
+  $strongarm->value = 'users/[user-raw]';
 
   $export['pathauto_user_pattern'] = $strongarm;
   $strongarm = new stdClass;
