@@ -33,8 +33,10 @@ function ding_event_cron() {
   // If the data was not generated today, regenerate it.
   // This approach helps avoid race conditions when using a cache expiry
   // time, since the cache will be refilled only by the cron job.
-  if (date('Ymd', $timestamp) != date('Ymd', $_SERVER['REQUEST_TIME'])) {
+  if (date('Ymd', $timestamp) != date('Ymd', $_SERVER['REQUEST_TIME']) &&
+      lock_acquire('ding_event_similar_data_generated', 600.0)) {
     ding_event_similar_data(TRUE);
+    lock_release('ding_event_similar_data_generated');
   }
 }
 
