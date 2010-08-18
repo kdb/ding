@@ -67,6 +67,24 @@ function ding_library_perm() {
 }
 
 /**
+ * Implementation of hook_cron().
+ */
+function ding_library_cron() {
+  // Check if the nightly cron job has run for the current day.
+  if (date('Ymd', variable_get('ding_library_nightly_cron', 0)) != date('Ymd', $_SERVER['REQUEST_TIME']) &&
+      lock_acquire('ding_library_nightly_cron', 600.0)) {
+
+    rules_invoke_event('ding_library_nightly_cron');
+
+    // Store the time the job was done to prevent it from running again
+    // before the next day.
+    variable_set('ding_library_nightly_cron', time());
+    lock_release('ding_library_nightly_cron');
+  }
+}
+
+
+/**
  * Implementation of hook_node_info().
  */
 function ding_library_node_info() {
@@ -325,6 +343,20 @@ function ding_library_preprocess_node(&$vars) {
     // Fetch the library name, since it's needed for theming.
     $vars['node']->library_name = check_plain(db_result(db_query("SELECT title FROM {node} WHERE nid = %d", $vars['node']->field_library_ref[0]['nid'])));
   }
+}
+
+/**
+ * Implementation of hook_rules_event_info().
+ * @ingroup rules
+ */
+function ding_library_rules_event_info() {
+  return array(
+    'ding_library_nightly_cron' => array(
+      'label' => t('When Ding! library nightly cron runs'),
+      'module' => 'Ding! library',
+      'arguments' => array(),
+    ),
+  );
 }
 
 /**
