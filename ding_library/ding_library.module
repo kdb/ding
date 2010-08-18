@@ -328,28 +328,6 @@ function ding_library_preprocess_node(&$vars) {
 }
 
 /**
- * Implementation of hook_views_api().
- */
-function ding_library_views_api() {
-  return array(
-    'api' => 2.0,
-  );
-}
-
-/**
- * Implementation of hook_ctools_plugin_api().
- */
-function ding_library_ctools_plugin_api($module, $api) {
-  if ($module == 'page_manager' && $api == 'pages_default') {
-    return array('version' => 1);
-  }
-
-  module_load_include('inc', 'ding_library', 'ding_library.defaults');
-  $args = func_get_args();
-  return call_user_func_array('_ding_library_ctools_plugin_api', $args);
-}
-
-/**
  * Implementation of hook_purl_provider().
  */
 function ding_library_purl_provider() {
