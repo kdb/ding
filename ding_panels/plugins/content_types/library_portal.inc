@@ -19,7 +19,7 @@ function ding_panels_library_portal_ctools_content_types() {
     'description' => t('Shows the CMS menu - if available, it will show the portal library specific menu.'),
     'category' => t('Library page'),
     'single' => TRUE,
-    'required context' => new ctools_context_required(t('Node'), 'node'),
+    'required context' => new ctools_context_optional(t('Node'), 'node'),
   );
 }
 
