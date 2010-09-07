@@ -1,0 +1,6 @@
+name = Ding Dibs integration
+description = Ding integrates with dibs payment gateway
+php = 5.2
+core = 6.x
+package = Ding!
+dependencies[]= dibs
