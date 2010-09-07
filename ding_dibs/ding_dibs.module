@@ -52,7 +52,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
       }
       break;
     case 'transaction_callback':
-      $payment_info = module_invoke_all('ding_add_payment', $transaction);
+      $payment_info = module_invoke_all('ding_dibs_add_payment', $transaction);
       
       watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
         '%transaction' => $transaction['payment_transaction_id'],
