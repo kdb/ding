@@ -14,7 +14,7 @@ function ding_cart_page_add_to_cart($item_id) {
   $account = $GLOBALS['user'];
 
   // Get creds, redirect if not ahah.
-  $creds = module_invoke_all('ding_user_get_credentials', $account, !$is_ahah);
+  $creds = ding_library_user_get_credentials($account, !$is_ahah);
   $has_creds = FALSE;
   foreach ($creds as $cred) {
     $has_creds |= $cred;
@@ -101,7 +101,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
   $account = $GLOBALS['user'];
 
   // Get creds, redirect if not ahah.
-  $creds = module_invoke_all('ding_user_get_credentials', $account, !$is_ahah);
+  $creds = ding_library_user_get_credentials($account, !$is_ahah);
   $has_creds = FALSE;
   foreach ($creds as $cred) {
     $has_creds |= $cred;
@@ -160,7 +160,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
   }
 
   // For regular requests.
-  $creds = module_invoke_all('ding_user_get_credentials', $account, !$is_ahah);
+  $creds = ding_library_user_get_credentials($account, !$is_ahah);
   if ($reservation_exists) {
     drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
     return drupal_goto('user/' . $account->uid . '/status');
@@ -231,7 +231,7 @@ function ding_cart_confirm_form_submit($form, &$form_state) {
       ding_cart_add_ting_object($form_state['values']['object']);
       break;
     case 'reserve':
-      $creds = module_invoke_all('ding_user_get_credentials', $form_state['values']['account'], FALSE);
+      $creds = ding_library_user_get_credentials($form_state['values']['account'], FALSE);
 	    $has_creds = FALSE;
 		  foreach ($creds as $cred) {
 		    $has_creds |= $cred;
