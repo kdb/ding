@@ -1,6 +1,9 @@
 <?php
 // $Id$
 
+// Default interest period is ~six months.
+define('DING_USER_DEFAULT_INTEREST_PERIOD', 183);
+
 /**
  * Implementation of hook_menu().
  */
@@ -291,4 +294,3 @@ function ding_user_check_password($password, $account) {
   $hash = _password_crypt($password, $account->secure_pass);
   return ($hash && $account->secure_pass == $hash);
 }
-

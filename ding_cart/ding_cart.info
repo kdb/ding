@@ -1,0 +1,8 @@
+; $Id$
+name = Ding! cart
+description = Provides a shopping cart for reserving books.
+package = Ding!
+php = 5.2
+core = 6.x
+dependencies[] = ding_user
+

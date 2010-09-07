@@ -1,0 +1,89 @@
+<?php
+// $Id$
+
+/**
+ * @file ding_cart.install
+ * Installation and upgrade hooks for the ding_cart module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_cart_install() {
+  drupal_install_schema('ding_cart');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ding_cart_uninstall() {
+  drupal_uninstall_schema('ding_cart');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function ding_cart_schema() {
+  $schema = array();
+
+  $schema['ding_cart'] = array(
+    'description' => t('Keep track of the user’s cart.'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('{users}.uid for user'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'local_id' => array(
+        'description' => t('Local ID in Ting lingo.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'ting_id' => array(
+        'description' => t('Ting ID – used to look up data from Ting.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => t('Timestamp for when this record was created.'),
+        'type' => int,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => t('The title for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'author' => array(
+        'description' => t('The author name for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => t('The record type - book, DVD, magnaprint, etc.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'thumbnail_url' => array(
+        'description' => t('The thumbnail URL for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid', 'local_id'),
+    'indexes' => array(
+      'uid' => array('uid'),
+    ),
+  );
+
+  return $schema;
+}
+
