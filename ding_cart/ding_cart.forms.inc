@@ -15,7 +15,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
 
   // Get the credentials to make sure this session is properly
   // authenticated before displaying the cart contents.
-  $creds = module_invoke_all('ding_user_has_credentials', $account);
+  $creds = ding_library_user_get_credentials($account);
 
   $form['account'] = array(
     '#type' => 'value',
@@ -49,7 +49,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     );
   }
 
-  $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : DING_USER_DEFAULT_INTEREST_PERIOD;
+  $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : DING_LIBRARY_USER_DEFAULT_INTEREST_PERIOD;
 
   // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
   $form['expiry'] = array(
@@ -113,7 +113,7 @@ function ding_cart_forms_cart_details_submit($form, &$form_state) {
   // reliably access the button's element name.
   switch ($form_state['clicked_button']['#parents'][0]) {
     case 'reserve':
-      $creds = module_invoke_all('ding_user_get_credentials', $form_state['values']['account']);
+      $creds = ding_library_user_get_credentials($form_state['values']['account']);
 
       foreach ($form_state['values']['selected_items'] as $local_id) {
         $reservation = module_invoke_all('ding_create_reservation', $creds, $local_id, $form_state['values']['pickup_branch'], $form_state['values']['expiry']);
