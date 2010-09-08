@@ -299,14 +299,15 @@ function theme_ding_library_user_forms_loan_details($form) {
     }
 
     $rows = array();
+    $x = 0; // Added since module_invoke_all() gets rid of all array keys
     foreach ($group as $loan_id) {
-      $loan = $form['loan_data']['#value'][$loan_id];
+      $loan = $form['loan_data']['#value'][$x];
       $cells = array();
 
-      if (isset($form['loans'][$loan_id])) {
+      if (isset($form['loans'][$x])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
-          'data' => drupal_render($form['loans'][$loan_id]),
+          'data' => drupal_render($form['loans'][$x]),
         );
       }
       else {
@@ -341,6 +342,7 @@ function theme_ding_library_user_forms_loan_details($form) {
         'data' => $cells,
         'class' => ($checkbox) ? 'selectable' : 'immutable',
       );
+      ++$x;
     }
 
     if (!empty($rows)) {
