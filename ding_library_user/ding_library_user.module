@@ -308,6 +308,7 @@ function ding_library_user_profile_submit($form, &$form_state) {
  * Validation for the login form.
  */
 function ding_library_user_login_validate($form, &$form_state) {
+
   if (empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
     // empty user name or password makes little sense to try and validate.
     return;
@@ -316,8 +317,7 @@ function ding_library_user_login_validate($form, &$form_state) {
   $id = $form_state['values']['name'];
   $password = $form_state['values']['pass'];
   
-  $uid = ding_library_user_check_credentials(array('id' => $id, 'password' => $password), TRUE);
-  
+  $uid = ding_library_user_check_credentials(array('user_id' => $id, 'password' => $password), TRUE);
   if ($uid && $account = user_load($uid)) {
     global $user;
     $user = $account;

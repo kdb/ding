@@ -76,7 +76,7 @@ function ding_dibs_forms_debts_details_submit($form, &$form_state) {
     'payment_price' => $form_state['values']['total_amount'],
     'order_info_short' => t('Payment of library dues'),
     'order_price_info' => array('Total' => $form_state['values']['total_amount']),
-    'customer_name' => $patron['patron_name'],
+    'customer_name' => $patron['user_name'],
     'customer_address' => $patron['addresses'][0]['street'],
     'customer_address2' => $patron['addresses'][0]['care_of'],
     'customer_city' => $patron['addresses'][0]['city'],
