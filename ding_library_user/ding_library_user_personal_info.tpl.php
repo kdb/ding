@@ -10,7 +10,7 @@
   <h4><?php print t('Basic information'); ?></h4>
   <dl>
     <dt><?php print t('Name'); ?></dt>
-    <dd class="fn"><?php print check_plain($library_user_data['patron_name']); ?></dd>
+    <dd class="fn"><?php print check_plain($library_user_data['user_name']); ?></dd>
   </dl>
   <h4><?php print t('Contact information'); ?></h4>
   <dl>
