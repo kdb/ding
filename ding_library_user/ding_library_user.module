@@ -441,7 +441,7 @@ function ding_library_user_forms_access($name, $account) {
  *    Returns array of user credentials if successful, FALSE if not.
  */
 function ding_library_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
-  if (isset($account->alma_id) && !empty($account->alma_id)) {
+  if (isset($account->library_user_id) && !empty($account->library_user_id)) {
     // Static cache of credentials, since they may be requested several
     // times on a page.
     static $creds;
