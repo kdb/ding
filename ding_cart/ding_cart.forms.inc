@@ -64,7 +64,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
   $form['pickup_branch'] = array(
     '#type' => 'select',
     '#title' => t('Pickup branch'),
-    '#options' => module_invoke_all('ding_get_reservation_branches'),
+    '#options' => module_invoke_all('ding_library_get_reservation_branches'),
     '#default_value' => $account->preferred_branch,
   );
 
