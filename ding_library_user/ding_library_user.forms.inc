@@ -249,7 +249,7 @@ function ding_library_user_forms_reservation_details($form_state, $account, $rec
   $form['new_pickup_branch'] = array(
     '#type' => 'select',
     '#title' => t('New pickup branch'),
-    '#options' => module_invoke_all('ding_get_reservation_branches'),
+    '#options' => module_invoke_all('ding_library_get_reservation_branches'),
   );
 
   $form['update'] = array(
@@ -269,7 +269,7 @@ function ding_library_user_forms_reservation_details_validate($form, &$form_stat
 
 	// Prevent users from updating reservations which is ready for pickup at a branch
 	if (strpos($form_state['clicked_button']['#attributes']['class'], 'update-button') !== FALSE) {
-	  $branches = module_invoke_all('ding_get_branches');
+	  $branches = module_invoke_all('ding_library_get_branches');
 		foreach ($data['reservations'] as $id => $selected) {
 	    if ($selected == 1) {
 	    	$reservation = $data['reservation_data'][$id]; 

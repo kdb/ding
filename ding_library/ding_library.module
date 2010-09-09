@@ -168,12 +168,13 @@ function ding_library_form(&$node) {
     '#default_value' => (isset($node->library_show_on_map)) ? $node->library_show_on_map : 1,
   );
 
-  if (function_exists('alma_client_get_branches')) {
+  $branches = module_invoke_all('ding_library_get_branches');
+  if (count($branches) > 0) {
     $form['library_settings']['branch_id'] = array(
       '#type' => 'select',
       '#title' => t('DDELibra branch'),
       '#default_value' => (isset($node->branch_id)) ? $node->branch_id : NULL,
-      '#options' => alma_client_get_branches(),
+      '#options' => $branches,
     );
   }
 
@@ -370,6 +371,30 @@ function ding_library_purl_provider() {
       'example' => 'my-library',
     ),
   );
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function ding_library_requirements($phase) {
+  $ret = array();
+  
+  if ($phase == 'runtime') {
+    // Check whether any modules will reporting library branches.
+    $branch_modules = module_implements('ding_library_get_branches');
+    
+    if (count($branch_modules) == 0) {
+      // Not all hooks are supported. Report a warning.
+      $warning = array();
+      $warning['title'] = t('Ding library');
+      $warning['severity'] = REQUIREMENT_WARNING;
+      $warning['description'] = t('No enabled modules support reporting available libraries.');
+      
+      $ret[] = $warning;
+    }
+  }
+  
+  return $ret;	
 }
 
 /**
