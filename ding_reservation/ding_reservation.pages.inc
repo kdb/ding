@@ -2,96 +2,13 @@
 // $Id$
 
 /**
- * Page callback to handle adding stuff to the cart.
- *
- * Handles both AJAX and regular requests, presenting the user with the 
- * opportunity to log in if needed. 
- */
-function ding_cart_page_add_to_cart($item_id) {
-  module_load_include('client.inc', 'ting');
-  $is_ahah = ding_cart_detect_ahah();
-  $object = ting_get_object_by_local_id($item_id, TRUE);
-  $account = $GLOBALS['user'];
-
-  // Get creds, redirect if not ahah.
-  $creds = ding_library_user_get_credentials($account, !$is_ahah);
-  $has_creds = FALSE;
-  foreach ($creds as $cred) {
-    $has_creds |= $cred;
-  }
-
-  // First, let's check if this is in the cart already :)
-  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $account->uid, $object->localId));
-  
-  // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds));
-
-  // If client wants JSON (usually AJAX requests), let's give it to them.
-  if ($is_ahah) {
-    $reply = array();
-    if (!$account->uid || !$has_creds) {
-      $reply['status'] = 'error';
-      $reply['error_type'] = 'not-logged-in';
-      $reply['title'] = t('Not logged in');
-      $reply['message'] = t('You have to log in to put books in your cart');
-    }
-    elseif ($cart_item_exists) {
-      $reply['status'] = 'error';
-      $reply['error_type'] = 'already-in-cart';
-      $reply['title'] = t('Already in cart');
-      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->title));
-    }
-    elseif ($reservation_exists) {
-      $reply['status'] = 'error';
-      $reply['error_type'] = 'reservation-exists';
-      $reply['title'] = t('Reservation exists');
-      $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
-    }
-    else {
-      if (ding_cart_add_ting_object($object) == SAVED_NEW) {
-        $reply['status'] = 'success';
-        $reply['title'] = t('Success');
-        $reply['message'] = t('@item is now in your cart.', array('@item' => $object->title));
-        $reply['cart_link'] = url('user/' . $account->uid . '/cart');
-      }
-      else {
-        $reply['status'] = 'error';
-        $reply['error_type'] = 'cart-save-error';
-        $reply['title'] = t('Cart saving error');
-        $reply['message'] = t('An error occurred while saving to the cart. Please try again.');
-      }
-    }
-
-    // We are returning JavaScript, so tell the browser.
-    drupal_set_header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($reply);
-    return;
-  }
-
-  // For regular requests, we present forms, etc.
-  if ($cart_item_exists) {
-    drupal_set_message(t('@item is already in your cart.', array('@item' => $object->title)) , 'warning');
-    return drupal_goto('user/' . $account->uid . '/cart');
-  }
-
-  if ($reservation_exists) {
-    drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
-    return drupal_goto('user/' . $account->uid . '/status');
-  }
-
-  // Present a confirmation form.
-  return drupal_get_form('ding_cart_confirm_form', $object, 'add');
-}
-
-/**
  * Reserve an item immediately.
- * TODO Not all library systems may support reservations - move/refactor this
  */
-function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
+function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   $branch_names = module_invoke_all('ding_library_get_branches', FALSE);
   if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
-  $is_ahah = ding_cart_detect_ahah();
+  $is_ahah = ding_reservation_detect_ahah();
   // Get object, enrich if not ahah. 
   $object = ting_get_object_by_local_id($item_id, !$is_ahah);
   if (!$object) {
@@ -107,7 +24,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
     $has_creds |= $cred;
   }
   
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_user_has_reservation', $creds, $reservable));
+  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds, $reservable));
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -134,7 +51,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_create_reservation', $creds, $reservable, $account->preferred_branch);
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $reservable, $account->preferred_branch);
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -166,11 +83,11 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
     return drupal_goto('user/' . $account->uid . '/status');
   }
 
-  return drupal_get_form('ding_cart_confirm_form', $account, $object, 'reserve');
+  return drupal_get_form('ding_reservation_confirm_form', $account, $object, 'reserve');
 }
 
 /**
- * Ding cart confirmation form.
+ * Ding reservation confirmation form.
  *
  * @param array $form_state
  *    Drupal form API state.
@@ -181,7 +98,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
  * @param string $action
  *    The type of action we're taking.
  */
-function ding_cart_confirm_form(&$form_state, $account, $object, $action) {
+function ding_reservation_confirm_form(&$form_state, $account, $object, $action) {
   // Question keyed by action.
   $questions = array(
     'add' => t('Add %book to your cart?', array('%book' => $object->title)),
@@ -224,7 +141,7 @@ function ding_cart_confirm_form(&$form_state, $account, $object, $action) {
  * Submit handler for Ding cart confirmation form.
  * TODO Not all library systems may support reservations - move/refactor this
  */
-function ding_cart_confirm_form_submit($form, &$form_state) {
+function ding_reservation_confirm_form_submit($form, &$form_state) {
   switch ($form_state['values']['action']) {
     case 'add':
       // Save the item to the cart table.
@@ -238,7 +155,7 @@ function ding_cart_confirm_form_submit($form, &$form_state) {
 		  }
 		  
       if ($has_creds) {
-        $reservation = module_invoke_al('ding_create_reservation', $creds, array(
+        $reservation = module_invoke_al('ding_library_user_create_reservation', $creds, array(
           'id' => $form_state['values']['object']->localId,
           'pickup_branch' => $form_state['values']['account']->preferred_branch,
         ));
@@ -255,3 +172,9 @@ function ding_cart_confirm_form_submit($form, &$form_state) {
   $form_state['redirect'] = $form_state['values']['dest_url'];
 }
 
+/**
+ * Detect if a request wants a JSON-response, usually for AHAH.
+ */
+function ding_reservation_detect_ahah() {
+  return (isset($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json')) || (strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')));
+}

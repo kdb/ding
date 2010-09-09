@@ -16,16 +16,6 @@ function ding_cart_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $items['ding/cart/reserve/%'] = array(
-    'title' => 'Reserve item',
-    'page callback' => 'ding_cart_page_reserve_item',
-    'page arguments' => array(3),
-    'access arguments' => array('access content'),
-    'file' => 'ding_cart.pages.inc',
-    'type' => MENU_CALLBACK,
-  );
-
   return $items;
 }
 
