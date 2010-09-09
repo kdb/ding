@@ -1,0 +1,9 @@
+; $Id$
+name = Ting reservation
+description = Adds support for reserving Ting objects if the library system supports this
+package = Ding!
+core = 6.x
+dependencies[] = ting
+dependencies[] = ding_library_user
+dependencies[] = jquery_ui
+dependencies[] = jquery_ui_theme
