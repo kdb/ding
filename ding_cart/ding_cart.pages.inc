@@ -88,7 +88,7 @@ function ding_cart_page_add_to_cart($item_id) {
  * TODO Not all library systems may support reservations - move/refactor this
  */
 function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
-  $branch_names = module_invoke_all('ding_get_branches', FALSE);
+  $branch_names = module_invoke_all('ding_library_get_branches', FALSE);
   if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
   $is_ahah = ding_cart_detect_ahah();
