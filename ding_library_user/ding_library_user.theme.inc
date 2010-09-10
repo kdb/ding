@@ -68,7 +68,7 @@ function theme_ding_library_user_forms_reservation_details($form) {
         ),
       ),
     );
-    
+
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
@@ -129,11 +129,11 @@ function theme_ding_library_user_forms_reservation_details($form) {
       t('Pickup branch'),
       t('Queue number'),
     );
-    
+
     $colgroups = array(
       array(
         array(
-          'class' => 'col-selection', 
+          'class' => 'col-selection',
         ),
       ),
       array(
@@ -148,22 +148,22 @@ function theme_ding_library_user_forms_reservation_details($form) {
       ),
       array(
         array(
-          'class' => 'col-reservation', 
+          'class' => 'col-reservation',
         ),
       ),
       array(
         array(
-          'class' => 'col-valied-to', 
+          'class' => 'col-valied-to',
         ),
       ),
       array(
         array(
-          'class' => 'col-pickup-branch', 
+          'class' => 'col-pickup-branch',
         ),
       ),
       array(
         array(
-          'class' => 'col-queue-number', 
+          'class' => 'col-queue-number',
         ),
       ),
     );
@@ -239,7 +239,7 @@ function theme_ding_library_user_forms_reservation_details($form) {
   $output .= drupal_render($form['update']);
   $output .= drupal_render($form['remove']);
   $output .= '</div>';
-  
+
   $output .= drupal_render($form);
 
   return $output;
