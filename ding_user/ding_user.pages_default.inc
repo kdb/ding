@@ -219,7 +219,7 @@ function ding_user_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'profile';
-    $pane->subtype = 'alma_user_personal_info';
+    $pane->subtype = 'ding_library_user_personal_info';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
