@@ -6,16 +6,32 @@
 function ding_reservation_menu() {
   $items = array();
 
-  $items['ding/reserve/%'] = array(
+  $items['ding/reservation/%'] = array(
     'title' => 'Reserve item',
     'page callback' => 'ding_reservation_page_reserve_item',
-    'page arguments' => array(3),
+    'page arguments' => array(2),
     'access arguments' => array('access content'),
     'file' => 'ding_reservation.pages.inc',
     'type' => MENU_CALLBACK,
   );
   
   return $items;
+}
+
+/**
+ * Implementation of hook_ting_object_buttons().
+ */
+function ding_reservation_ting_object_buttons($object) {
+  if (!empty($object->localId)) {
+    // Leave out cart buttons for some record types.
+    if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
+      return;
+    }
+    
+    // TODO: Check if the user already reserved this item.
+    drupal_add_js('$(function(){Drupal.tingButtons.dialogButton(".reserve-now");});', 'inline', 'footer', TRUE);
+    return l(t('Reserve now'), 'ding/reservation/' . $object->localId, array('attributes' => array('class' => 'reserve-now')));
+  }	
 }
 
 /**
