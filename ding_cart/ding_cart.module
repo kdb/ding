@@ -56,12 +56,9 @@ function ding_cart_ting_object_buttons($object) {
 	    return;
 	  }
     
-	  jquery_ui_add('ui.dialog');
-    jquery_ui_theme_load();
-    drupal_add_js(drupal_get_path('module', 'ding_cart') . '/ding_cart.buttons.js');
-	  
     // TODO: Check if item is reserved/in basket already.
-    return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
+    drupal_add_js(drupal_get_path('module', 'ding_cart') . '/ding_cart.buttons.js');
+	  return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
   }
 }
 
