@@ -238,7 +238,7 @@ function ding_user_default_page_manager_handlers() {
     $pane->pid = 'new-2';
     $pane->panel = 'left';
     $pane->type = 'profile';
-    $pane->subtype = 'alma_user_library_settings';
+    $pane->subtype = 'ding_library_user_library_settings';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
