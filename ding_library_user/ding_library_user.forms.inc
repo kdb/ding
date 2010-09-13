@@ -195,6 +195,7 @@ function ding_library_user_forms_library_settings($form_state, $account) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
+    '#weight' => 50,
   );
 
   return $form;
