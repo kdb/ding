@@ -222,33 +222,12 @@ function ding_cart_confirm_form(&$form_state, $account, $object, $action) {
 
 /**
  * Submit handler for Ding cart confirmation form.
- * TODO Not all library systems may support reservations - move/refactor this
  */
 function ding_cart_confirm_form_submit($form, &$form_state) {
   switch ($form_state['values']['action']) {
     case 'add':
       // Save the item to the cart table.
       ding_cart_add_ting_object($form_state['values']['object']);
-      break;
-    case 'reserve':
-      $creds = ding_library_user_get_credentials($form_state['values']['account'], FALSE);
-	    $has_creds = FALSE;
-		  foreach ($creds as $cred) {
-		    $has_creds |= $cred;
-		  }
-		  
-      if ($has_creds) {
-        $reservation = module_invoke_al('ding_library_user_create_reservation', $creds, array(
-          'id' => $form_state['values']['object']->localId,
-          'pickup_branch' => $form_state['values']['account']->preferred_branch,
-        ));
-        if ($reservation) {
-          drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
-        }
-        else {
-          drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
-        }
-      }
       break;
   }
 
