@@ -22,9 +22,9 @@ function ding_cart_page_add_to_cart($item_id) {
 
   // First, let's check if this is in the cart already :)
   $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $account->uid, $object->localId));
-  
+
   // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds));
+  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds, $item_id));
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
