@@ -116,7 +116,7 @@ function ding_cart_forms_cart_details_submit($form, &$form_state) {
       $creds = ding_library_user_get_credentials($form_state['values']['account']);
 
       foreach ($form_state['values']['selected_items'] as $local_id) {
-        $reservation = module_invoke_all('ding_create_reservation', $creds, $local_id, $form_state['values']['pickup_branch'], $form_state['values']['expiry']);
+        $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array('id' => $local_id), $form_state['values']['pickup_branch']);
 
         // If reservation was successful, remove the item from the cart.
         if (in_array(TRUE, $reservation)) {
