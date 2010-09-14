@@ -60,27 +60,6 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     '#default_value' => date('Y-m-d', $_SERVER['REQUEST_TIME'] + $interest_period * 86400),
   );
 
-  // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $form['pickup_branch'] = array(
-    '#type' => 'select',
-    '#title' => t('Pickup branch'),
-    '#options' => module_invoke_all('ding_library_get_reservation_branches'),
-    '#default_value' => $account->preferred_branch,
-  );
-
-  $form['remove'] = array(
-    '#type' => 'submit',
-    '#value' => t('Remove selected'),
-    '#attributes' => array('class' => 'remove-button'),
-  );
-
-  // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $form['reserve'] = array(
-    '#type' => 'submit',
-    '#value' => t('Reserve selected'),
-    '#attributes' => array('class' => 'reserve-button'),
-  );
-
   return $form;
 }
 
