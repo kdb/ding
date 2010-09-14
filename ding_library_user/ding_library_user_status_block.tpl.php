@@ -46,7 +46,7 @@ else{
 		<ul>
 	    <li>
 
-	      <div class="content">
+	      <div class="content loans">
 					<?php print l('<span>'.t("Loans") . '</span> <strong>' . $user_status['loan_count'] . '</strong>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
 				</div>
         <?php if($loan_status != "default"){ ?>
@@ -54,7 +54,7 @@ else{
         <?php } ?>
 	    </li>
 	    <li>
-				<div class="content">
+				<div class="content reservations">
 	        <?php print l('<span>'.t("Reservations") . '</span> <strong>' . $user_status['reservation_count'] . '</strong>', 'user/'. $user->uid . '/status', array('html' => TRUE, 'fragment' => 'reservation')); ?>
 				</div>
         <?php if($reservation_status  != "default"){ ?>				

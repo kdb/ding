@@ -29,7 +29,7 @@ function ding_reservation_ting_object_buttons($object) {
     }
     
     // TODO: Check if the user already reserved this item.
-    drupal_add_js('$(function(){Drupal.tingButtons.dialogButton(".reserve-now");});', 'inline', 'footer', TRUE);
+    drupal_add_js(drupal_get_path('module', 'ding_reservation') . '/ding_reservation.buttons.js');
     return l(t('Reserve now'), 'ding/reservation/' . $object->localId, array('attributes' => array('class' => 'reserve-now')));
   }	
 }
