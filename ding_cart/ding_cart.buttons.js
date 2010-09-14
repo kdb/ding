@@ -11,7 +11,7 @@ Drupal.behaviors.dingCartButtons = function () {
           window.location = data.cart_link;
         };
         
-        $count = $('#block-ding-user-account .cart .count');
+        $count = $('#account-profile .cart .count');
         $count.text(parseInt($count.text(), 10) + 1);
       }
     }
