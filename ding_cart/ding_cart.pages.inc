@@ -80,7 +80,7 @@ function ding_cart_page_add_to_cart($item_id) {
   }
 
   // Present a confirmation form.
-  return drupal_get_form('ding_cart_confirm_form', $object, 'add');
+  return drupal_get_form('ding_cart_confirm_form', $account, $object, 'add');
 }
 
 /**
