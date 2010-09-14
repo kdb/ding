@@ -134,7 +134,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_create_reservation', $creds, $reservable, $account->preferred_branch);
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $reservable, $account->preferred_branch);
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -238,7 +238,7 @@ function ding_cart_confirm_form_submit($form, &$form_state) {
 		  }
 		  
       if ($has_creds) {
-        $reservation = module_invoke_al('ding_create_reservation', $creds, array(
+        $reservation = module_invoke_al('ding_library_user_create_reservation', $creds, array(
           'id' => $form_state['values']['object']->localId,
           'pickup_branch' => $form_state['values']['account']->preferred_branch,
         ));
