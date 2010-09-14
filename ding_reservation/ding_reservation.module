@@ -72,6 +72,41 @@ function ding_reservation_requirements($phase) {
   
   return $ret;
 }
+
+function ding_reservation_form_ding_cart_confirm_form_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'ding_reservation_form_ding_cart_confirm_form_submit';
+}
+
+function ding_reservation_form_ding_cart_confirm_form_submit($form, &$form_state) {
+  switch ($form_state['values']['action']) {
+     case 'reserve':
+       $creds = ding_library_user_get_credentials($form_state['values']['account'], FALSE);
+         $has_creds = FALSE;
+         foreach ($creds as $cred) {
+           $has_creds |= $cred;
+         }
+  
+       if ($has_creds) {
+         $reservation = module_invoke_al('ding_library_user_create_reservation', $creds, array(
+           'id' => $form_state['values']['object']->localId,
+           'pickup_branch' => $form_state['values']['account']->preferred_branch,
+         ));
+         if ($reservation) {
+           drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
+         }
+         else {
+           drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
+         }
+       }
+       break;
+   }
+  
+   $form_state['redirect'] = $form_state['values']['dest_url'];
+}
+
+/**
+ * Implements hook_form_alter
+ */
 function ding_reservation_form_ding_cart_forms_cart_details_alter(&$form, &$form_state) {
   
   $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : DING_LIBRARY_USER_DEFAULT_INTEREST_PERIOD;
@@ -105,6 +140,9 @@ function ding_reservation_form_ding_cart_forms_cart_details_alter(&$form, &$form
   $form['#submit'][] = 'ding_reservation_form_ding_cart_forms_cart_details_submit';
 }
 
+/**
+ * Custom submit handler
+ */
 function ding_reservation_form_ding_cart_forms_cart_details_submit($form, &$form_state) {
   switch ($form_state['clicked_button']['#parents'][0]) {
     case 'reserve':
