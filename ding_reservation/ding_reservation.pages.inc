@@ -24,7 +24,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
     $has_creds |= $cred;
   }
   
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds, $reservable));
+  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds, $item_id));
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -51,7 +51,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $reservable, $account->preferred_branch);
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array('id' => $item_id), $account->preferred_branch);
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
