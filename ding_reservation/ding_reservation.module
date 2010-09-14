@@ -87,7 +87,7 @@ function ding_reservation_form_ding_cart_confirm_form_submit($form, &$form_state
          }
   
        if ($has_creds) {
-         $reservation = module_invoke_al('ding_library_user_create_reservation', $creds, array(
+         $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array(
            'id' => $form_state['values']['object']->localId,
            'pickup_branch' => $form_state['values']['account']->preferred_branch,
          ));
