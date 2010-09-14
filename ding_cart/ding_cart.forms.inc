@@ -49,17 +49,6 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     );
   }
 
-  $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : DING_LIBRARY_USER_DEFAULT_INTEREST_PERIOD;
-
-  // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $form['expiry'] = array(
-    '#type' => 'date_popup',
-    '#title' => t('Not interested after'),
-    '#date_format' => DATE_FORMAT_DATE,
-    '#date_year_range' => '-0:+2',
-    '#default_value' => date('Y-m-d', $_SERVER['REQUEST_TIME'] + $interest_period * 86400),
-  );
-
   return $form;
 }
 
@@ -85,30 +74,11 @@ function ding_cart_forms_cart_details_validate($form, &$form_state) {
 
 /**
  * Submit handler for cart details form.
- * TODO Not all library systems may support reservations - refactor this to use hook or form_alter
  */
 function ding_cart_forms_cart_details_submit($form, &$form_state) {
   // For some reason ['#parents'][0] seems to be the only way to
   // reliably access the button's element name.
   switch ($form_state['clicked_button']['#parents'][0]) {
-    case 'reserve':
-      $creds = ding_library_user_get_credentials($form_state['values']['account']);
-
-      foreach ($form_state['values']['selected_items'] as $local_id) {
-        $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array('id' => $local_id), $form_state['values']['pickup_branch']);
-
-        // If reservation was successful, remove the item from the cart.
-        if (in_array(TRUE, $reservation)) {
-          db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", array(
-            ':uid' => $form_state['values']['account']->uid,
-            ':local_id' => $local_id,
-          ));
-        }
-        else {
-          drupal_set_message(t('Reservation of “@title” failed. It may be on your reservation list already.', array('@title' => $form['cart_data']['#value'][$local_id]['title'])), 'error');
-        }
-      }
-      break;
     case 'remove':
       db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . join(',', $form_state['values']['selected_items']) . ");", $form_state['values']['account']->uid);
       break;
