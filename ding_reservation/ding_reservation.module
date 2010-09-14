@@ -73,3 +73,26 @@ function ding_reservation_requirements($phase) {
   return $ret;
 }
 
+function ding_reservation_form_ding_cart_forms_cart_details_alter(&$form, &$form_state) {
+  
+  $form['pickup_branch'] = array(
+    '#type'          => 'select',
+    '#title'         => t('Pickup branch'),
+    '#options'       => module_invoke_all('ding_library_get_reservation_branches'),
+    '#default_value' => $account->preferred_branch,
+  );
+
+  $form['remove'] = array(
+    '#type'       => 'submit',
+    '#value'      => t('Remove selected'),
+    '#attributes' => array('class' => 'remove-button'),
+  );
+
+  $form['reserve'] = array(
+    '#type'       => 'submit',
+    '#value'      => t('Reserve selected'),
+    '#attributes' => array('class' => 'reserve-button'),
+  );
+
+}
+
