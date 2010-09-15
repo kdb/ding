@@ -91,14 +91,14 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'ding_library_user_reservations_list':
-        $list = module_invoke_all('ding_library_user_get_reservations', $creds);
+        $list = module_invoke_all('ding_library_user_get_reservations', $account);
         $block->title = t('Your reservations');
         $block->content = theme('ding_library_user_record_list', $list);
         break;
 
       case 'ding_library_user_reservations_details':
         module_load_include('forms.inc', 'ding_library_user');
-        $list = module_invoke_all('ding_library_user_get_reservations', $creds);
+        $list = module_invoke_all('ding_library_user_get_reservations', $account);
         $block->title = t('Your reservations');
         $block->content = drupal_get_form('ding_library_user_forms_reservation_details', $account, $list);
         break;
