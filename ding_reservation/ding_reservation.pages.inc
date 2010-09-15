@@ -50,7 +50,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $item_id, array('pickup_branch' => $account->preferred_branch));
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $account, $item_id, array('pickup_branch' => $account->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -147,23 +147,15 @@ function ding_reservation_confirm_form_submit($form, &$form_state) {
       ding_cart_add_ting_object($form_state['values']['object']);
       break;
     case 'reserve':
-      $creds = ding_library_user_get_credentials($form_state['values']['account'], FALSE);
-	    $has_creds = FALSE;
-		  foreach ($creds as $cred) {
-		    $has_creds |= $cred;
-		  }
-		  
-      if ($has_creds) {
-        $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
-        
-        if ($reservation) {
-          drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
-        }
-        else {
-          drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
-        }
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
+      
+      if ($reservation) {
+        drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
       }
-      break;
+      else {
+        drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
+      }
+    break;
   }
 
   $form_state['redirect'] = $form_state['values']['dest_url'];
