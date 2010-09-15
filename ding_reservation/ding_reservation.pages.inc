@@ -6,7 +6,6 @@
  */
 function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   $branch_names = module_invoke_all('ding_library_get_branches', FALSE);
-  if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
   $is_ahah = ding_reservation_detect_ahah();
   // Get object, enrich if not ahah. 
