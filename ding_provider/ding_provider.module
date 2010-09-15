@@ -1,0 +1,166 @@
+<?php
+
+// $Id$
+
+/**
+ * Some defines to ease version management.
+ */
+define('DING_PROVIDER_MINIMUM_VERSION', 1);
+define('DING_PROVIDER_VERSION', 1);
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_provider_menu() {
+  $items = array();
+
+  $items['admin/settings/ding_provider'] = array(
+    'title' => 'Ding! provider',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_provider_admin_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_provider.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_ctools_plugin_PLUGIN().
+ */
+function ding_provider_ctools_plugin_user() {
+  return array(
+    'cache' => TRUE,
+    'process' => 'ding_provider_plugin_process',
+    'defaults' => array(
+      'version' => 1,
+      'description' => '',
+    ),
+    'required functions' => array(
+      'get info',
+      'update info',
+    ),
+  );
+}
+
+/**
+ * Process function for plugins.
+ *
+ * Sets up some sensible defaults.
+ */
+function ding_provider_plugin_process(&$plugin, $info) {
+  $function_base = $plugin['module'] . '_' . $plugin['name'] . '_' . $info['type'] . '_';
+
+  if (isset($info['required functions'])) {
+    foreach ($info['required functions'] as $name) {
+      if (empty($plugin[$name])) {
+        $function_name = $function_base . strtr($name, ' ', '_');
+        if (function_exists($function_name)) {
+          $plugin[$name] = $function_name;
+        }
+        else {
+          // Plugin developer forgot to implement a required function.
+          trigger_error(t('Ding provider plugin %plugin (%module module) does not implement %function', array('%plugin' => $plugin['name'], '%function' => $name, '%module' => $plugin['module'])), E_USER_ERROR);
+          // This disables this plugin. If plugin info is cached, this ensures
+          // that this module isn't selected.
+          $plugin['version'] = 0;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Check if we have a given provider.
+ */
+function ding_provider_exists($type) {
+  return _ding_provider_get_plugin($type) ? TRUE : FALSE;
+}
+
+/**
+ * Invoke a provider hook.
+ */
+function ding_provider_invoke() {
+  $args = func_get_args();
+  $type = array_shift($args);
+  $hook = array_shift($args);
+
+  $plugin = _ding_provider_get_plugin($type);
+  if ($plugin) {
+    $function = ding_provider_plugin_load_function($type, $plugin['name'], $hook);
+    // CTools only returns a name if the function exists.
+    if ($function) {
+      return call_user_func_array($function, $args);
+    }
+    // Trigger an error. This might be a module attempting to use a wrong
+    // hook, or an improperly implemented plugin. In either case, it's
+    // programmer error.
+    trigger_error(t('Ding provider plugin %plugin (%module module) does not implement %function', array('%plugin' => $plugin['name'], '%function' => $hook, '%module' => $plugin['module'])), E_USER_ERROR);
+  }
+  else {
+    watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
+  }
+}
+
+/**
+ * Works like ctools_plugin_load_function(), but filters out unsupported
+ * version plugins.
+ */
+function ding_provider_plugin_load_function($type, $id, $function_name) {
+  ctools_include('plugins');
+  $function = NULL;
+  $plugin = _ding_provider_filter_version(ctools_get_plugins('ding_provider', $type, $id));
+  if ($plugin) {
+    $function = ctools_plugin_get_function($plugin, $function_name);
+  }
+  return $function;
+}
+
+// === INTERNAL FUNCTIONS ===
+
+/**
+ * Filter out plugin if it's version is not supported.
+ */
+function _ding_provider_filter_version($plugin) {
+  if (!isset($plugin['version'])) {
+    return FALSE;
+  }
+
+  // Only process if version is between minimum and current, inclusive.
+  if ($plugin['version'] >= DING_PROVIDER_MINIMUM_VERSION && $plugin['version'] <= DING_PROVIDER_VERSION) {
+    return $plugin;
+  }
+  return FALSE;
+}
+
+/**
+ * Get plugin description from plugin.
+ */
+function _ding_provider_plugin_description($plugin) {
+  return t('@description (provided by @module module)', array('@description' => $plugin['description'], '@module' => $plugin['module']));
+}
+
+/**
+ * Find the plugin responsible for a provider type.
+ *
+ * Returns the plugin, NULL or FALSE. The difference between NULL and FALSE is
+ * that NULL means no plugins found, and FALSE that there was more than one
+ * candidate (for those callers who care).
+ */
+function _ding_provider_get_plugin($type) {
+  $plugins = _ding_provider_get_plugins($type);
+  if (sizeof($plugins) == 1) {
+    return array_shift($plugins);
+  }
+  return sizeof($plugins) == 0 ? NULL : FALSE;
+}
+
+/**
+ * Finds all plugins available for a provider type.
+ */
+function _ding_provider_get_plugins($type) {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('ding_provider', $type);
+  // Filter out versions not supported.
+  return array_filter($plugins, '_ding_provider_filter_version');
+}

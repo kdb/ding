@@ -1,0 +1,7 @@
+; $Id$
+name = Ding! provider
+description = Provides uniform interface to backend providers.
+package = Ding!
+php = 5.2
+core = 6.x
+dependencies[] = ctools
