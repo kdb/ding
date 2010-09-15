@@ -23,7 +23,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
     $has_creds |= $cred;
   }
   
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $creds, $item_id));
+  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $account, $item_id));
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {

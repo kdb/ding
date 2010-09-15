@@ -526,7 +526,7 @@ function ding_library_user_get_status($account, $redirect=TRUE) {
       // session lasts.
       $data = array();
 
-      $reservations = module_invoke_all('ding_library_user_get_reservations', $creds);
+      $reservations = module_invoke_all('ding_library_user_get_reservations', $account);
       $loans = module_invoke_all('ding_library_user_get_loans', $creds);
 
       $data['loan_count'] = count($loans);
