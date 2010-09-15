@@ -326,17 +326,15 @@ function ding_library_user_forms_reservation_details_submit($form, &$form_state)
       }
 
       if (!empty($selected) && !empty($changes)) {
-        $creds = ding_library_user_get_credentials($form_state['values']['account']);
         foreach ($selected as $id) {
-          module_invoke_all('ding_library_user_update_reservation', $creds, $reservations[$id], $changes);
+          module_invoke_all('ding_library_user_update_reservation', $form_state['values']['account'], $reservations[$id], $changes);
         }
       }
       break;
       
     case 'cancel-button':
-      $creds = ding_library_user_get_credentials($form_state['values']['account']);
       foreach ($selected as $id) {
-      	module_invoke_all('ding_library_user_delete_reservation', $creds, $reservations[$id]);
+      	module_invoke_all('ding_library_user_delete_reservation', $form_state['values']['account'], $reservations[$id]);
       }
       break;
   }
