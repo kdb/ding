@@ -79,7 +79,7 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
   if ($creds) {
     switch ($subtype) {
       case 'ding_library_user_personal_info':
-        $data = module_invoke_all('ding_library_user_get_info', $creds);
+        $data = module_invoke_all('ding_library_user_get_info', $account);
         $block->title = t('Your profile');
         $block->content = theme('ding_library_user_personal_info', $account, $data);
         break;
@@ -104,19 +104,19 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'ding_library_user_loans_list':
-        $list = module_invoke_all('ding_library_user_get_loans', $creds);
+        $list = module_invoke_all('ding_library_user_get_loans', $account);
       	$block->title = t('Your loans');
         $block->content = theme('ding_library_user_record_list', $list);
         break;
       case 'ding_library_user_loans_details':
         module_load_include('forms.inc', 'ding_library_user');
-        $list = module_invoke_all('ding_library_user_get_loans', $creds);
+        $list = module_invoke_all('ding_library_user_get_loans', $account);
         $block->title = t('Your loans');
         $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
         break;
 
       case 'ding_library_user_debts_notice':
-        $data = module_invoke_all('ding_library_user_get_debts', $creds);
+        $data = module_invoke_all('ding_library_user_get_debts', $account);
         if (count($data['debts']) == 1) {
           $block->content = t('You owe @amount for “%note”. !pay_link.', array(
             '@amount' => $data['total_formatted'],
@@ -137,7 +137,7 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
 
       case 'ding_library_user_debts_details':
         module_load_include('forms.inc', 'ding_library_user');
-        $data = module_invoke_all('ding_library_user_get_debts', $creds);
+        $data = module_invoke_all('ding_library_user_get_debts', $account);
         $block->content = drupal_get_form('ding_library_user_forms_debts_details', $account, $data);
         break;
     }
