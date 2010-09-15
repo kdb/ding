@@ -134,7 +134,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array('id' => $reservable), $account->preferred_branch);
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $reservable, array('pickup_branch' => $account->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';

@@ -51,7 +51,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array('id' => $item_id), $account->preferred_branch);
+      $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $item_id, array('pickup_branch' => $account->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -155,10 +155,8 @@ function ding_reservation_confirm_form_submit($form, &$form_state) {
 		  }
 		  
       if ($has_creds) {
-        $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, array(
-          'id' => $form_state['values']['object']->localId,
-          'pickup_branch' => $form_state['values']['account']->preferred_branch,
-        ));
+        $reservation = module_invoke_all('ding_library_user_create_reservation', $creds, $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
+        
         if ($reservation) {
           drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
         }
