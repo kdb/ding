@@ -35,7 +35,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     $local_ids[] = $row['local_id'];
   }
 
-  $details = module_invoke_all('ding_get_object_details', $local_ids);
+  $details = module_invoke_all('ding_get_object_details', join(',', $local_ids));
 
   $form['cart'] = array(
     // Set as tree to get all of our checkboxes as an subarray of values
