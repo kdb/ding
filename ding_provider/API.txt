@@ -1,0 +1,42 @@
+Ding provider interface
+=======================
+
+The ding_provider module is the bridge between Ding and different
+backend data and service providers.
+
+Usage
+=====
+
+Using a provider
+----------------
+
+There's only 2 functions for using providers:
+
+ding_provider_exists($type)
+  Checks whether a provider type is active. Useful for conditionals.
+
+ding_provider_invoke($type, $function, ...)
+  Invoke a function in a provider. Additional arguments are used as
+  arguments for the provider function.
+
+The functions, arguments, return value and documentation of a given
+provider type should be available in provider_docs/PROVIDER.api.php.
+
+Creating a provider
+-------------------
+
+Providers are standard CTools plugins. The different types of
+providers and their functions are documented in
+provider_docs/PROVIDER.api.php.
+
+Common for all provider types is the 'version' and 'description' keys
+of the plugin definition.
+
+The 'version' property tells which API version the plugin is
+compatible with, using the same logic of hook_ctools_plugin_api. This
+should be set to the value of the DING_PROVIDER_VERSION define in the
+current version of ding_provider.
+
+ The 'description' property is displayed as information to the
+administrator on the admin page, and should have human friendly
+content.
