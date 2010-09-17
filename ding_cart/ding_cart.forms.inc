@@ -13,10 +13,6 @@
 function ding_cart_forms_cart_details(&$form_state, $account) {
   $form = array();
 
-  // Get the credentials to make sure this session is properly
-  // authenticated before displaying the cart contents.
-  $creds = ding_library_user_get_credentials($account);
-
   $form['account'] = array(
     '#type' => 'value',
     '#value' => $account,
@@ -49,6 +45,14 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     );
   }
 
+  $form['remove'] = array(
+    '#type' => 'submit',
+    '#value' => t('Remove selected'),
+    '#attributes' => array('class' => 'remove-button'),
+    '#weight' => 10,
+    '#op' => 'remove',
+  );
+
   return $form;
 }
 
@@ -76,9 +80,7 @@ function ding_cart_forms_cart_details_validate($form, &$form_state) {
  * Submit handler for cart details form.
  */
 function ding_cart_forms_cart_details_submit($form, &$form_state) {
-  // For some reason ['#parents'][0] seems to be the only way to
-  // reliably access the button's element name.
-  switch ($form_state['clicked_button']['#parents'][0]) {
+  switch ($form_state['clicked_button']['#op']) {
     case 'remove':
       db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . join(',', $form_state['values']['selected_items']) . ");", $form_state['values']['account']->uid);
       break;
