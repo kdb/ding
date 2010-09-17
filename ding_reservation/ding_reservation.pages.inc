@@ -8,10 +8,10 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   $branch_names = module_invoke_all('ding_library_get_branches', FALSE);
   module_load_include('client.inc', 'ting');
   $is_ahah = ding_reservation_detect_ahah();
-  // Get object, enrich if not ahah. 
+  // Get object, enrich if not ahah.
   $object = ting_get_object_by_local_id($item_id, !$is_ahah);
   if (!$object) {
-    return drupal_not_found(); 
+    return drupal_not_found();
   }
 
   $account = $GLOBALS['user'];
@@ -22,8 +22,8 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   foreach ($creds as $cred) {
     $has_creds |= $cred;
   }
-  
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $account, $item_id));
+
+  $reservation_exists = ding_provider_invoke('reservation', 'list', $account, $item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -38,7 +38,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'no-preferred-branch';
       $reply['title'] = t('Preferred branch not set');
-      $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.', 
+      $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.',
         array('!profile_settings' => l(t('profile settings page'), 'user/' . $account->uid . '/profile')
       ));
 
@@ -50,7 +50,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $account, $item_id, array('pickup_branch' => $account->preferred_branch));
+      $reservation = ding_provider_invoke('reservation', 'create', $account, $item_id, array('pickup_branch' => $account->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -91,7 +91,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
  * @param array $form_state
  *    Drupal form API state.
  * @param stdClass $account
- *    Drupal user account. 
+ *    Drupal user account.
  * @param TingClientObject $object
  *    The object we're acting on.
  * @param string $action
@@ -147,8 +147,8 @@ function ding_reservation_confirm_form_submit($form, &$form_state) {
       ding_cart_add_ting_object($form_state['values']['object']);
       break;
     case 'reserve':
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
-      
+      $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
+
       if ($reservation) {
         drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
       }

@@ -66,7 +66,7 @@ function ding_library_user_forms_authenticate_validate($form, &$form_state) {
   // Lookup user data
   $data = module_invoke_all('ding_library_user_get_info', array('user_id' => $form_state['values']['user_id'], 'password' => $form_state['values']['password']));
   $data = array_shift($data);
-  
+
   // If we got no data or account IDs do not match, it usually means that the
   // user supplied the wrong credentials.
   if (!$data || $data['user_id'] != $form_state['values']['account']->library_user_id) {
@@ -273,7 +273,7 @@ function ding_library_user_forms_reservation_details_validate($form, &$form_stat
 	  $branches = module_invoke_all('ding_library_get_branches');
 		foreach ($data['reservations'] as $id => $selected) {
 	    if ($selected == 1) {
-	    	$reservation = $data['reservation_data'][$id]; 
+	    	$reservation = $data['reservation_data'][$id];
 	      if (($reservation['status'] == 'fetchable') && // Detect fetable reservations...
 	          (($reservation['pickup_branch'] != $data['new_pickup_branch']) || // where the user tried to alter pickup branch
 	          $data['new_expiry'])) { // or alter expiry date
@@ -282,7 +282,7 @@ function ding_library_user_forms_reservation_details_validate($form, &$form_stat
 	    }
 	  }
 	}
-  
+
 	if (!empty($data['new_expiry'])) {
     list($year, $month, $day) = explode('-', trim($data['new_expiry']));
     if (!checkdate($month, $day, $year)) {
@@ -297,7 +297,7 @@ function ding_library_user_forms_reservation_details_validate($form, &$form_stat
     else {
       form_set_value($form['new_expiry'], format_date($timestamp, 'custom', 'Y-m-d'), $form_state);
     }
-    
+
   }
 }
 
@@ -327,11 +327,11 @@ function ding_library_user_forms_reservation_details_submit($form, &$form_state)
 
       if (!empty($selected) && !empty($changes)) {
         foreach ($selected as $id) {
-          module_invoke_all('ding_library_user_update_reservation', $form_state['values']['account'], $reservations[$id], $changes);
+          ding_provider_invoke('reservation', 'update', $form_state['values']['account'], $reservations[$id], $changes);
         }
       }
       break;
-      
+
     case 'cancel-button':
       foreach ($selected as $id) {
       	module_invoke_all('ding_library_user_delete_reservation', $form_state['values']['account'], $reservations[$id]);
