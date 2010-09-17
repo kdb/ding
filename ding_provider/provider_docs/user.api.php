@@ -55,3 +55,21 @@ function MODULE_PLUGIN_user_get_info($account, $extended = FALSE) {
 function MODULE_PLUGIN_user_update_info($account, $new_info) {
 
 }
+
+/**
+ * Returns whether the account is currently 'logged in' to the user
+ * backend.
+ *
+ * If not, we'll need to authenticate before we can do anything.
+ *
+ * @param object $account
+ *   The user to check.
+ * @param boolean $redirect
+ *   Whether it's OK to redirect to log the user in.
+ *
+ * @return boolean
+ *   TRUE if the account is authenticated.
+ */
+function MODULE_PLUGIN_user_logged_in($account, $redirect = FALSE) {
+
+}
