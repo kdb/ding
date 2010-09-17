@@ -91,9 +91,6 @@ function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
       break;
     case 'delete':
       db_query('DELETE FROM {ding_library_user} WHERE uid=%d', $account->uid);
-      // Tricky: No break, delete also performs the same actions as logout.
-  	case 'logout':
-      cache_clear_all(ding_library_user_get_cache_key($account), 'cache_ding_library_user_credentials');
       break;
   }
 }
@@ -110,13 +107,6 @@ function ding_library_user_init() {
   if ($user->uid > 1) {
     ding_library_user_user('load', $edit, $user);
   }
-}
-
-/**
- * Implementation of hook_flush_caches().
- */
-function ding_library_user_flush_caches() {
-  return array('cache_ding_library_user_credentials');
 }
 
 /**
@@ -195,7 +185,6 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
     case 'user_login':
     case 'user_login_block':
       // Add our own validation and submit handlers.
-      array_unshift($form['#validate'], 'ding_library_user_login_validate');
       $form['#submit'][] = 'ding_library_user_login_submit';
 
       // Remove the standard user login links.
@@ -203,13 +192,9 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
       break;
     case 'user_profile_form':
       $account = $form['_account']['#value'];
-      $creds = ding_library_user_get_credentials($account);
-
       // When we have credentials available, make library patron
       // information available for altering.
-      if (is_array($creds) && !empty($creds)) {
-        $user_info = module_invoke_all('ding_library_user_get_info', $creds, TRUE);
-
+      if ($user_info = ding_provider_invoke('user', 'get info', $account)) {
         // Store the patron information for validation purposes.
         $form['ding_library_user_info'] = array(
           '#type' => 'value',
@@ -229,7 +214,7 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
 
         // Add our own validation and submit handling.
         array_unshift($form['#validate'], 'ding_library_user_profile_validate');
-        
+
         $form['#submit'][] = 'ding_library_user_profile_submit';
 
       }
@@ -249,7 +234,7 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
     case 'contact_mail_page':
     	//Alter the name field on contact form to use the display_name value
     	global $user;
-    	
+
     	// Force a user_load hoping that modules will populate the display_name vaue
     	$args = array();
     	user_module_invoke('load', $args, $user);
@@ -298,110 +283,17 @@ function ding_library_user_profile_submit($form, &$form_state) {
   );
   //TODO figure out how to build new info
   if ($new_user_info != $user_info) {
-    module_invoke_all('ding_library_user_update_info', $creds, $new_user_info, $user_info);  	
-  }
-}
-
-/**
- * Validation for the login form.
- */
-function ding_library_user_login_validate($form, &$form_state) {
-
-  if (empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
-    // empty user name or password makes little sense to try and validate.
-    return;
-  }
-  
-  $id = $form_state['values']['name'];
-  $password = $form_state['values']['pass'];
-  
-  $uid = ding_library_user_check_credentials(array('user_id' => $id, 'password' => $password), TRUE);
-  if ($uid && $account = user_load($uid)) {
-    global $user;
-    $user = $account;
-    user_authenticate_finalize($form_state['values']);
-
-    // If we have library system credentials and a user was logged in, cache the
-    // credentials in our own cache bin.
-    ding_library_user_cache_credentials($user, $id, $password);
+    module_invoke_all('ding_library_user_update_info', $creds, $new_user_info, $user_info);
   }
 }
 
 /**
  * Submit handler for the login form.
+ *
+ * Redirect user to a configured page on login.
  */
 function ding_library_user_login_submit($form, &$form_state) {
-  global $user;
-  if (!empty($form_state['values']['name']) && !empty($form_state['values']['pass']) && $user->uid) {
-  }
   $form_state['redirect'] = variable_get('ding_library_user_login_destination', '<front>');
-}
-
-/**
- * Validate credentials with library system
- *
- * Creates a new user if we do not have one already.
- *
- * @param string $creds
- *    The users login credentials
- * @param boolean $login
- *    If this is a login check, we do some extra work to update our data.
- * @return
- *    User uid if credentials are valid, FALSE if not.
- */
-function ding_library_user_check_credentials($creds, $login=FALSE) {
-  $user_info = module_invoke_all('ding_library_user_get_info', $creds, $login);
-
-  if ($login && isset($user_info['blocks']) && !empty($user_info['blocks'])) {
-    $block_codes = module_invoke_all('ding_library_user_block_codes');
-    foreach ($user_info['blocks'] as $block) {
-      drupal_set_message(t('Your account is blocked: %message.', array('%message' => $block_codes[$block['code']])), 'warning');
-    }
-  }
-
-  // Check if user exists.
-  $uid = db_result(db_query("SELECT uid FROM {ding_library_user} WHERE library_user_id = '%s';", $user_info['user_id']));
-  if ($uid) {
-    $account = user_load($uid);
-    // When logging in a returning normal user, update its display name.
-    if ($login && (!isset($account->has_secure_role) || !$account->has_secure_role)) {
-      db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $user_info['user_name'], $uid);
-    }
-
-    return $uid;
-  }
-  elseif (is_array($user_info) && !empty($user_info['user_id'])) {
-    $random_name = $_SERVER['REQUEST_TIME'] . mt_rand();
-    // User data to pass to user_save().
-    $user_data = array(
-      'name' => $random_name,
-      'display_name' => $user_info['user_name'],
-      'mail' => $user_info['mails'][0]['mail'],
-      // Login via Drupal's standard login should not be possible.
-      'pass' => microtime(TRUE) . mt_rand(),
-      'status' => 1,
-    );
-
-    // If no e-mail was set in the XML, we need to generate a
-    // random, invalid address,  since Drupal has a unique
-    // constraint on the mail column in the users table.
-    if (empty($user_data['mail'])) {
-      $user_data['mail'] = $random_name . '@mail.invalid';
-    }
-    // Set the initial e-mail to the same e-mail-address.
-    $user_data['init'] = $user_data['mail'];
-
-    // Saves the user and returns the user UID.
-    $user = user_save(NULL, $user_data);
-
-    // Store library user reference in our own table.
-    db_query("INSERT INTO {ding_library_user} (uid, library_user_id) VALUES (%d, '%s');", $user->uid, $user_info['user_id']);
-
-    // Allow other modules to react to user creation
-    module_invoke_all('ding_library_user_create', $user, $user_info);
-    
-    return($user->uid);
-  }
 }
 
 /**
@@ -425,74 +317,6 @@ function ding_library_user_forms_access($name, $account) {
       break;
   }
   return FALSE;
-}
-
-/**
- * Get cached credentials for user.
- *
- * @param object $account
- *    The user we're getting credentials for.
- * @param boolean $redirect
- *    Whether to redirect and collect credentials from the user if
- *    they're not currently available. Default is TRUE.
- * @return mixed
- *    Returns array of user credentials if successful, FALSE if not.
- */
-function ding_library_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
-  if (isset($account->library_user_id) && !empty($account->library_user_id)) {
-    // Static cache of credentials, since they may be requested several
-    // times on a page.
-    static $creds;
-    if (!isset($creds)) {
-      $creds = array();
-    }
-
-    if (!isset($creds[$account->library_user_id])) {
-      $data = cache_get(ding_library_user_get_cache_key($account), 'cache_ding_library_user_credentials');
-      if (!empty($data)) {
-        list($creds[$account->library_user_id]['user_id'], $creds[$account->library_user_id]['password']) = explode('|', $data->data);
-      }
-      else {
-        if ($redirect && $account->uid == $GLOBALS['user']->uid) {
-          // Go fetch the credentials before we can show this page.
-          drupal_goto('user/' . $account->uid . '/authenticate', drupal_get_destination());
-        }
-        return FALSE;
-      }
-    }
-
-    return $creds[$account->library_user_id];
-  }
-  return FALSE;
-}
-
-/**
- * Set cached credentials for user.
- *
- * A thin wrapper around cache_set(), but allows us provide more
- * granular caching control in future versions.
- *
- * @param object $account
- *    The user we're getting credentials for.
- * @param string $user_id
- * @param string $password
- */
-function ding_library_user_cache_credentials($account, $user_id, $password) {
-  cache_set(ding_library_user_get_cache_key($account), $user_id . '|' . $password, 'cache_ding_library_user_credentials', $_SERVER['REQUEST_TIME'] + variable_get('ding_library_user_credential_cache_duration', 1800));
-}
-
-/**
- * Generate a cache key based on the user account
- *
- * @param object $account
- *    The user we're generating a cache key for.
- * @return string
- *    The cache key.
- */
-function ding_library_user_get_cache_key($account) {
-  // The cache key is based on uid, login time and IP adresses.
-  // This should provide a reasonable level of security against hijacking.
-  return md5($account->uid . $account->login . ip_address());
 }
 
 /**

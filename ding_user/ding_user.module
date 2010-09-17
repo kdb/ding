@@ -50,6 +50,13 @@ function ding_user_menu_alter(&$items) {
  */
 function ding_user_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
+    case 'login':
+      // When logging in a returning normal user, update its display name if
+      // authenticating module set it.
+      if (isset($account->display_name) && (!isset($account->has_secure_role) || !$account->has_secure_role)) {
+        db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $account->display_name, $account->uid);
+      }
+      break;
     case 'form':
       $form = array();
 
@@ -161,7 +168,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-      // If we have secure pages enabled, use its url function to 
+      // If we have secure pages enabled, use its url function to
       // generate a secure URL for logging in.
       $url_function = (function_exists('securepages_url')) ? 'securepages_url' : 'url';
 
@@ -218,7 +225,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 /**
  * User login validation.
  *
- * Serves as a replacement of user_login_authenticate_validate, using 
+ * Serves as a replacement of user_login_authenticate_validate, using
  * our own password table instead of Drupal's user table.
  */
 function ding_user_login_validate($form, &$form_state) {
