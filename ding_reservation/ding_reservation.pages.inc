@@ -5,6 +5,7 @@
  * Reserve an item immediately.
  */
 function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
+  global $user;
   $branch_names = module_invoke_all('ding_library_get_branches', FALSE);
   module_load_include('client.inc', 'ting');
   $is_ahah = ding_reservation_detect_ahah();
@@ -14,32 +15,25 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
     return drupal_not_found();
   }
 
-  $account = $GLOBALS['user'];
+  $user = $GLOBALS['user'];
 
-  // Get creds, redirect if not ahah.
-  $creds = ding_library_user_get_credentials($account, !$is_ahah);
-  $has_creds = FALSE;
-  foreach ($creds as $cred) {
-    $has_creds |= $cred;
-  }
-
-  $reservation_exists = ding_provider_invoke('reservation', 'list', $account, $item_id);
+  $reservation_exists = ding_provider_invoke('reservation', 'list', $user, $item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
     $reply = array();
-    if (!$account->uid || !$has_creds) {
+    if (!$user->uid || !ding_provider_invoke('user', 'logged in', $user)) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'not-logged-in';
       $reply['title'] = t('Not logged in');
       $reply['message'] = t('You have to log in to make reservations.');
     }
-    elseif (!isset($account->preferred_branch) || !isset($branch_names[$account->preferred_branch])) {
+    elseif (!isset($user->preferred_branch) || !isset($branch_names[$user->preferred_branch])) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'no-preferred-branch';
       $reply['title'] = t('Preferred branch not set');
       $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.',
-        array('!profile_settings' => l(t('profile settings page'), 'user/' . $account->uid . '/profile')
+        array('!profile_settings' => l(t('profile settings page'), 'user/' . $user->uid . '/profile')
       ));
 
     }
@@ -50,16 +44,16 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = ding_provider_invoke('reservation', 'create', $account, $item_id, array('pickup_branch' => $account->preferred_branch));
+      $reservation = ding_provider_invoke('reservation', 'create', $user, $item_id, array('pickup_branch' => $user->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
         $reply['message'] = t('You have reserved @item and will be notified when its ready for pickup at @branch.', array(
           '@item' => $object->title,
-          '@branch' => $branch_names[$account->preferred_branch],
+          '@branch' => $branch_names[$user->preferred_branch],
         ));
-        $reply['cart_link'] = url('user/' . $account->uid . '/status');
+        $reply['cart_link'] = url('user/' . $user->uid . '/status');
       }
       else {
         $reply['status'] = 'error';
@@ -75,14 +69,14 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
     return;
   }
 
-  // For regular requests.
-  $creds = ding_library_user_get_credentials($account, !$is_ahah);
+  // Ensure that we're authenticated with the backend, redirect if not.
+  ding_provider_invoke('user', 'logged in', $user, TRUE);
   if ($reservation_exists) {
     drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
-    return drupal_goto('user/' . $account->uid . '/status');
+    return drupal_goto('user/' . $user->uid . '/status');
   }
 
-  return drupal_get_form('ding_reservation_confirm_form', $account, $object, 'reserve');
+  return drupal_get_form('ding_reservation_confirm_form', $user, $object);
 }
 
 /**
@@ -94,22 +88,8 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
  *    Drupal user account.
  * @param TingClientObject $object
  *    The object we're acting on.
- * @param string $action
- *    The type of action we're taking.
  */
-function ding_reservation_confirm_form(&$form_state, $account, $object, $action) {
-  // Question keyed by action.
-  $questions = array(
-    'add' => t('Add %book to your cart?', array('%book' => $object->title)),
-    'reserve' => t('Reserve %book immediately?', array('%book' => $object->title)),
-  );
-
-  // Destination URL keyed by action.
-  $urls = array(
-    'add' => 'user/' . $account->uid . '/cart',
-    'reserve' => 'user/' . $account->uid . '/status',
-  );
-
+function ding_reservation_confirm_form(&$form_state, $account, $object) {
   // Send some form values along for the submit step.
   $form = array();
 
@@ -123,17 +103,12 @@ function ding_reservation_confirm_form(&$form_state, $account, $object, $action)
     '#value' => $object,
   );
 
-  $form['action'] = array(
-    '#type' => 'value',
-    '#value' => $action,
-  );
-
   $form['dest_url'] = array(
     '#type' => 'value',
     '#value' => $urls[$action],
   );
 
-  return confirm_form($form, $questions[$action], $urls[$action], '');
+  return confirm_form($form, t('Reserve %book immediately?', array('%book' => $object->title)), 'user/' . $account->uid . '/status', '');
 }
 
 /**
@@ -141,22 +116,15 @@ function ding_reservation_confirm_form(&$form_state, $account, $object, $action)
  * TODO Not all library systems may support reservations - move/refactor this
  */
 function ding_reservation_confirm_form_submit($form, &$form_state) {
-  switch ($form_state['values']['action']) {
-    case 'add':
-      // Save the item to the cart table.
-      ding_cart_add_ting_object($form_state['values']['object']);
-      break;
-    case 'reserve':
-      $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
+  $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
 
-      if ($reservation) {
-        drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
-      }
-      else {
-        drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
-      }
-    break;
+  if ($reservation) {
+    drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
   }
+  else {
+    drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
+  }
+  break;
 
   $form_state['redirect'] = $form_state['values']['dest_url'];
 }

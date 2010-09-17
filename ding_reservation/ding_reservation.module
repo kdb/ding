@@ -23,7 +23,7 @@ function ding_reservation_menu() {
  */
 function ding_reservation_ting_object_buttons($object) {
   if (!empty($object->localId)) {
-    // Leave out cart buttons for some record types.
+    // Leave out reserve buttons for some record types.
     if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
       return;
     }
@@ -52,29 +52,6 @@ function ding_reservation_requirements($phase) {
   return $requrements;
 }
 
-function ding_reservation_form_ding_cart_confirm_form_alter(&$form, &$form_state) {
-  $form['#submit'][] = 'ding_reservation_form_ding_cart_confirm_form_submit';
-}
-
-function ding_reservation_form_ding_cart_confirm_form_submit($form, &$form_state) {
-  switch ($form_state['values']['action']) {
-    case 'reserve':
-
-      $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
-
-      if ($reservation) {
-        drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
-      }
-      else {
-        drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
-      }
-
-      break;
-  }
-
-  $form_state['redirect'] = $form_state['values']['dest_url'];
-}
-
 /**
  * Implements hook_form_alter
  */
@@ -97,17 +74,11 @@ function ding_reservation_form_ding_cart_forms_cart_details_alter(&$form, &$form
     '#default_value' => $account->preferred_branch,
   );
 
-  $form['remove'] = array(
-    '#type' => 'submit',
-    '#value' => t('Remove selected'),
-    '#attributes' => array('class' => 'remove-button'),
-    '#op' => 'reserve',
-  );
-
   $form['reserve'] = array(
     '#type' => 'submit',
     '#value' => t('Reserve selected'),
     '#attributes' => array('class' => 'reserve-button'),
+    '#op' => 'reserve',
   );
 
   $form['#submit'][] = 'ding_reservation_form_ding_cart_forms_cart_details_submit';
@@ -124,7 +95,7 @@ function ding_reservation_form_ding_cart_forms_cart_details_submit($form, &$form
 
         // If reservation was successful, remove the item from the cart.
         if (in_array(TRUE, $reservation)) {
-          db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $form_state['values']['account']->uid, $local_id, );
+          db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $form_state['values']['account']->uid, $local_id);
         }
         else {
           drupal_set_message(t('Reservation of “@title” failed. It may be on your reservation list already.', array('@title' => $form['cart_data']['#value'][$local_id]['title'])), 'error');
