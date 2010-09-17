@@ -56,6 +56,7 @@ function ding_provider_ctools_plugin_user() {
     'required functions' => array(
       'get info',
       'update info',
+      'logged in',
     ),
   );
 }
@@ -137,7 +138,7 @@ function ding_provider_exists($type) {
  * Returns a human readable description of the active provider plugin, or NULL.
  */
 function ding_provider_description($type) {
-  $plugin = _ding_provider_get_plugin();
+  $plugin = _ding_provider_get_plugin($type);
   if ($plugin) {
     return _ding_provider_plugin_description($plugin);
   }
