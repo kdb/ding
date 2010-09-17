@@ -9,7 +9,7 @@
 /**
  * Callback function to supply a list of content types.
  *
- * This is only required to make CTools know that we're providing 
+ * This is only required to make CTools know that we're providing
  * multiple types here (since we have no single => TRUE in the array).
  */
 function ding_library_user_profile_ctools_content_types() {
@@ -64,7 +64,7 @@ function ding_library_user_profile_content_type_content_types() {
       'required context' => new ctools_context_required(t('user'), 'user'),
     );
   }
-  
+
   return $types;
 }
 
@@ -73,13 +73,13 @@ function ding_library_user_profile_content_type_content_types() {
  */
 function ding_library_user_profile_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? drupal_clone($context->data) : NULL;
-  $creds = ding_library_user_get_credentials($account); 
+  $creds = ding_library_user_get_credentials($account);
   $block = new stdClass();
 
   if ($creds) {
     switch ($subtype) {
       case 'ding_library_user_personal_info':
-        $data = module_invoke_all('ding_library_user_get_info', $account);
+        $data = ding_provider_invoke('user', 'get info', $account);
         $block->title = t('Your profile');
         $block->content = theme('ding_library_user_personal_info', $account, $data);
         break;
@@ -176,7 +176,7 @@ function ding_library_user_profile_content_type_admin_title($subtype, $conf, $co
 /**
  * Returns an edit form for the content type.
  *
- * We're not actually doing anything here, but we need to have this hook 
+ * We're not actually doing anything here, but we need to have this hook
  * for this content type to work.
  */
 function ding_library_user_profile_content_type_edit_form(&$form, &$form_state) {

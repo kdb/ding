@@ -49,7 +49,7 @@ function ding_provider_ctools_plugin_user() {
  * Sets up some sensible defaults.
  */
 function ding_provider_plugin_process(&$plugin, $info) {
-  $function_base = $plugin['module'] . '_' . $plugin['name'] . '_' . $info['type'] . '_';
+  $function_base = $plugin['module'] . '_' . $plugin['name'] . '_';
 
   if (isset($info['required functions'])) {
     foreach ($info['required functions'] as $name) {
