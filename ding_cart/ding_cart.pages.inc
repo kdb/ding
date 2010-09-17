@@ -4,8 +4,8 @@
 /**
  * Page callback to handle adding stuff to the cart.
  *
- * Handles both AJAX and regular requests, presenting the user with the 
- * opportunity to log in if needed. 
+ * Handles both AJAX and regular requests, presenting the user with the
+ * opportunity to log in if needed.
  */
 function ding_cart_page_add_to_cart($item_id) {
   module_load_include('client.inc', 'ting');
@@ -24,7 +24,7 @@ function ding_cart_page_add_to_cart($item_id) {
   $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $account->uid, $object->localId));
 
   // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
-  $reservation_exists = in_array(TRUE, module_invoke_all('ding_library_user_has_reservation', $account, $item_id));
+  $reservation_exists = ding_provider_invoke('reservation', 'exists', $account, $item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -92,10 +92,10 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
   if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
   $is_ahah = ding_cart_detect_ahah();
-  // Get object, enrich if not ahah. 
+  // Get object, enrich if not ahah.
   $object = ting_get_object_by_local_id($item_id, !$is_ahah);
   if (!$object) {
-    return drupal_not_found(); 
+    return drupal_not_found();
   }
 
   $account = $GLOBALS['user'];
@@ -106,7 +106,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
   foreach ($creds as $cred) {
     $has_creds |= $cred;
   }
-  
+
   $reservation_exists = in_array(TRUE, module_invoke_all('ding_user_has_reservation', $creds, $reservable));
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
@@ -122,7 +122,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'no-preferred-branch';
       $reply['title'] = t('Preferred branch not set');
-      $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.', 
+      $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.',
         array('!profile_settings' => l(t('profile settings page'), 'user/' . $account->uid . '/profile')
       ));
 
@@ -134,7 +134,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
-      $reservation = module_invoke_all('ding_library_user_create_reservation', $account, $reservable, array('pickup_branch' => $account->preferred_branch));
+      $reservation = ding_provider_invoke('reservation', 'create', $account, $reservable, array('pickup_branch' => $account->preferred_branch));
 
       if (in_array(TRUE, $reservation)) {
         $reply['status'] = 'success';
@@ -175,7 +175,7 @@ function ding_cart_page_reserve_item($item_id, $reservable = NULL) {
  * @param array $form_state
  *    Drupal form API state.
  * @param stdClass $account
- *    Drupal user account. 
+ *    Drupal user account.
  * @param TingClientObject $object
  *    The object we're acting on.
  * @param string $action

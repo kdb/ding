@@ -91,26 +91,26 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'ding_library_user_reservations_list':
-        $list = module_invoke_all('ding_library_user_get_reservations', $account);
+        $list = ding_provider_invoke('reservations', 'list', $account);
         $block->title = t('Your reservations');
         $block->content = theme('ding_library_user_record_list', $list);
         break;
 
       case 'ding_library_user_reservations_details':
         module_load_include('forms.inc', 'ding_library_user');
-        $list = module_invoke_all('ding_library_user_get_reservations', $account);
+        $list = module_invoke_all('reservations', 'list', $account);
         $block->title = t('Your reservations');
         $block->content = drupal_get_form('ding_library_user_forms_reservation_details', $account, $list);
         break;
 
       case 'ding_library_user_loans_list':
-        $list = module_invoke_all('ding_library_user_get_loans', $account);
+        $list = ding_provider_invoke('loan', 'get loans', $account);
       	$block->title = t('Your loans');
         $block->content = theme('ding_library_user_record_list', $list);
         break;
       case 'ding_library_user_loans_details':
         module_load_include('forms.inc', 'ding_library_user');
-        $list = module_invoke_all('ding_library_user_get_loans', $account);
+        $list = ding_provider_invoke('loan', 'get loans', $account);
         $block->title = t('Your loans');
         $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
         break;

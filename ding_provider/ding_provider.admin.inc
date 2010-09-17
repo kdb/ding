@@ -6,11 +6,11 @@
  * Provides an overview of used plugins, and setting pages.
  */
 function ding_provider_admin_form() {
-  $plugin_types = array('user');
-  foreach ($plugin_types as $type) {
+  $plugin_types = _ding_provider_types();
+  foreach ($plugin_types as $type => $def) {
     $form[$type] = array(
-      #type' => 'fieldset',
-      '#title' => t('Provider type @type', array('@type' => $type)),
+      '#type' => 'fieldset',
+      '#title' => t('@type provider', array('@type' => $def['name'])),
     );
 
     $plugins = _ding_provider_get_plugins($type);
