@@ -3,6 +3,11 @@
 // $Id$
 
 /**
+ * Magic value for providers to return if not authenticated, md5('DING_PROVIDER_AUTH_REQUIRED').
+ */
+define('DING_PROVIDER_AUTH_REQUIRED', '9830f1673cd4295cfe742c1cf8933fa0');
+
+/**
  * Implementation of hook_menu().
  */
 function ding_provider_menu() {
@@ -220,7 +225,11 @@ function _ding_provider_plugin_description($plugin) {
 function _ding_provider_get_plugin($type) {
   $plugins = _ding_provider_get_plugins($type);
   if (sizeof($plugins) == 1) {
-    return array_shift($plugins);
+    $plugin = array_shift($plugins);
+    // Ensure that the defining module is enabled (it might not be).
+    if (module_exists($plugin['module'])) {
+      return $plugin;
+    }
   }
   return sizeof($plugins) == 0 ? NULL : FALSE;
 }
