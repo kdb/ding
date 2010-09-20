@@ -145,6 +145,23 @@ function ding_content_access($op, $node, $account = NULL) {
 }
 
 /**
+ * Implementation of hook_menu().
+ */
+function ding_content_menu() {
+  $items = array();
+
+  $items['admin/settings/ding_content'] = array(
+    'title' => 'Ding! content settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_content_admin_settings_form'),
+    'access arguments' => array('administer content'),
+    'file' => 'ding_content.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implementation of hook_menu_alter().
  */
 function ding_content_menu_alter(&$items) {
