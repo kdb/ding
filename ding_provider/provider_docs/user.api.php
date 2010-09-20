@@ -32,8 +32,9 @@ $plugin = array(
  * @param boolean $extended
  *   Optional, whether to return extended information.
  *
- * @return array
- *   An array of user information.
+ * @return mixed
+ *   An array of user information, or DING_PROVIDER_AUTH_REQUIRED if
+ *   not authenticated.
  */
 function MODULE_PLUGIN_user_get_info($account, $extended = FALSE) {
 

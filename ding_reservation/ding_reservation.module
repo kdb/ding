@@ -94,7 +94,7 @@ function ding_reservation_form_ding_cart_forms_cart_details_submit($form, &$form
         $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $local_id, array('valid_to' => $form_state['values']['expiry'], 'pickup_branch' => $form_state['values']['pickup_branch']));
 
         // If reservation was successful, remove the item from the cart.
-        if (in_array(TRUE, $reservation)) {
+        if ($reservation and $reservation != DING_PROVIDER_AUTH_REQUIRED) {
           db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $form_state['values']['account']->uid, $local_id);
         }
         else {

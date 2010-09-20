@@ -80,8 +80,10 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
     switch ($subtype) {
       case 'ding_library_user_personal_info':
         $data = ding_provider_invoke('user', 'get info', $account);
-        $block->title = t('Your profile');
-        $block->content = theme('ding_library_user_personal_info', $account, $data);
+        if ($data != DING_PROVIDER_AUTH_REQUIRED) {
+          $block->title = t('Your profile');
+          $block->content = theme('ding_library_user_personal_info', $account, $data);
+        }
         break;
 
       case 'ding_library_user_library_settings':
@@ -92,8 +94,10 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
 
       case 'ding_library_user_reservations_list':
         $list = ding_provider_invoke('reservation', 'list', $account);
-        $block->title = t('Your reservations');
-        $block->content = theme('ding_library_user_record_list', $list);
+        if ($list != DING_PROVIDER_AUTH_REQUIRED) {
+          $block->title = t('Your reservations');
+          $block->content = theme('ding_library_user_record_list', $list);
+        }
         break;
 
       case 'ding_library_user_reservations_details':
@@ -105,14 +109,18 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
 
       case 'ding_library_user_loans_list':
         $list = ding_provider_invoke('loan', 'get loans', $account);
-      	$block->title = t('Your loans');
-        $block->content = theme('ding_library_user_record_list', $list);
+        if ($list != DING_PROVIDER_AUTH_REQUIRED) {
+          $block->title = t('Your loans');
+          $block->content = theme('ding_library_user_record_list', $list);
+        }
         break;
       case 'ding_library_user_loans_details':
         module_load_include('forms.inc', 'ding_library_user');
         $list = ding_provider_invoke('loan', 'get loans', $account);
-        $block->title = t('Your loans');
-        $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
+        if ($list != DING_PROVIDER_AUTH_REQUIRED) {
+          $block->title = t('Your loans');
+          $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
+        }
         break;
 
       case 'ding_library_user_debts_notice':
