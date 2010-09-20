@@ -37,7 +37,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
       ));
 
     }
-    elseif ($reservation_exists) {
+    elseif ($reservation_exists && $reservation_exists != DING_PROVIDER_AUTH_REQUIRED) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'reservation-exists';
       $reply['title'] = t('Reservation exists');
@@ -46,7 +46,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
     else {
       $reservation = ding_provider_invoke('reservation', 'create', $user, $item_id, array('pickup_branch' => $user->preferred_branch));
 
-      if (in_array(TRUE, $reservation)) {
+      if ($reservation && $reservation != DING_PROVIDER_AUTH_REQUIRED) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
         $reply['message'] = t('You have reserved @item and will be notified when its ready for pickup at @branch.', array(
@@ -71,7 +71,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
 
   // Ensure that we're authenticated with the backend, redirect if not.
   ding_provider_invoke('user', 'logged in', $user, TRUE);
-  if ($reservation_exists) {
+  if ($reservation_exists && $reservation_exists != DING_PROVIDER_AUTH_REQUIRED) {
     drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
     return drupal_goto('user/' . $user->uid . '/status');
   }
@@ -118,7 +118,7 @@ function ding_reservation_confirm_form(&$form_state, $account, $object) {
 function ding_reservation_confirm_form_submit($form, &$form_state) {
   $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
 
-  if ($reservation) {
+  if ($reservation && $reservation != DING_PROVIDER_AUTH_REQUIRED) {
     drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
   }
   else {
