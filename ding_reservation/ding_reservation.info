@@ -5,5 +5,6 @@ package = Ding!
 core = 6.x
 dependencies[] = ting
 dependencies[] = ding_library_user
+dependencies[] = ding_provider
 dependencies[] = jquery_ui
 dependencies[] = jquery_ui_theme

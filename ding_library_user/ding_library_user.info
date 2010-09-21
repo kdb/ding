@@ -6,4 +6,5 @@ php = 5.2
 core = 6.x
 dependencies[] = ding_base
 dependencies[] = ding_user
+dependencies[] = ding_provider
 
