@@ -179,29 +179,6 @@ function ding_library_user_forms_change_password_submit($form, &$form_state) {
 }
 
 /**
- * User library settings form.
- */
-function ding_library_user_forms_library_settings($form_state, $account) {
-  $creds = ding_library_user_get_credentials($account);
-  $info = module_invoke_all('ding_library_user_get_info', $creds, TRUE);
-  $account->user_info = $info;
-  $form = array();
-
-  $form['account'] = array(
-    '#type' => 'value',
-    '#value' => $account,
-  );
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Update'),
-    '#weight' => 50,
-  );
-
-  return $form;
-}
-
-/**
  * Reservation details form.
  */
 function ding_library_user_forms_reservation_details($form_state, $account, $records) {
