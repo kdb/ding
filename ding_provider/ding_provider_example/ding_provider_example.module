@@ -1,0 +1,294 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_user().
+ */
+function ding_provider_example_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'login':
+      if ($account->ding_provider_example_creds) {
+        $_SESSION['ding_provider_example_creds'][$account->uid] = $account->ding_provider_example_creds;
+        unset($account->ding_provider_example_creds);
+      }
+      break;
+    case 'load':
+      // Possibly add more properties to the user object.
+      break;
+      /*
+       * There's no 'logout' case that delete credentials here, as
+       * user_logout calls session_destroy, which deletes the session
+       * and its data. The session is already gone by the time
+       * hook_user('logout') is called.
+       */
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function ding_provider_example_init() {
+  global $user;
+  $edit = array();
+
+  // Fire our own hook_user to have the extra data available on the
+  // global $user object.
+  if ($user->uid > 1) {
+    ding_provider_example_user('load', $edit, $user);
+  }
+}
+
+/**
+ * Implementation of hook_cron().
+ *
+ * Delete credentials after a while.
+ */
+function alma_user_cron() {
+  // TODO: Move variable from ding_library_user
+  $expire_time = $_SERVER['REQUEST_TIME'] - variable_get('ding_library_user_credential_cache_duration', 1800);
+  $res = db_query("SELECT sid, session, timestamp FROM {session} WHERE timestamp < %d", $expire_time);
+  // As the only PHP functions that reads and writes the
+  // almost-but-not-quite-serialized-data format of sessions does it to/from
+  // the current session, we're using our own session as a scratchpad.
+  $old_session = $_SESSION;
+  while ($row = db_fetch_object($res)) {
+    $_SESSION = array();
+    session_decode($ros->session);
+    if (isset($_SESSION['ding_provider_example_creds'])) {
+      unset($_SESSION['ding_provider_example_creds']);
+      $new_session = session_encode();
+      db_query("UPDATE {session} SET session = '%s' WHERE sid = %d AND timestamp = %d", $new_session, $row->sid, $row->timestamp);
+    }
+  }
+  $_SESSION = $old_session;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+/*
+ TODO: need a theme function.
+function ding_provider_example_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_library_user_personal_info' => array(
+      'arguments' => array(
+        'account' => NULL,
+        'alma_data' => NULL,
+      ),
+      'template' => 'ding_library_user_personal_info',
+    ),
+  );
+}
+*/
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function ding_provider_example_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ding_provider') {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Alter the login form to disable the standard Drupal username/password
+ * combination and provide our own fields instead.
+ */
+function ding_provider_example_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Add our own validation handler, before the default Drupal login
+      // validator.
+      array_splice($form['#validate'], array_search('user_login_authenticate_validate', $form['#validate']), 0, 'ding_provider_example_login_validate');
+      break;
+    case 'user_profile_form':
+      // When we have credentials available, make library patron
+      // information available for altering.
+      //  TODO: Demonstrate extra profile data.
+      // if (isset($form['ding_library_user_info'])) {
+      //   $form['account']['alma_user_phone'] = array(
+      //     '#type' => 'textfield',
+      //     '#title' => t('Phone number'),
+      //     '#description' => t('Phone number where the library can contact you. Is not published on the web site.'),
+      //     '#default_value' => $form['ding_library_user_info']['#value']['phones'][0]['phone'],
+      //   );
+
+      //   // Add our own validation and submit handling.
+      //   array_unshift($form['#validate'], 'alma_user_profile_validate');
+      //   $form['#submit'][] = 'alma_user_profile_submit';
+
+      // }
+       break;
+       // TODO: needed?
+    // case 'ding_library_user_forms_authenticate':
+    // 	$form['#validate'][] = 'ding_library_user_forms_authenticate_validate';
+    // 	break;
+  }
+}
+
+/**
+ * Validation for the login form.
+ */
+function ding_provider_example_login_validate($form, &$form_state) {
+  // If it looks like a CPR number, try logging in.
+  if (preg_match('/^dpe_.*$/', $form_state['values']['name'])) {
+    ding_provider_example_authenticate($form_state['values']);
+  }
+}
+
+/**
+ * Try to authenticate the user.
+ */
+function ding_provider_example_authenticate(&$form_values) {
+  // ding_provider_example_login_validate has already ensured that the
+  // username is one we pretend to be provider for.
+  if (!preg_match('/' . preg_quote($form_values['pass']) . '$/', $form_values['name'])) {
+    // Not found.
+    return;
+  }
+  // Now we know we have a valid user from the external system. Now tell
+  // Drupal about it.
+
+  $auth_name = md5(drupal_get_private_key() . $form_values['name']) . '@ding_provider_example';
+  user_external_login_register($auth_name, 'ding_provider_example');
+
+  global $user;
+  // Save credentials for later use. This is the recommended way to deal with
+  // caching credentials. See ding_provider_example_user and
+  // ding_provider_example_cron for more information.
+  $user->ding_provider_example = array(
+    'user_id' => $form_values['name'],
+    'password' => $form_values['pass'],
+  );
+
+  // Set display_name. If the external username is sensitive data, we need to
+  // set a display_name. But we're not that picky.
+  $user->display_name = 'Fake user ' . $form_values['name'];
+
+  // Finalize login.
+  user_authenticate_finalize($form_values);
+}
+
+/**
+ * User library settings form.
+ */
+// TODO: an example?
+// function alma_user_form_ding_library_user_forms_library_settings_alter(&$form, &$form_state) {
+//   $account = $form['account']['#value'];
+
+//   $form['preferred_branch'] = array(
+//     '#type'          => 'select',
+//     '#title'         => t('Preferred library'),
+//     '#options'       => alma_client()->get_reservation_branches(),
+//     '#default_value' => $account->preferred_branch,
+//   );
+
+//   $form['interest_period'] = array(
+//     '#type'        => 'select',
+//     '#title'       => t('Period of interest'),
+//     '#description' => t('How long are you willing to wait for a reservation?'),
+//     '#options'     => array(
+//       '30'         => t('A month'),
+//       '60'         => t('Two months'),
+//       '90'         => t('Three months'),
+//       '183'        => t('Six months'),
+//       '365'        => t('A year'),
+//     ),
+//     '#default_value' => (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : ALMA_USER_DEFAULT_INTEREST_PERIOD,
+//   );
+
+//   $form['suspend_start'] = array(
+//     '#type'          => 'date_popup',
+//     '#title'         => t('Suspend reservations from'),
+//     '#date_format'   => DATE_FORMAT_DATE,
+//     '#default_value' => (isset($account->user_info['absent_periods'][0])) ? $account->user_info['absent_periods'][0]['from_date'] : '',
+//   );
+
+//   $form['suspend_end'] = array(
+//     '#type'          => 'date_popup',
+//     '#title'         => t('To'),
+//     '#date_format'   => DATE_FORMAT_DATE,
+//     '#default_value' => (isset($account->user_info['absent_periods'][0])) ? $account->user_info['absent_periods'][0]['to_date'] : '',
+//   );
+
+//   $form['#validate'][] = 'alma_user_forms_library_settings_validate';
+//   $form['#submit'][]   = 'alma_user_forms_library_settings_submit';
+
+// }
+
+/**
+ * Validation for user library settings.
+ */
+// function alma_user_forms_library_settings_validate($form, &$form_state) {
+//   if (!empty($form_state['values']['suspend_start']) && !empty($form_state['values']['suspend_end'])) {
+//     $start = date_make_date($form_state['values']['suspend_start']);
+//     $end = date_make_date($form_state['values']['suspend_end']);
+
+//     if ($start <= new DateTime()) {
+//       form_set_error('suspend_start', t('Start date must later than today'));
+//     }
+
+//     if ($start >= $end) {
+//       form_set_error('suspend_start', t('Start date must be before end date'));
+//     }
+//     else {
+//       $form_state['values']['suspend'] = array('start' => $start, 'end' => $end);
+//     }
+//   }
+// }
+
+/**
+ * Submit handler for user library settings.
+ */
+// TODO: an example?
+// function alma_user_forms_library_settings_submit($form, &$form_state) {
+//   $creds = _alma_user_get_credentials($form_state['values']['account']);
+
+//   $info = alma_client_get_patron_info($creds['user_id'], $creds['password'], TRUE);
+
+//   if (isset($form_state['values']['suspend'])) {
+//     $start = date_format_date($form_state['values']['suspend']['start'], 'custom', DATE_FORMAT_DATE);
+//     $end = date_format_date($form_state['values']['suspend']['end'], 'custom', DATE_FORMAT_DATE);
+//   }
+
+//   if (isset($info['absent_periods']) && !empty($info['absent_periods'])) {
+//     if (isset($start) && isset($end)) {
+//       // Update the current period.
+//       alma_client_change_absent_period($creds['user_id'], $creds['password'], $info['absent_periods'][0]['id'], $start, $end);
+//     }
+//     else {
+//       // If either date field had no valid value, remove the absent period.
+//       alma_client_remove_absent_period($creds['user_id'], $creds['password'], $info['absent_periods'][0]['id']);
+//     }
+//   }
+//   elseif (isset($start) && isset($end)) {
+//     // Create a new absent period.
+//     alma_client_add_absent_period($creds['user_id'], $creds['password'], $start, $end);
+//   }
+
+//   if ($form_state['values']['preferred_branch'] != $form_state['values']['account']->preferred_branch) {
+//     // Update the preferred branch in the database.
+//     db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
+
+//     // And save the new choice to Alma.
+//     alma_client_change_patron_preferences($creds['user_id'], $creds['password'], $form_state['values']['preferred_branch']);
+//   }
+//   if ($form_state['values']['interest_period'] != $form_state['values']['account']->interest_period) {
+//     db_query('UPDATE {alma_user} SET interest_period = %d WHERE alma_id = "%s" LIMIT 1;', $form_state['values']['interest_period'], $form_state['values']['account']->library_user_id);
+//   }
+// }
+
+
+/**
+ * Get credentials for user.
+ */
+function _ding_provider_example_get_credentials($account) {
+  // See if we have credentials for the given user in the session.
+  if ($_SESSION['ding_provider_example_creds'][$account->uid]) {
+    return $_SESSION['ding_provider_example_creds'][$account->uid];
+  }
+  return DING_PROVIDER_AUTH_REQUIRED;
+}

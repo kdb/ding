@@ -1,0 +1,7 @@
+; $Id$
+name = Ding Provider example module
+description = Example implementation of a Ding Provider module, which also serves as a testbed and reference implementation.
+package = Ding!
+php = 5.2
+core = 6.x
+dependencies[] = ding_provider
