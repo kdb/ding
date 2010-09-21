@@ -73,23 +73,21 @@ function ding_library_user_profile_content_type_content_types() {
  */
 function ding_library_user_profile_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? drupal_clone($context->data) : NULL;
-  $creds = ding_library_user_get_credentials($account);
   $block = new stdClass();
 
-  if ($creds) {
+  if (ding_provider_invoke('user', 'logged in', $account)) {
     switch ($subtype) {
       case 'ding_library_user_personal_info':
         $data = ding_provider_invoke('user', 'get info', $account);
-        if ($data != DING_PROVIDER_AUTH_REQUIRED) {
-          $block->title = t('Your profile');
-          $block->content = theme('ding_library_user_personal_info', $account, $data);
-        }
+        $block->title = t('Your profile');
+        $block->content = theme('ding_library_user_personal_info', $account, $data);
         break;
 
       case 'ding_library_user_library_settings':
-        module_load_include('forms.inc', 'ding_library_user');
-        $block->title = t('Your library');
-        $block->content = drupal_get_form('ding_library_user_forms_library_settings', $account);
+        if (ding_provider_supports('user', 'library settings form')) {
+          $block->title = t('Your library');
+          $block->content = ding_provider_get_form('user', 'library settings form', $account);
+        }
         break;
 
       case 'ding_library_user_reservations_list':
@@ -151,6 +149,8 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
     }
   }
   elseif ($subtype == 'ding_library_user_personal_info') {
+    // TODO: Change the blocks above for those that should always be
+    // shown, to tell the user that they need to log in.
     $block->content = t('Error fetching your library user profile.');
   }
 
