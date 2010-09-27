@@ -13,6 +13,10 @@ function ding_content_content_default_fields() {
     'display_settings' => array(
       'weight' => '3',
       'parent' => '',
+      '4' => array(
+        'format' => 'image_plain',
+        'exclude' => 1,
+      ),
       'label' => array(
         'format' => 'hidden',
       ),
