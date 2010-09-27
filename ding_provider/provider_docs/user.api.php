@@ -21,43 +21,6 @@ $plugin = array(
 );
 
 /**
- * Get information on a user.
- *
- * Returns an array of user data, which as a minimum should contain
- * the keys 'user_id' and 'user_name', which is used to bind to a
- * Drupal user.
- *
- * @param object $account
- *   User object.
- * @param boolean $extended
- *   Optional, whether to return extended information.
- *
- * @return mixed
- *   An array of user information, or DING_PROVIDER_AUTH_REQUIRED if
- *   not authenticated.
- */
-function MODULE_PLUGIN_user_get_info($account, $extended = FALSE) {
-
-}
-
-/**
- * Update user information.
- *
- * Update the user information with the given values. Only set keys
- * should be considered, with NULL values signalling deletion.
- *
- * @param object $account
- *   Object of user to be updated.
- * @param array $new_info
- *   New user information.
- *
- * @return void
- */
-function MODULE_PLUGIN_user_update_info($account, $new_info) {
-
-}
-
-/**
  * Returns whether the account is currently 'logged in' to the user
  * backend.
  *
