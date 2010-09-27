@@ -56,6 +56,9 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
       if (isset($account->display_name) && (!isset($account->has_secure_role) || !$account->has_secure_role)) {
         db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $account->display_name, $account->uid);
       }
+      // TODO: let auth modules set auth_email, and update Drupal
+      // users mail if it's different (and support a list of
+      // addresses).
       break;
     case 'form':
       $form = array();

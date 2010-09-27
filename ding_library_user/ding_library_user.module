@@ -149,6 +149,11 @@ function ding_library_user_theme($existing, $type, $theme, $path) {
     ),
     'ding_library_user_list_item' => array(
       'arguments' => array('item' => NULL),
+      'template' => 'ding-library-user-list-item',
+      'file' => 'ding_library_user.theme.inc',
+    ),
+    'ding_library_user_list_item_image' => array(
+      'arguments' => array('item' => NULL, $preset = NULL),
       'file' => 'ding_library_user.theme.inc',
     ),
   );
@@ -351,7 +356,6 @@ function ding_library_user_get_status($account, $redirect=TRUE) {
 
     $reservations = ding_provider_invoke('reservation', 'list', $account);
     $loans = ding_provider_invoke('loan', 'get loans', $account);
-
     $data['loan_overdue_count'] = 0;
 
     if ($loans != DING_PROVIDER_AUTH_REQUIRED) {
@@ -370,6 +374,27 @@ function ding_library_user_get_status($account, $redirect=TRUE) {
     return $data;
   }
   return FALSE;
+}
+
+/**
+ * Format an ISO 8601 date using a date format string.
+ *
+ * @param string $datestring
+ *    Date in ISO 8601 format (eg. 2010-04-10).
+ * @param string $date_format
+ *    The format (in date() style) to use when formatting the date.
+ * @return string
+ *    Formatted date or original $datestring on failure.
+ */
+function ding_library_user_format_date($datestring, $date_format) {
+  if ($datestring) {
+    $timestamp = strtotime($datestring);
+
+    if ($timestamp > 1) {
+      return format_date($timestamp, 'custom', $date_format);
+    }
+  }
+  return $datestring;
 }
 
 /**
@@ -402,75 +427,3 @@ function ding_library_user_elements_loan_process($element, $form_state) {
 
   return $element;
 }
-
-/**
- * Preprocessor for the user status template.
- *
- * Preprocessor needs to be in the module, since our theme.inc is not
- * loaded if the template is overridden by a theme.
- */
-function template_preprocess_ding_library_user_status_block(&$variables) {
-  $account = $variables['user'];
-
-  // If has secure role is not set, ding_user's user_load has not been
-  // called for this user object. Let's do it manually.
-  if (!isset($account->has_secure_role)) {
-    $edit = array();
-    ding_user_user('load', $edit, $account);
-  }
-
-  $variables['wrapper_classes'] = '';
-  // Use alma_name if available.
-  if (!empty($account->display_name)) {
-    $variables['display_name'] = $account->display_name;
-  }
-  else {
-    $variables['display_name'] = $account->name;
-  }
-
-  if ($account->library_user_id && !$account->has_secure_role) {
-    $variables['profile_link'] = 'user/' . $account->uid . '/profile';
-  }
-  else {
-    $variables['profile_link'] = 'user/' . $account->uid;
-  }
-
-  if (empty($variables['user_status'])) {
-    $variables['user_status_available'] = FALSE;
-    if (!empty($account->library_user_id)) {
-      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $account->uid . '/authenticate')));
-    }
-    else {
-      // If user doesn't have an library system ID, don't show a message, since we
-      // can't just log him in to get the status. This should usually
-      // only be the case for admin users.
-      $variables['status_unavailable_message'] = '';
-    }
-  }
-  else {
-    $variables['user_status_available'] = TRUE;
-    if ($variables['user_status']['loan_overdue_count'] > 0) {
-      $variables['wrapper_classes'] .= 'loans-overdue';
-    }
-
-    // Get the item count from ding_cart, if the module is available.
-    if (function_exists('ding_cart_user_count')) {
-      $variables['cart_count'] = ding_cart_user_count($account);
-    }
-    else {
-      $variables['cart_count'] = 0;
-    }
-  }
-}
-
-/**
- * Preprocessor for the ding_library_user_personal_info template.
- */
-function template_preprocess_ding_library_user_personal_info(&$variables) {
-  $variables['links'] = theme('item_list', array(
-    l(t('Edit contact information'), 'user/' . $variables['account']->uid . '/edit'),
-    l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin'),
-  ));
-}
-
-

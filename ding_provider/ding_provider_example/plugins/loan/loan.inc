@@ -19,7 +19,7 @@ function ding_provider_example_loan_get_loans($account) {
   if ($creds == DING_PROVIDER_AUTH_REQUIRED) {
     return $creds;
   }
-  // As we doesn't really have a backend, we just fake it.
+  // As we don't really have a backend, we just fake it.
   return array(
     // The keys should correspond with the items ids.
     '123' => array(
@@ -27,16 +27,20 @@ function ding_provider_example_loan_get_loans($account) {
       // made about it, however it should be a sting value suitable for values
       // in forms and the like.
       'id' => '123',
-      // Id in the materials backend, optional. A value passed to
-      // ting_get_object_by_local_id. If not specified or not found, we fall
-      // back to title/authors/display_title (see the next example).
-      'provider_id' => 41406828, // Larry Niven, The Ringworld throne
+      // Materials number. Is shown to the user.
+      'materials_number' => 1238141,
       // Date of the loan, optional. Format: YYYY-MM-DD.
       'loan_date' => '2010-09-15',
       // Due date of the loan, optional. Format: YYYY-MM-DD.
       'due_date' => strftime('%Y-%m-%d', strtotime('yesterday')),
       // Whether this loan is renewable.
       'is_renewable' => TRUE,
+      // Whether this is a remote loan.
+      'remote_loan' => FALSE,
+      // Now, we could return a 'ting_object' here, but for efficiencys sake,
+      // we note the id here, and load it in 'details'. For responses without
+      // a ting reference, see the next entry.
+      'provider_id' => 41406828, // Larry Niven, The Ringworld throne
     ),
     'euaeu' => array(
       'id' => 'euaeu', // string id...
@@ -44,7 +48,9 @@ function ding_provider_example_loan_get_loans($account) {
       'title' => 'Ark',
       // Authors of the item, optional. Not shown if display_title is used.
       'authors' => 'Stephen Baxter',
-      // Alternative title string, optional. Used if title is empty.
+      // Alternative title string, optional. Used if title is empty. If
+      // neither 'title' nor 'display_title' is specified, an 'Title not
+      // available' message is displayed.
       'display_title' => 'Stephen Baxter: Ark',
       'loan_date' => '2010-09-15',
       'due_date' => strftime('%Y-%m-%d', strtotime('+3 days')),
@@ -56,6 +62,7 @@ function ding_provider_example_loan_get_loans($account) {
       'loan_date' => '2010-09-15',
       'due_date' => strftime('%Y-%m-%d', strtotime('today')),
       'is_renewable' => TRUE,
+      'remote_loan' => TRUE,
     ),
     '4364625' => array(
       'id' => '4364625',
@@ -87,14 +94,24 @@ function ding_provider_example_loan_get_loans($account) {
  * speed. 'details' will be called when more data is needed, and should
  * populate extra data for display.
  *
+ * Should implement internal per-request caching as it might be called
+ * multiple times for the same loan, preferably using ctools_static.
+ *
  * @param array $loan
  *   The loan to add details to.
  * @return
  *   The loan with details added.
  */
 function ding_provider_example_loan_details($loan) {
-  $loan['extra'] = 'Tadaaa!';
-  return $loan;
+  $cache = &ctools_static(__FUNCTION__, array());
+  if (!isset($cache[$loan['id']])) {
+    $loan['extra'] = 'Tadaaa!';
+    if ($loan['provider_id'] and $object = ting_get_object_by_local_id($loan['provider_id'])) {
+      $loan['ting_object'] = $object;
+    }
+    $cache[$loan['id']] = $loan;
+  }
+  return $cache[$loan['id']];
 }
 
 /**

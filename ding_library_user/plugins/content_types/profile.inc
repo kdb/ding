@@ -91,6 +91,7 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'ding_library_user_reservations_list':
+        // TODO: move to ding_reservation
         $list = ding_provider_invoke('reservation', 'list', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your reservations');
@@ -99,6 +100,7 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
 
       case 'ding_library_user_reservations_details':
+        // TODO: move to ding_reservation
         module_load_include('forms.inc', 'ding_library_user');
         $list = module_invoke_all('reservation', 'list', $account);
         $block->title = t('Your reservations');

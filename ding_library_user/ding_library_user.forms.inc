@@ -180,6 +180,8 @@ function ding_library_user_forms_change_password_submit($form, &$form_state) {
 
 /**
  * Reservation details form.
+ *
+ * @todo Way too much logic in the theme function. Move some of it here.
  */
 function ding_library_user_forms_reservation_details($form_state, $account, $records) {
   $cancel_fetchable = (boolean) variable_get('ding_library_user_cancel_fetchable_reservable', TRUE);
@@ -319,6 +321,8 @@ function ding_library_user_forms_reservation_details_submit($form, &$form_state)
 
 /**
  * Loan details form.
+ *
+ * @todo Way too much logic in the theme function. Move some of it here.
  */
 function ding_library_user_forms_loan_details($form_state, $account, $records) {
   $grouped = _ding_library_user_forms_group_loans($records);
@@ -349,7 +353,6 @@ function ding_library_user_forms_loan_details($form_state, $account, $records) {
     }
   }
 
-
   if ($renew_buttons) {
     $form['renew'] = array(
       '#type' => 'submit',
@@ -370,6 +373,7 @@ function ding_library_user_forms_loan_details($form_state, $account, $records) {
  * Loan details submit handler.
  */
 function ding_library_user_forms_loan_details_submit($form, $form_state) {
+  global $user;
   $selected = array();
 
   switch ($form_state['clicked_button']['#parents'][0]) {
@@ -389,8 +393,7 @@ function ding_library_user_forms_loan_details_submit($form, $form_state) {
       break;
   }
 
-  $creds = ding_library_user_get_credentials($form_state['values']['account']);
-  module_invoke_all('ding_renew_loans', $creds, $selected);
+  ding_provider_invoke('loan', 'renew loans', $user, $selected);
 }
 
 /**

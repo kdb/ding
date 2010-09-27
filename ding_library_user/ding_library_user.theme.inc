@@ -9,7 +9,6 @@
 function theme_ding_library_user_record_list($records) {
   module_load_include('client.inc', 'ting');
   $items = array();
-
   foreach ($records as $rec) {
     $items[] = theme('ding_library_user_list_item', $rec);
   }
@@ -23,7 +22,7 @@ function theme_ding_library_user_record_list($records) {
 function theme_ding_library_user_forms_reservation_details($form) {
   $date_format = variable_get('date_format_date_short', 'Y-m-d');
   $output = '';
-  $branches = alma_client_get_branches();
+  $branches = ding_provider_invoke('organisation', 'get branches');
   module_load_include('client.inc', 'ting');
 
   if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
@@ -68,7 +67,7 @@ function theme_ding_library_user_forms_reservation_details($form) {
         ),
       ),
     );
-    
+
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
@@ -105,12 +104,12 @@ function theme_ding_library_user_forms_reservation_details($form) {
 
       $cells['pickup_expire_date'] = array(
         'class' => 'pickup_expire_date',
-        'data' => alma_format_date($item['pickup_expire_date'], $date_format),
+        'data' => ding_library_user_format_date($item['pickup_expire_date'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
         'class' => 'pickup_branch',
-        'data' => $branches[$item['pickup_branch']],
+        'data' => isset($branches[$item['pickup_branch']]) ? $branches[$item['pickup_branch']] : t('Unknown'),
       );
 
       $rows[] = $cells;
@@ -129,11 +128,11 @@ function theme_ding_library_user_forms_reservation_details($form) {
       t('Pickup branch'),
       t('Queue number'),
     );
-    
+
     $colgroups = array(
       array(
         array(
-          'class' => 'col-selection', 
+          'class' => 'col-selection',
         ),
       ),
       array(
@@ -148,22 +147,22 @@ function theme_ding_library_user_forms_reservation_details($form) {
       ),
       array(
         array(
-          'class' => 'col-reservation', 
+          'class' => 'col-reservation',
         ),
       ),
       array(
         array(
-          'class' => 'col-valied-to', 
+          'class' => 'col-valied-to',
         ),
       ),
       array(
         array(
-          'class' => 'col-pickup-branch', 
+          'class' => 'col-pickup-branch',
         ),
       ),
       array(
         array(
-          'class' => 'col-queue-number', 
+          'class' => 'col-queue-number',
         ),
       ),
     );
@@ -198,17 +197,17 @@ function theme_ding_library_user_forms_reservation_details($form) {
 
       $cells['create_date'] = array(
         'class' => 'create_date',
-        'data' => alma_format_date($item['create_date'], $date_format),
+        'data' => ding_library_user_format_date($item['create_date'], $date_format),
       );
 
       $cells['valid_to'] = array(
         'class' => 'valid_to',
-        'data' => alma_format_date($item['valid_to'], $date_format),
+        'data' => ding_library_user_format_date($item['valid_to'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
         'class' => 'pickup_branch',
-        'data' => $branches[$item['pickup_branch']],
+        'data' => isset($branches[$item['pickup_branch']]) ? $branches[$item['pickup_branch']] : t('Unknown'),
       );
 
       $cells['queue_no'] = array(
@@ -239,7 +238,7 @@ function theme_ding_library_user_forms_reservation_details($form) {
   $output .= drupal_render($form['update']);
   $output .= drupal_render($form['remove']);
   $output .= '</div>';
-  
+
   $output .= drupal_render($form);
 
   return $output;
@@ -301,6 +300,7 @@ function theme_ding_library_user_forms_loan_details($form) {
     $rows = array();
     $key = 0; // Added since module_invoke_all() gets rid of all array keys
     foreach ($group as $loan_id) {
+      $key = $loan_id;
       $loan = $form['loan_data']['#value'][$key];
       $cells = array();
 
@@ -317,25 +317,24 @@ function theme_ding_library_user_forms_loan_details($form) {
         );
       }
 
-      $image_url = ting_covers_faust_url($loan['record_id'], '80_x');
       $cells['image'] = array(
         'class' => 'image',
-        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
+        'data' => theme('ding_library_user_list_item_image', 'loan', $loan, '80_x'),
       );
 
       $cells['title'] = array(
         'class' => 'title',
-        'data' => theme('ding_library_user_list_item', $loan) . ' (<span class="material-number">' . t('Mat. no @num', array('@num' => $loan['id'])) . '</span>)',
+        'data' => theme('ding_library_user_list_item', $loan),
       );
 
       $cells['loan_date'] = array(
         'class' => 'loan_date',
-        'data' => alma_format_date($loan['loan_date'], $date_format),
+        'data' => ding_library_user_format_date($loan['loan_date'], $date_format),
       );
 
       $cells['due_date'] = array(
         'class' => 'due_date',
-        'data' => alma_format_date($loan['due_date'], $date_format),
+        'data' => ding_library_user_format_date($loan['due_date'], $date_format),
       );
 
       $rows[] = array(
@@ -396,7 +395,7 @@ function theme_ding_library_user_forms_debts_details($form) {
       ),
       array (
         'class' => 'date',
-        'data' => alma_format_date($data['date'], $date_format),
+        'data' => ding_library_user_format_date($data['date'], $date_format),
       ),
       array (
         'class' => 'amount',
@@ -411,33 +410,130 @@ function theme_ding_library_user_forms_debts_details($form) {
 }
 
 /**
- * Render label for reservation or loan in a list.
+ * Preprocess function for ding_library_user_list_item.
  */
-function theme_ding_library_user_list_item($item) {
-  // First try looking up the title and book data from Ting.
-  if (intval($item['id']) > 0) {
-    $ting_object = ting_get_object_by_local_id($item['record_id']);
-    if ($ting_object) {
-      return theme('ting_object_title', $ting_object);
+function template_preprocess_ding_library_user_list_item(&$vars) {
+  // TODO: Kill off ting_object_title theme
+  /*
+   * - $materials_number: Materials number (optional).
+   * - $title: Item title, possibly a link.
+   * - $title_plain: Title without a link.
+   * - $image: Image (optional).
+   * - $authors: Authors (optional).
+   * - $type: Item type (optional).
+   * - $url: Url of item.
+   * - $remote_loan: Boolean.
+   */
+  $item = ding_provider_invoke('loan', 'details', $vars['item']);
+  $vars['item'] = $item;
+
+  if ($item['ting_object']) {
+    $object = $item['ting_object'];
+    $vars['title'] = $vars['title_plain'] = check_plain($object->title);
+
+    if ($object->url) {
+      $vars['url'] = $object->url;
+      $vars['title'] = l($object->title, $object->url);
+    }
+    $vars['authors'] = $object->creators_string ? check_plain($object->creators_string) : '';
+    $image_url = ting_covers_object_url($object, '80_x');
+    $vars['image'] = $image_url ? theme('image', $image_url, '', '', NULL, FALSE) : '';
+    $vars['type'] = $object->type ? check_plain($object->type) : '';
+  }
+  else {
+    if (empty($item['title'])) {
+      $vars['title_plain'] = empty($item['display_title']) ? t('Title not available.') : check_plain($item['display_title']);
+    }
+    else {
+      $vars['title_plain'] = check_plain($item['title']);
+    }
+    $vars['title'] = $vars['title_plain'];
+    // Don't populate authors if we're using display_title. It
+    // probably contains authors in some way.
+    $vars['authors'] = '';
+    if ($item['authors'] && (!empty($item['title']) || empty($item['display_title']))) {
+      $vars['authors'] = $item['authors'];
     }
   }
-
-  // If Ting data is not available, get it from Alma instead.
-  $data = alma_client_catalogue_record_detail($item['record_id']);
-  $details = $data['records'][$item['record_id']];
-
-  $output = '<span class="title">' . $details['titles'][0] . '</span> ';
-
-  if (!empty($details['authors'])) {
-    $output .= '<span class="byline">' . t('by') . '</span> ';
-    $output .= implode(', ', $details['authors']);
-  }
-
-  // Remote loans have negative IDs (undocumented Axiell "feature").
-  if (intval($item['id']) < 0) {
-    $output .= ' <span class="remote">(' . t('remote loan') . ')</span>';
-  }
-
-  return $output;
+  $vars['remote_loan'] = isset($item['remote_loan']) ? ((bool) $item['remote_loan']) : FALSE;
+  $vars['materials_number'] = isset($item['materials_number']) ? $item['materials_number'] : '';
 }
 
+/**
+ * Theme an image for a list item.
+ */
+function theme_ding_library_user_list_item_image($type, $item, $preset) {
+  $item = ding_provider_invoke($type, 'details', $item);
+  if ($item['ting_object']) {
+    $image_url = ting_covers_faust_url($item['ting_object']->id, $preset);
+    return ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '';
+  }
+  return '';
+}
+
+/**
+ * Preprocessor for the ding_library_user_personal_info template.
+ */
+function template_preprocess_ding_library_user_personal_info(&$variables) {
+  $variables['links'] = theme('item_list', array(
+    l(t('Edit contact information'), 'user/' . $variables['account']->uid . '/edit'),
+    l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin'),
+  ));
+}
+
+/**
+ * Preprocessor for the user status template.
+ */
+function template_preprocess_ding_library_user_status_block(&$variables) {
+  $account = $variables['user'];
+
+  // If has secure role is not set, ding_user's user_load has not been
+  // called for this user object. Let's do it manually.
+  if (!isset($account->has_secure_role)) {
+    $edit = array();
+    ding_user_user('load', $edit, $account);
+  }
+
+  $variables['wrapper_classes'] = '';
+  // Use alma_name if available.
+  if (!empty($account->display_name)) {
+    $variables['display_name'] = $account->display_name;
+  }
+  else {
+    $variables['display_name'] = $account->name;
+  }
+
+  if ($account->library_user_id && !$account->has_secure_role) {
+    $variables['profile_link'] = 'user/' . $account->uid . '/profile';
+  }
+  else {
+    $variables['profile_link'] = 'user/' . $account->uid;
+  }
+
+  if (empty($variables['user_status'])) {
+    $variables['user_status_available'] = FALSE;
+    if (!empty($account->library_user_id)) {
+      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $account->uid . '/authenticate')));
+    }
+    else {
+      // If user doesn't have an library system ID, don't show a message, since we
+      // can't just log him in to get the status. This should usually
+      // only be the case for admin users.
+      $variables['status_unavailable_message'] = '';
+    }
+  }
+  else {
+    $variables['user_status_available'] = TRUE;
+    if ($variables['user_status']['loan_overdue_count'] > 0) {
+      $variables['wrapper_classes'] .= 'loans-overdue';
+    }
+
+    // Get the item count from ding_cart, if the module is available.
+    if (function_exists('ding_cart_user_count')) {
+      $variables['cart_count'] = ding_cart_user_count($account);
+    }
+    else {
+      $variables['cart_count'] = 0;
+    }
+  }
+}
