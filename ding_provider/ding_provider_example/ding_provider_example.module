@@ -43,7 +43,7 @@ function ding_provider_example_init() {
  *
  * Delete credentials after a while.
  */
-function alma_user_cron() {
+function ding_provider_example_cron() {
   // TODO: Move variable from ding_library_user
   $expire_time = $_SERVER['REQUEST_TIME'] - variable_get('ding_library_user_credential_cache_duration', 1800);
   $res = db_query("SELECT sid, session, timestamp FROM {session} WHERE timestamp < %d", $expire_time);
@@ -159,7 +159,7 @@ function ding_provider_example_authenticate(&$form_values) {
   // Save credentials for later use. This is the recommended way to deal with
   // caching credentials. See ding_provider_example_user and
   // ding_provider_example_cron for more information.
-  $user->ding_provider_example = array(
+  $user->ding_provider_example_creds = array(
     'user_id' => $form_values['name'],
     'password' => $form_values['pass'],
   );

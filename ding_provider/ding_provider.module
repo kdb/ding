@@ -59,8 +59,6 @@ function ding_provider_ctools_plugin_user() {
       'description' => '',
     ),
     'required functions' => array(
-      'get info',
-      'update info',
       'logged in',
     ),
     'optional functions' => array(
@@ -82,7 +80,8 @@ function ding_provider_ctools_plugin_loan() {
     ),
     'required functions' => array(
       'get loans',
-      'renew loan',
+      'renew loans',
+      'details',
     ),
   );
 }
