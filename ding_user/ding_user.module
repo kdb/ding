@@ -38,8 +38,10 @@ function ding_user_menu_alter(&$items) {
   // Change the title of the view profile tab.
   $items['user/%user/view']['title'] = 'Profile';
 
-  // Hide the edit user tab.
-  $items['user/%user_category/edit']['type'] = MENU_CALLBACK;
+  // Rename and only show user edit tab for secure roles 
+  $items['user/%user_category/edit']['title'] = 'Settings';
+  $items['user/%user_category/edit']['access callback'] = 'ding_user_has_secure_role';
+  $items['user/%user_category/edit']['access arguments'] =  array(1);
 }
 
 /**
@@ -175,36 +177,6 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       // Remove the standard user login links.
       unset($form['links']);
       break;
-    case 'user_profile_form':
-      // Hide advanced account settings from regular users.
-      $form['locale']['#access'] = user_access('administer users');
-      $form['contact']['#access'] = user_access('administer users');
-
-      $account = $form['_account']['#value'];
-
-      // Remove or hide the standard user account settings we don't need.
-      $form['account']['pass']['#type'] = 'value';
-
-      if (!$account->has_secure_role) {
-        $form['account']['name']['#type'] = 'value';
-        $form['account']['name']['#value'] = $account->name;
-      }
-      else {
-        // Add link to change admin password
-        $form['change_password_link'] = array(
-          '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
-        );
-      }
-
-      // Move the standard account controls down a bit.
-      if (isset($form['account']['status'])) {
-        $form['account']['status']['#weight'] = 1;
-      }
-
-      if (isset($form['account']['roles'])) {
-        $form['account']['roles']['#weight'] = 1;
-      }
-      break;
     case 'comment_form':
       $account = user_load($GLOBALS['user']->uid);
       $form['_author']['#value'] = (!empty($account->display_name)) ? $account->display_name : $account->name;
@@ -272,6 +244,9 @@ function ding_user_forms_access($name, $account) {
         return TRUE;
       }
       break;
+    case 'edit':
+    	//Only users with a secure role has access to the edit panel
+    	return $account->has_secure_role;
   }
 }
 
