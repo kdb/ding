@@ -850,7 +850,7 @@ function ding_content_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'blog/feed');
   $handler->override_option('menu', array(
@@ -945,7 +945,7 @@ function ding_content_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'profil/feed');
   $handler->override_option('menu', array(
@@ -982,7 +982,7 @@ function ding_content_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'feed');
   $handler->override_option('menu', array(
