@@ -117,13 +117,50 @@ function ding_provider_example_loan_details($loan) {
 /**
  * Renew loans.
  *
+ * This function may return the result in different ways:
+ * - A string:
+ *   A error message for general errors (timeouts, etc).
+ * - An array:
+ *   Of $id => $result values. The result is either TRUE for success
+ *   or a string with an error message.
+ * - An empty array:
+ *   All renewals are assumed to be successful.
+ * - Anything else:
+ *   Is considered an unspecified error and the user is notified.
+ *
  * @param object $account
  *   The user for which to renew.
  * @param array $loan_ids
  *   Ids of the loans to renew.
- * @return boolean
- *   Whether all loans were renewed.
+ * @return mixed
+ *   Renewal result.
  */
 function ding_provider_example_loan_renew_loans($account, $loan_ids) {
-  return TRUE;
+  $loans = ding_provider_example_loan_get_loans($account);
+  if ($loans == DING_PROVIDER_AUTH_REQUIRED) {
+    return $loans;
+  }
+
+  $result = array();
+  // Most providers wont need this much logic, but just hand the
+  // request to the backend and return its responses. But as we don't
+  // have a backend...
+  foreach ($loan_ids as $id) {
+    if (!isset($loans[$id])) {
+      $result[$id] = t('Unknown loan');
+    }
+    elseif ($loans[$id]['is_renewable']) {
+      if (strtotime($loans[$id]['due_date']) > $_SERVER['REQUEST_TIME']) {
+        $result[$id] = TRUE;
+      }
+      else {
+        $result[$id] = t('Cannot renew due');
+      }
+    }
+    else {
+      $result[$id] = t('Cannot renew');
+    }
+  }
+
+  return $result;
 }

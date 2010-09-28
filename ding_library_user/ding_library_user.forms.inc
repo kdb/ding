@@ -393,7 +393,42 @@ function ding_library_user_forms_loan_details_submit($form, $form_state) {
       break;
   }
 
-  ding_provider_invoke('loan', 'renew loans', $user, $selected);
+  $result = ding_provider_invoke('loan', 'renew loans', $user, $selected);
+  if (is_array($result)) {
+    if (sizeof($result)) {
+      $types = array();
+      // Flip the array so the keys are the message and the value the affected
+      // ids.
+      foreach ($result as $id => $res) {
+        $types[$res][] = $id;
+      }
+      // TODO: Add in material titles, but that requires that
+      // ding_library_user_forms_loan_details does the
+      // ding_provider_invoke('loan', 'details') thing before inserting the
+      // loans in the form, rather than the theming.
+      //
+      // Alternatively (or combined), an item_name function that attempts to
+      // use either ting_object->title, title, display_title, material_id or
+      // id to construct a name for the item.
+      foreach ($types as $res => $ids) {
+        if (is_string($res)) {
+          drupal_set_message(format_plural(sizeof($ids), '@message', '@count materials: @message', array('@message' => $res)), 'error');
+        }
+        else {
+          drupal_set_message(format_plural(sizeof($ids), 'Renewed 1 material.', 'Renewed @count materials.'));
+        }
+      }
+    }
+    else {
+      drupal_set_message(t('Materials renewed'));
+    }
+  }
+  elseif (is_string($result)) {
+    drupal_set_message($result, 'error');
+  }
+  else {
+    drupal_set_message(t('Error renewing materials'), 'error');
+  }
 }
 
 /**
