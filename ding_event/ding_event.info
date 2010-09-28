@@ -1,10 +1,17 @@
 ; $Id$
 name = Ding! event
-description = Controls the event content type.
+description = Controls the event content type and provides views, pages etc.
 package = Ding!
 core = 6.x
 dependencies[] = date_api
 dependencies[] = ding_base
 dependencies[] = ding_content
 dependencies[] = location
-
+dependencies[] = "content"
+dependencies[] = "page_manager"
+dependencies[] = "taxonomy"
+dependencies[] = "views_content"
+features[ctools][] = "page_manager:pages_default:1"
+features[page_manager_pages][] = "events_overview"
+features[views][] = "event_list"
+features[views_api][] = "api:2"
