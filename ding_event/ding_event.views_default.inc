@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Implementation of hook_views_default_views().
@@ -7,6 +6,7 @@
 function ding_event_views_default_views() {
   $views = array();
 
+  // Exported view: event_list
   $view = new view;
   $view->name = 'event_list';
   $view->description = 'List of coming events';
@@ -1781,7 +1781,7 @@ function ding_event_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'arrangementer/current/feed');
   $handler->override_option('menu', array(
@@ -2009,7 +2009,7 @@ function ding_event_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'arrangementer/feed');
   $handler->override_option('menu', array(
@@ -2233,7 +2233,7 @@ function ding_event_views_default_views() {
   $handler->override_option('row_plugin', 'node_rss');
   $handler->override_option('row_options', array(
     'relationship' => 'none',
-    'item_length' => 'teaser',
+    'item_length' => 'default',
   ));
   $handler->override_option('path', 'biblioteker/arrangementer/feed');
   $handler->override_option('menu', array(
@@ -2260,6 +2260,6 @@ function ding_event_views_default_views() {
   $handler->override_option('sitename_title', FALSE);
 
   $views[$view->name] = $view;
+
   return $views;
 }
-
