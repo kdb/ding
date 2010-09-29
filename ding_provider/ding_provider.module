@@ -21,6 +21,14 @@ function ding_provider_menu() {
     'file' => 'ding_provider.admin.inc',
   );
 
+  $items['admin/settings/ding_provider/%/settings'] = array(
+    'title' => 'Ding! provider plugin settings',
+    'page callback' => 'ding_provider_admin_plugin_settings_page',
+    'page arguments' => array(3),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_provider.admin.inc',
+  );
+
   return $items;
 }
 
@@ -113,7 +121,7 @@ function ding_provider_ctools_plugin_reservation() {
  * Sets up some sensible defaults.
  */
 function ding_provider_plugin_process(&$plugin, $info) {
-  $function_base = $plugin['module'] . '_' . $plugin['name'] . '_';
+  $function_base = $plugin['module'] . '_' . $plugin['plugin type'] . '_';
 
   if (isset($info['required functions'])) {
     foreach ($info['required functions'] as $name) {
