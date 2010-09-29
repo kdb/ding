@@ -70,6 +70,7 @@ function ding_provider_ctools_plugin_user() {
       'logged in',
     ),
     'optional functions' => array(
+      'settings form',
       'library settings form',
     ),
   );
