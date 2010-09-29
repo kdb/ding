@@ -85,6 +85,7 @@ function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
       if ($account->uid) {
         // Attach the Alma user id and name to the user object when it
         // is loaded, so it's available everywhere the user is.
+        // TODO: Remove this, provider handles linking up with backend.
         $data = db_fetch_array(db_query("SELECT * FROM {ding_library_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->library_user_id = $data['library_user_id'];
       }
@@ -97,6 +98,9 @@ function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
 
 /**
  * Implementation of hook_init().
+ *
+ * @todo
+ *   Remove when ding_library_user_user is removed.
  */
 function ding_library_user_init() {
   global $user;
@@ -399,6 +403,9 @@ function ding_library_user_format_date($datestring, $date_format) {
 
 /**
  * Implementation of loan form element.
+ *
+ * @todo
+ *   Is this used anywhere?
  */
 function ding_library_user_elements_loan_process($element, $form_state) {
   $element['#prefix'] = '<li class="loan loan-' . $element['#loan']['id'] . '">';
