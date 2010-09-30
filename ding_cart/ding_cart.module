@@ -32,7 +32,7 @@ function ding_cart_theme($existing, $type, $theme, $path) {
       'arguments' => array('object' => NULL),
       'file' => 'ding_cart.theme.inc',
     ),
-    'ding_cart_forms_cart_details' => array(
+    'ding_cart_list_form' => array(
       'arguments' => array('form' => NULL),
     ),
   );
@@ -46,7 +46,7 @@ function ding_cart_theme($existing, $type, $theme, $path) {
  *
  * @param TingClientObject $object
  * @return string
- * 
+ *
  * // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
  */
 function ding_cart_ting_object_buttons($object) {
@@ -55,7 +55,7 @@ function ding_cart_ting_object_buttons($object) {
 	  if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
 	    return;
 	  }
-    
+
     // TODO: Check if item is reserved/in basket already.
     drupal_add_js(drupal_get_path('module', 'ding_cart') . '/ding_cart.buttons.js');
 	  return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
@@ -121,23 +121,23 @@ function ding_cart_user_count($account) {
 /**
  * Theme function for Ding cart form.
  *
- * This has to be in the module file to get loaded properly. The theme 
- * system's support for external files is still lacking for preprocess 
+ * This has to be in the module file to get loaded properly. The theme
+ * system's support for external files is still lacking for preprocess
  * hooks and overriding theme functions.
  */
-function theme_ding_cart_forms_cart_details($form) {
+function theme_ding_cart_list_form($form) {
   $header = array(t('Select'), '', t('Title'));
   $rows = array();
   $output = '';
   $wait = $form['wait_time']['#value'];
 
-  foreach ($form['cart_data']['#value'] as $item) {
+  foreach ($form['cart']['#value'] as $item) {
     $cells = array();
 
-    if (isset($form['cart'][$item['local_id']])) {
+    if (isset($form['selected'][$item['local_id']])) {
       $cells['checkbox'] = array(
         'class' => 'checkbox',
-        'data' => drupal_render($form['cart'][$item['local_id']]),
+        'data' => drupal_render($form['selected'][$item['local_id']]),
       );
     }
     else {

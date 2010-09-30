@@ -10,7 +10,7 @@
  *    The user object for the cart we're looking at.
  * @return array
  */
-function ding_cart_forms_cart_details(&$form_state, $account) {
+function ding_cart_list_form(&$form_state, $account) {
   $form = array();
 
   $form['account'] = array(
@@ -18,32 +18,23 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     '#value' => $account,
   );
 
-  $form['cart_data'] = array(
+  $form['cart'] = array(
     '#type' => 'value',
     '#value' => array(),
   );
 
   // Fetch the cart data from the database.
   $query = db_query("SELECT * FROM {ding_cart} WHERE uid = %d;", $account->uid);
-  $local_ids = array();
+  $options = array();
   while ($row = db_fetch_array($query)) {
-    $form['cart_data']['#value'][$row['local_id']] = $row;
-    $local_ids[] = $row['local_id'];
+    $form['cart']['#value'][$row['local_id']] = $row;
+    $options[$row['local_id']] = '';
   }
 
-  $details = module_invoke_all('ding_get_object_details', join(',', $local_ids));
-
-  $form['cart'] = array(
-    // Set as tree to get all of our checkboxes as an subarray of values
-    // in the form_state['values'] array.
-    '#tree' => TRUE,
+  $form['selected'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $options,
   );
-
-  foreach ($form['cart_data']['#value'] as $item) {
-    $form['cart'][$item['local_id']] = array(
-      '#type' => 'checkbox',
-    );
-  }
 
   $form['remove'] = array(
     '#type' => 'submit',
@@ -51,6 +42,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
     '#attributes' => array('class' => 'remove-button'),
     '#weight' => 10,
     '#op' => 'remove',
+    '#submit' => array('ding_cart_list_form_delete_submit')
   );
 
   return $form;
@@ -59,7 +51,7 @@ function ding_cart_forms_cart_details(&$form_state, $account) {
 /**
  * Validation for cart details form.
  */
-function ding_cart_forms_cart_details_validate($form, &$form_state) {
+function ding_cart_list_form_validate($form, &$form_state) {
   $selected_items = array_keys(array_filter($form_state['values']['cart']));
 
   if (empty($selected_items)) {
@@ -79,11 +71,7 @@ function ding_cart_forms_cart_details_validate($form, &$form_state) {
 /**
  * Submit handler for cart details form.
  */
-function ding_cart_forms_cart_details_submit($form, &$form_state) {
-  switch ($form_state['clicked_button']['#op']) {
-    case 'remove':
-      db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . join(',', $form_state['values']['selected_items']) . ");", $form_state['values']['account']->uid);
-      break;
-  }
+function ding_cart_list_form_delete_submit($form, &$form_state) {
+  db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . join(',', $form_state['values']['selected_items']) . ");", $form_state['values']['account']->uid);
 }
 
