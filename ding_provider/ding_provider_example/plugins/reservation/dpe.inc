@@ -89,7 +89,7 @@ function ding_provider_example_reservation_list($account) {
  * populate extra data for display.
  *
  * Should implement internal per-request caching as it might be called
- * multiple times for the same loan, preferably using ctools_static.
+ * multiple times for the same reservation, preferably using ctools_static.
  *
  * @param array $reservations
  *   The reservation to add details to.
@@ -117,17 +117,25 @@ function ding_provider_example_reservation_details($reservation) {
  *
  * @param array $account
  *   The user to reserve for.
+ * @param array $provider_id
+ *   Id to reserve.
  * @return boolean
  *   Success or not.
  */
 function ding_provider_example_reservation_create($account, $provider_id) {
-  $cache = &ctools_static(__FUNCTION__, array());
-  if (!isset($cache[$reservation['id']])) {
-    $reservation['extra'] = 'Tadaaa!';
-    if ($reservation['provider_id'] and $object = ting_get_object_by_local_id($reservation['provider_id'])) {
-      $reservation['ting_object'] = $object;
-    }
-    $cache[$reservation['id']] = $reservation;
-  }
-  return $cache[$reservation['id']];
+  return FALSE;
+}
+
+/**
+ * Check if a reservation exists.
+ *
+ * @param array $account
+ *   The user to check for.
+ * @param array $provider_id
+ *   Id to reserve.
+ * @return boolean
+ *   TRUE or FALSE.
+ */
+function ding_provider_example_reservation_exists($account, $provider_id) {
+  return FALSE;
 }

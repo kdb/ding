@@ -67,7 +67,7 @@ function ding_provider_example_user_settings_form() {
 }
 
 /**
- * Form callback for library settings.
+ * Form callback for user library settings.
  *
  * This is a regular form callback.
  */

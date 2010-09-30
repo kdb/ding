@@ -111,7 +111,7 @@ function ding_provider_ctools_plugin_reservation() {
       // 'update',
       // 'delete',
       'list',
-      // 'exists',
+      'exists',
       'details',
     ),
   );
@@ -124,7 +124,6 @@ function ding_provider_ctools_plugin_reservation() {
  */
 function ding_provider_plugin_process(&$plugin, $info) {
   $function_base = $plugin['module'] . '_' . $plugin['plugin type'] . '_';
-
   if (isset($info['required functions'])) {
     foreach ($info['required functions'] as $name) {
       if (empty($plugin[$name])) {
@@ -134,7 +133,7 @@ function ding_provider_plugin_process(&$plugin, $info) {
         }
         else {
           // Plugin developer forgot to implement a required function.
-          trigger_error(t('Ding provider plugin %plugin (%module module) does not implement %function', array('%plugin' => $plugin['name'], '%function' => $name, '%module' => $plugin['module'])), E_USER_ERROR);
+          trigger_error(t('Ding @type provider plugin %plugin (%module module) does not implement %function', array('@type' => $info['type'], '%plugin' => $plugin['name'], '%function' => $name, '%module' => $plugin['module'])), E_USER_ERROR);
           // This disables this plugin. If plugin info is cached, this ensures
           // that this module isn't selected.
           $plugin['version'] = 0;
@@ -203,7 +202,7 @@ function ding_provider_invoke() {
     // Trigger an error. This might be a module attempting to use a wrong
     // hook, or an improperly implemented plugin. In either case, it's
     // programmer error.
-    trigger_error(t('Ding provider plugin %plugin (%module module) does not implement %function', array('%plugin' => $plugin['name'], '%function' => $hook, '%module' => $plugin['module'])), E_USER_ERROR);
+    trigger_error(t('Ding @type provider plugin %plugin (%module module) does not implement %function', array('@type' => $type,'%plugin' => $plugin['name'], '%function' => $hook, '%module' => $plugin['module'])), E_USER_ERROR);
   }
   else {
     watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
