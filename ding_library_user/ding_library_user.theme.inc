@@ -6,242 +6,14 @@
  *
  * Usually a list of reservations, books, etc, coming from Alma.
  */
-function theme_ding_library_user_record_list($records) {
+function theme_ding_library_user_record_list($type, $records) {
   module_load_include('client.inc', 'ting');
   $items = array();
   foreach ($records as $rec) {
-    $items[] = theme('ding_library_user_list_item', $rec);
+    $items[] = theme('ding_library_user_list_item', $type, $rec);
   }
 
   return theme('item_list', $items, NULL, 'ul', array('class' => 'record-list'));
-}
-
-/**
- * Theming of reservation details form.
- */
-function theme_ding_library_user_forms_reservation_details($form) {
-  $date_format = variable_get('date_format_date_short', 'Y-m-d');
-  $output = '';
-  $branches = ding_provider_invoke('organisation', 'get branches');
-  module_load_include('client.inc', 'ting');
-
-  if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
-    $header = array(
-      t('Select'),
-      '',
-      t('Title'),
-      t('Pickup number'),
-      t('Pickup by'),
-      t('Pickup branch'),
-    );
-
-        $colgroups = array(
-      array(
-        array(
-          'class' => 'col-selection',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-image',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-title',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-pickup-number',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-pickup-by',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-pickup-branch',
-        ),
-      ),
-    );
-
-    $rows = array();
-
-    foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
-      $cells = array();
-
-      if (isset($form['reservations'][$item['id']])) {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox',
-          'data' => drupal_render($form['reservations'][$item['id']]),
-        );
-      }
-      else {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox empty',
-          'data' => '–',
-        );
-      }
-
-      $image_url = ting_covers_faust_url($item['record_id'], '80_x');
-      $cells['image'] = array(
-        'class' => 'image',
-        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
-      );
-
-      $cells['title'] = array(
-        'class' => 'title',
-        'data' => theme('ding_library_user_list_item', $item) . ' (<span class="reservation-number">' . t('Res. no @num', array('@num' => $item['id'])) . '</span>)',
-      );
-
-      $cells['pickup_number'] = array(
-        'class' => 'pickup_number',
-        'data' => $item['pickup_number'],
-      );
-
-      $cells['pickup_expire_date'] = array(
-        'class' => 'pickup_expire_date',
-        'data' => ding_library_user_format_date($item['pickup_expire_date'], $date_format),
-      );
-
-      $cells['pickup_branch'] = array(
-        'class' => 'pickup_branch',
-        'data' => isset($branches[$item['pickup_branch']]) ? $branches[$item['pickup_branch']] : t('Unknown'),
-      );
-
-      $rows[] = $cells;
-    }
-
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable', 'colgroups' => $colgroups), t('Reservations ready for pickup'));
-  }
-
-  if (!empty($form['reservation_data']['#grouped']['active'])) {
-    $header = array(
-      t('Select'),
-      '',
-      t('Title'),
-      t('Reserved'),
-      t('Valid to'),
-      t('Pickup branch'),
-      t('Queue number'),
-    );
-
-    $colgroups = array(
-      array(
-        array(
-          'class' => 'col-selection',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-image',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-title-res',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-reservation',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-valied-to',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-pickup-branch',
-        ),
-      ),
-      array(
-        array(
-          'class' => 'col-queue-number',
-        ),
-      ),
-    );
-
-    $rows = array();
-    foreach ($form['reservation_data']['#grouped']['active'] as $item) {
-      $cells = array();
-
-      if (isset($form['reservations'][$item['id']])) {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox',
-          'data' => drupal_render($form['reservations'][$item['id']]),
-        );
-      }
-      else {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox empty',
-          'data' => '–',
-        );
-      }
-
-      $image_url = ting_covers_faust_url($item['record_id'], '80_x');
-      $cells['image'] = array(
-        'class' => 'image',
-        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
-      );
-
-      $cells['title'] = array(
-        'class' => 'title',
-        'data' => theme('ding_library_user_list_item', $item) . ' (<span class="reservation-number">' . t('Res. no @num', array('@num' => $item['id'])) . '</span>)',
-      );
-
-      $cells['create_date'] = array(
-        'class' => 'create_date',
-        'data' => ding_library_user_format_date($item['create_date'], $date_format),
-      );
-
-      $cells['valid_to'] = array(
-        'class' => 'valid_to',
-        'data' => ding_library_user_format_date($item['valid_to'], $date_format),
-      );
-
-      $cells['pickup_branch'] = array(
-        'class' => 'pickup_branch',
-        'data' => isset($branches[$item['pickup_branch']]) ? $branches[$item['pickup_branch']] : t('Unknown'),
-      );
-
-      $cells['queue_no'] = array(
-        'class' => 'queue_no',
-        'data' => $item['queue_no'],
-      );
-
-      $rows[] = array(
-        'data' => $cells,
-        'class' => 'active-reservations',
-      );
-    }
-
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-active', 'colgroups' => $colgroups), t('Active reservations'));
-  }
-
-  if (empty($output)) {
-    return t('No reservations found.');
-  }
-
-  $output .= '<div class="update-controls clear-block">';
-  $output .= drupal_render($form['new_expiry']);
-  $output .= drupal_render($form['new_pickup_branch']);
-  $output .= '</div>';
-
-  // fisk
-  $output .= '<div class="update-controls-button clear-block">';
-  $output .= drupal_render($form['update']);
-  $output .= drupal_render($form['remove']);
-  $output .= '</div>';
-
-  $output .= drupal_render($form);
-
-  return $output;
 }
 
 /**
@@ -324,7 +96,7 @@ function theme_ding_library_user_forms_loan_details($form) {
 
       $cells['title'] = array(
         'class' => 'title',
-        'data' => theme('ding_library_user_list_item', $loan),
+        'data' => theme('ding_library_user_list_item', 'loan', $loan),
       );
 
       $cells['loan_date'] = array(
@@ -424,7 +196,7 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
    * - $url: Url of item.
    * - $remote_loan: Boolean.
    */
-  $item = ding_provider_invoke('loan', 'details', $vars['item']);
+  $item = ding_provider_invoke($vars['type'], 'details', $vars['item']);
   $vars['item'] = $item;
 
   if ($item['ting_object']) {

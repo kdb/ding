@@ -105,7 +105,7 @@ function ding_library_user_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'left';
-    $pane->type = 'profile';
+    $pane->type = 'reservation_list';
     $pane->subtype = 'ding_library_user_reservations_details';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -259,7 +259,7 @@ function ding_library_user_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
-    $pane->type = 'profile';
+    $pane->type = 'reservation_list';
     $pane->subtype = 'ding_library_user_reservations_list';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -302,7 +302,7 @@ function ding_library_user_default_page_manager_pages() {
   $page->default_handlers[$handler->name] = $handler;
 
   $pages['ding_library_user_debts'] = $page;
-  
+
   return $pages;
 }
 

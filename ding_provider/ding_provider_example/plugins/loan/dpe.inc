@@ -27,7 +27,7 @@ function ding_provider_example_loan_get_loans($account) {
       // made about it, however it should be a sting value suitable for values
       // in forms and the like.
       'id' => '123',
-      // Materials number. Is shown to the user.
+      // Materials number, optional. Is shown to the user.
       'materials_number' => 1238141,
       // Date of the loan, optional. Format: YYYY-MM-DD.
       'loan_date' => '2010-09-15',
