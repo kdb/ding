@@ -31,14 +31,6 @@ function ding_library_user_profile_content_type_content_types() {
       'title' => t('Library settings'),
       'description' => t('The user’s library settings. Allows the user to choose a preferred library and suspend his reservations for a period.'),
     ),
-    'ding_library_user_reservations_list' => array(
-      'title' => t('Reservation list'),
-      'description' => t('A simple list of the user’s reservations.'),
-    ),
-    'ding_library_user_reservations_details' => array(
-      'title' => t('Reservation details'),
-      'description' => t('A detailed list of the user’s reservations.'),
-    ),
     'ding_library_user_loans_list' => array(
       'title' => t('Loan list'),
       'description' => t('A simple list of the user’s loans.'),
@@ -90,28 +82,11 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         }
         break;
 
-      case 'ding_library_user_reservations_list':
-        // TODO: move to ding_reservation
-        $list = ding_provider_invoke('reservation', 'list', $account);
-        if ($list != DING_PROVIDER_AUTH_REQUIRED) {
-          $block->title = t('Your reservations');
-          $block->content = theme('ding_library_user_record_list', $list);
-        }
-        break;
-
-      case 'ding_library_user_reservations_details':
-        // TODO: move to ding_reservation
-        module_load_include('forms.inc', 'ding_library_user');
-        $list = module_invoke_all('reservation', 'list', $account);
-        $block->title = t('Your reservations');
-        $block->content = drupal_get_form('ding_library_user_forms_reservation_details', $account, $list);
-        break;
-
       case 'ding_library_user_loans_list':
         $list = ding_provider_invoke('loan', 'get loans', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your loans');
-          $block->content = theme('ding_library_user_record_list', $list);
+          $block->content = theme('ding_library_user_record_list', 'loan', $list);
         }
         break;
       case 'ding_library_user_loans_details':
@@ -168,10 +143,6 @@ function ding_library_user_profile_content_type_admin_title($subtype, $conf, $co
       return t('“@s”: Personal information', array('@s' => $context->identifier));
     case 'ding_library_user_library_settings':
       return t('“@s”: Library settings', array('@s' => $context->identifier));
-    case 'ding_library_user_reservations_list':
-      return t('“@s”: Reservation list', array('@s' => $context->identifier));
-    case 'ding_library_user_reservations_details':
-      return t('“@s”: Reservation details', array('@s' => $context->identifier));
     case 'ding_library_user_loans_list':
       return t('“@s”: Loan list', array('@s' => $context->identifier));
     case 'ding_library_user_loans_details':

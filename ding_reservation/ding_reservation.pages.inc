@@ -17,7 +17,7 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
 
   $user = $GLOBALS['user'];
 
-  $reservation_exists = ding_provider_invoke('reservation', 'list', $user, $item_id);
+  $reservation_exists = ding_provider_invoke('reservation', 'exists', $user, $item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -113,7 +113,10 @@ function ding_reservation_confirm_form(&$form_state, $account, $object) {
 
 /**
  * Submit handler for Ding cart confirmation form.
- * TODO Not all library systems may support reservations - move/refactor this
+ *
+ * @todo:
+ * Do we really need a confirm form? If we do, it should show
+ * reservation options too.
  */
 function ding_reservation_confirm_form_submit($form, &$form_state) {
   $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));

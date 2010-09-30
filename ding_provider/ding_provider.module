@@ -108,10 +108,11 @@ function ding_provider_ctools_plugin_reservation() {
     ),
     'required functions' => array(
       'create',
-      'update',
-      'delete',
+      // 'update',
+      // 'delete',
       'list',
-      'exists',
+      // 'exists',
+      'details',
     ),
   );
 }
