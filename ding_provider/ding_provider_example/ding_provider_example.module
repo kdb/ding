@@ -323,20 +323,20 @@ function ding_provider_example_form_ding_reservation_list_form_alter(&$form, $fo
     '#type' => 'submit',
     '#value' => t('Save changes for selected reservations'),
     '#attributes' => array('class' => 'update-button'),
-    '#validate' => array('ding_provider_example_form_ding_reservation_list_form_validate'),
-    '#submit' => array('ding_provider_example_form_ding_reservation_list_form_update'),
+    '#validate' => array('ding_provider_example_ding_reservation_list_form_validate'),
+    '#submit' => array('ding_provider_example_ding_reservation_list_form_update'),
   );
 
   $form['buttons']['remove'] = array(
     '#type' => 'submit',
     '#value' => t('Delete selected reservations'),
     '#attributes' => array('class' => 'cancel-button'),
-    '#submit' => array('ding_provider_example_form_ding_reservation_list_form_remove'),
+    '#submit' => array('ding_provider_example_ding_reservation_list_form_remove'),
   );
 
 }
 
-function ding_provider_example_form_ding_reservation_list_form_validate($form, $form_state) {
+function ding_provider_example_ding_reservation_list_form_validate($form, $form_state) {
   $reservations = $form_state['values']['reservations'];
   foreach (array_filter($form_state['values']['selected']) as $id) {
     // Detect fetable reservations...
@@ -370,7 +370,7 @@ function ding_provider_example_form_ding_reservation_list_form_validate($form, $
  *
  * Updates selected reservations.
  */
-function ding_provider_example_form_ding_library_user_reservation_list_form_update($form, $form_state) {
+function ding_provider_example_ding_reservation_list_form_update($form, $form_state) {
   $reservations_ids = array_filter($form_state['values']['selected']);
   // Here you would do something like:
   //ding_provider_example_reservation_update($reservations_ids, $form_state['values']['options']);
@@ -382,7 +382,7 @@ function ding_provider_example_form_ding_library_user_reservation_list_form_upda
 /**
  * Implements hook_form_alter
  */
-function ding_reservation_form_ding_cart_list_form_alter(&$form, &$form_state) {
+function ding_provider_example_form_ding_cart_list_form_alter(&$form, &$form_state) {
 
   $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : DING_LIBRARY_USER_DEFAULT_INTEREST_PERIOD;
 
@@ -408,14 +408,14 @@ function ding_reservation_form_ding_cart_list_form_alter(&$form, &$form_state) {
     '#value' => t('Reserve selected'),
     '#attributes' => array('class' => 'reserve-button'),
     '#op' => 'reserve',
-    '#submit' => array('ding_reservation_form_ding_cart_list_form_submit'),
+    '#submit' => array('ding_provider_example_ding_cart_list_form_submit'),
   );
 }
 
 /**
  * Custom submit handler
  */
-function ding_reservation_form_ding_cart_list_form_submit($form, &$form_state) {
+function ding_provider_example_ding_cart_list_form_submit($form, &$form_state) {
   foreach ($form_state['values']['selected'] as $local_id) {
     $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $local_id, array('valid_to' => $form_state['values']['expiry'], 'pickup_branch' => $form_state['values']['pickup_branch']));
 
