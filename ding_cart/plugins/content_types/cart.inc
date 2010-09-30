@@ -9,7 +9,7 @@
 /**
  * Callback function to supply a list of content types.
  *
- * This is only required to make CTools know that we're providing 
+ * This is only required to make CTools know that we're providing
  * multiple types here (since we have no single => TRUE in the array).
  */
 function ding_cart_cart_ctools_content_types() {
@@ -36,7 +36,7 @@ function ding_cart_cart_content_type_content_types() {
       'required context' => new ctools_context_required(t('Patron'), 'user'),
     );
   }
-  
+
   return $types;
 }
 
@@ -52,7 +52,7 @@ function ding_cart_cart_content_type_render($subtype, $conf, $panel_args, $conte
       $account = isset($context->data) ? drupal_clone($context->data) : NULL;
       if ($account->uid) {
         module_load_include('forms.inc', 'ding_cart');
-        $block->content = drupal_get_form('ding_cart_forms_cart_details', $account);
+        $block->content = drupal_get_form('ding_cart_list_form', $account);
       }
       break;
   }
@@ -73,7 +73,7 @@ function ding_cart_cart_content_type_admin_title($subtype, $conf, $context) {
 /**
  * Returns an edit form for the content type.
  *
- * We're not actually doing anything here, but we need to have this hook 
+ * We're not actually doing anything here, but we need to have this hook
  * for this content type to work.
  */
 function ding_cart_cart_content_type_edit_form(&$form, &$form_state) {
