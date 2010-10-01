@@ -136,7 +136,7 @@ function ding_library_user_theme($existing, $type, $theme, $path) {
     ),
     'ding_library_user_record_list' => array(
       'arguments' => array(
-        'type' => NULL,
+        'provider_type' => NULL,
         'records' => array(),
       ),
       'file' => 'ding_library_user.theme.inc',
@@ -150,12 +150,12 @@ function ding_library_user_theme($existing, $type, $theme, $path) {
       'file' => 'ding_library_user.theme.inc',
     ),
     'ding_library_user_list_item' => array(
-      'arguments' => array('type' => NULL, 'item' => NULL),
+      'arguments' => array('provider_type' => NULL, 'item' => NULL),
       'template' => 'ding-library-user-list-item',
       'file' => 'ding_library_user.theme.inc',
     ),
     'ding_library_user_list_item_image' => array(
-      'arguments' => array('type', 'item' => NULL, $preset = NULL),
+      'arguments' => array('provider_type', 'item' => NULL, $preset = NULL),
       'file' => 'ding_library_user.theme.inc',
     ),
   );

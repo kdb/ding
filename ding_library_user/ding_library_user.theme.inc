@@ -195,7 +195,7 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
    * - $url: Url of item.
    * - $remote_loan: Boolean.
    */
-  $item = ding_provider_invoke($vars['type'], 'details', $vars['item']);
+  $item = ding_provider_invoke($vars['provider_type'], 'details', $vars['item']);
   $vars['item'] = $item;
 
   if ($item['ting_object']) {
