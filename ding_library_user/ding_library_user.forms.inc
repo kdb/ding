@@ -39,13 +39,13 @@ function ding_library_user_forms_authenticate($form_state, $account, $explanatio
     '#value' => $account,
   );
 
-  $form['borr_card'] = array(
-    '#type' => 'password',
+  $form['name'] = array(
+    '#type' => 'textfield',
     '#title' => t('Borrower card'),
     '#required' => TRUE,
   );
 
-  $form['pin_code'] = array(
+  $form['pass'] = array(
     '#type' => 'password',
     '#title' => t('PIN code'),
     '#required' => TRUE,
@@ -63,18 +63,31 @@ function ding_library_user_forms_authenticate($form_state, $account, $explanatio
  * Validation for authentication form.
  */
 function ding_library_user_forms_authenticate_validate($form, &$form_state) {
-  // Lookup user data
-  $data = module_invoke_all('ding_library_user_get_info', array('user_id' => $form_state['values']['user_id'], 'password' => $form_state['values']['password']));
-  $data = array_shift($data);
+    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
 
-  // If we got no data or account IDs do not match, it usually means that the
-  // user supplied the wrong credentials.
-  if (!$data || $data['user_id'] != $form_state['values']['account']->library_user_id) {
-    form_set_error('user_id', t('Invalid user name or password'));
+  if (!is_array($auth_res) || !isset($auth_res['result'])) {
+    watchdog('ding_library_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+    return;
+  }
+
+  if ($auth_res['result']) {
+    $user = $form_state['values']['account'];
+    if (isset($auth_res['creds'])) {
+      $_SESSION['ding_library_user_creds'][$user->uid] = $auth_res['creds'];
+    }
+    if (isset($auth_res['properties'])) {
+      foreach ($auth_res['properties'] as $key => $value) {
+        $user->$key = $value;
+      }
+    }
+    form_set_value($form['account'], $user, $form_state);
   }
   else {
-    // Validation succeeded, so cache the correct credentials.
-    ding_library_user_cache_credentials($card, $form_state['values']['user_id'], $form_state['values']['password']);
+    if (isset($auth_res['messages'])) {
+      foreach ($auth_res['messages'] as $message) {
+        form_error($form['name'], $message);
+      }
+    }
   }
 }
 
