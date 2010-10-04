@@ -134,6 +134,7 @@ function ding_provider_ctools_plugin_availability() {
       'description' => '',
     ),
     'required functions' => array(
+      'items',
       'details',
     ),
   );
