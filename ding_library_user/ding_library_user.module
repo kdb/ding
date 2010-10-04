@@ -115,6 +115,30 @@ function ding_library_user_init() {
 }
 
 /**
+ * Implementation of hook_cron().
+ *
+ * Delete credentials after a while.
+ */
+function ding_library_user_cron() {
+  $expire_time = $_SERVER['REQUEST_TIME'] - variable_get('ding_library_user_credential_cache_duration', 1800);
+  $res = db_query("SELECT sid, session, timestamp FROM {sessions} WHERE timestamp < %d", $expire_time);
+  // As the only PHP functions that reads and writes the
+  // almost-but-not-quite-serialized-data format of sessions does it to/from
+  // the current session, we're using our own session as a scratchpad.
+  $old_session = $_SESSION;
+  while ($row = db_fetch_object($res)) {
+    $_SESSION = array();
+    session_decode($row->session);
+    if (isset($_SESSION['ding_library_user_creds'])) {
+      unset($_SESSION['ding_library_user_creds']);
+      $new_session = session_encode();
+      db_query("UPDATE {sessions} SET session = '%s' WHERE sid = %d AND timestamp = %d", $new_session, $row->sid, $row->timestamp);
+    }
+  }
+  $_SESSION = $old_session;
+}
+
+/**
  * Implementation of hook_theme().
  */
 function ding_library_user_theme($existing, $type, $theme, $path) {
@@ -191,7 +215,11 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-      // Add our own validation and submit handlers.
+      // Add our own validation handler, before the default Drupal login
+      // validator.
+      array_splice($form['#validate'], array_search('user_login_authenticate_validate', $form['#validate']), 0, 'ding_library_user_user_login_validate');
+
+      // Add our own submit handler.
       $form['#submit'][] = 'ding_library_user_login_submit';
 
       // Remove the standard user login links.
@@ -249,6 +277,45 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
 
     	$form['name']["#default_value"] = (isset($user->display_name) && $user->display_name) ? $user->display_name : $user->name;
     	break;
+  }
+}
+
+/**
+ * Validation handler for the login form.
+ */
+function ding_library_user_user_login_validate($form, &$form_state) {
+  global $user;
+  $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+
+  if (!is_array($auth_res) || !isset($auth_res['result'])) {
+    watchdog('ding_library_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+    return;
+  }
+
+  if ($auth_res['result']) {
+    $auth_name = md5(drupal_get_private_key() . $form_values['name']) . '@ding_library_user';
+    user_external_login_register($auth_name, 'ding_library_user');
+
+    if (isset($auth_res['properties'])) {
+      foreach ($auth_res['properties'] as $key => $value) {
+        $user->$key = $value;
+      }
+    }
+    // Finalize login.
+    user_authenticate_finalize($form_values);
+
+    // user_authenticate_finalize above just regenerated the session, so we've
+    // waited until now to stuff things in it.
+    if (isset($auth_res['creds'])) {
+      $_SESSION['ding_library_user_creds'][$user->uid] = $auth_res['creds'];
+    }
+  }
+  else {
+    if (isset($auth_res['messages'])) {
+      foreach ($auth_res['messages'] as $message) {
+        drupal_set_message($message, 'error');
+      }
+    }
   }
 }
 
@@ -325,6 +392,17 @@ function ding_library_user_forms_access($name, $account) {
       break;
   }
   return FALSE;
+}
+
+/**
+ * Get provider credentials for user.
+ */
+function ding_library_user_get_credentials($account) {
+  // See if we have credentials for the given user in the session.
+  if ($_SESSION['ding_library_user_creds'][$account->uid]) {
+    return $_SESSION['ding_library_user_creds'][$account->uid];
+  }
+  return DING_PROVIDER_AUTH_REQUIRED;
 }
 
 /**

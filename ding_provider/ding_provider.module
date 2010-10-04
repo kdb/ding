@@ -72,6 +72,7 @@ function ding_provider_ctools_plugin_user() {
       'description' => '',
     ),
     'required functions' => array(
+      'authenticate',
       'logged in',
     ),
     'optional functions' => array(
@@ -135,6 +136,25 @@ function ding_provider_ctools_plugin_availability() {
     ),
     'required functions' => array(
       'items',
+      'details',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_PLUGIN().
+ */
+function ding_provider_ctools_plugin_booking() {
+  return array(
+    'cache' => TRUE,
+    'process' => 'ding_provider_plugin_process',
+    'defaults' => array(
+      'version' => 1,
+      'description' => '',
+    ),
+    'required functions' => array(
+      'create',
+      'list',
       'details',
     ),
   );
