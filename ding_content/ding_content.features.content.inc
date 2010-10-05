@@ -1578,7 +1578,7 @@ function ding_content_content_default_fields() {
       ),
       'full' => array(
         'format' => '120_120_default',
-        'exclude' => 1,
+        'exclude' => 0,
       ),
     ),
     'widget_active' => '1',
