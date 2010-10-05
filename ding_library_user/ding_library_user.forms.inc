@@ -75,11 +75,6 @@ function ding_library_user_forms_authenticate_validate($form, &$form_state) {
     if (isset($auth_res['creds'])) {
       $_SESSION['ding_library_user_creds'][$user->uid] = $auth_res['creds'];
     }
-    if (isset($auth_res['properties'])) {
-      foreach ($auth_res['properties'] as $key => $value) {
-        $user->$key = $value;
-      }
-    }
     form_set_value($form['account'], $user, $form_state);
   }
   else {
