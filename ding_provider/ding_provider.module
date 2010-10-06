@@ -57,6 +57,11 @@ function _ding_provider_types() {
       'current version' => 1,
       'minimum version' => 1
     ),
+    'booking' => array(
+      'name' => t('Booking'),
+      'current version' => 1,
+      'minimum version' => 1
+    ),
   );
 }
 
@@ -96,6 +101,8 @@ function ding_provider_ctools_plugin_loan() {
     'required functions' => array(
       'get loans',
       'renew loans',
+    ),
+    'optional functions' => array(
       'details',
     ),
   );
@@ -118,6 +125,8 @@ function ding_provider_ctools_plugin_reservation() {
       // 'delete',
       'list',
       'exists',
+    ),
+    'optional functions' => array(
       'details',
     ),
   );
@@ -136,6 +145,8 @@ function ding_provider_ctools_plugin_availability() {
     ),
     'required functions' => array(
       'items',
+    ),
+    'optional functions' => array(
       'details',
     ),
   );
@@ -155,6 +166,8 @@ function ding_provider_ctools_plugin_booking() {
     'required functions' => array(
       'create',
       'list',
+    ),
+    'optional functions' => array(
       'details',
     ),
   );

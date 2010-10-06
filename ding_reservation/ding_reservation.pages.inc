@@ -22,7 +22,6 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   if ($is_ahah) {
     $reply = array();
     $result = ding_provider_invoke('reservation', 'create', $user, $item_id);
-    watchdog('debug', 'res: ' . print_r($result, true), NULL, WATCHDOG_DEBUG);
     switch ($result['status']) {
       case DING_RESERVATION_SUCCESS:
         $reply['status'] = 'success';
