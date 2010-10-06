@@ -76,18 +76,10 @@ function theme_ding_library_user_forms_loan_details($form) {
       $loan = $form['loan_data']['#value'][$key];
       $cells = array();
 
-      if (isset($form['loans'][$key])) {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox',
-          'data' => drupal_render($form['loans'][$key]),
-        );
-      }
-      else {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox empty',
-          'data' => theme('image', drupal_get_path('module', 'ding_library_user').'/img/checkbox-blocked.jpg', t('Unable to renew loan'), t('Unable to renew loan')),
-        );
-      }
+      $cells['checkbox'] = array(
+        'class' => 'checkbox',
+        'data' => drupal_render($form['loans'][$key]),
+      );
 
       $cells['image'] = array(
         'class' => 'image',
@@ -196,8 +188,13 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
    * - $url: Url of item.
    * - $remote_loan: Boolean.
    */
-  $item = ding_provider_invoke($vars['provider_type'], 'details', $vars['item']);
+  if (ding_provider_supports($vars['provider_type'], 'details')) {
+    $item = ding_provider_invoke($vars['provider_type'], 'details', $vars['item']);
   $vars['item'] = $item;
+  }
+  else {
+    $item = $vars['item'];
+  }
 
   if ($item['ting_object']) {
     $object = $item['ting_object'];
@@ -227,7 +224,9 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
       $vars['authors'] = $item['authors'];
     }
   }
-  $vars['remote_loan'] = isset($item['remote_loan']) ? ((bool) $item['remote_loan']) : FALSE;
+  if ($vars['provider_type'] == 'loan') {
+    $vars['remote_loan'] = isset($item['remote_loan']) ? ((bool) $item['remote_loan']) : FALSE;
+  }
   $vars['materials_number'] = isset($item['materials_number']) ? $item['materials_number'] : '';
 }
 
@@ -235,7 +234,10 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
  * Theme an image for a list item.
  */
 function theme_ding_library_user_list_item_image($type, $item, $preset) {
-  $item = ding_provider_invoke($type, 'details', $item);
+  if (ding_provider_supports($type, 'details')) {
+    $item = ding_provider_invoke($type, 'details', $item);
+  }
+
   if ($item['ting_object']) {
     $image_url = ting_covers_faust_url($item['ting_object']->id, $preset);
     return ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '';

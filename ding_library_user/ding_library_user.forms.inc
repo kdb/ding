@@ -212,11 +212,13 @@ function ding_library_user_forms_loan_details($form_state, $account, $records) {
   );
 
   foreach ($records as $loan) {
+    $form['loans'][$loan['id']] = array(
+      '#type' => 'checkbox',
+      '#disabled' => TRUE,
+    );
     if ($loan['is_renewable']) {
+      $form['loans'][$loan['id']]['#disabled'] = FALSE;
       $renew_buttons = TRUE;
-      $form['loans'][$loan['id']] = array(
-        '#type' => 'checkbox',
-      );
     }
   }
 
