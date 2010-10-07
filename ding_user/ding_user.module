@@ -40,8 +40,8 @@ function ding_user_menu_alter(&$items) {
 
   // Rename and only show user edit tab for secure roles 
   $items['user/%user_category/edit']['title'] = 'Settings';
-  $items['user/%user_category/edit']['access callback'] = 'ding_user_has_secure_role';
-  $items['user/%user_category/edit']['access arguments'] =  array(1);
+  $items['user/%user_category/edit']['access callback'] = 'ding_user_forms_access';
+  $items['user/%user_category/edit']['access arguments'] =  array('edit', 1);
 }
 
 /**
@@ -246,7 +246,7 @@ function ding_user_forms_access($name, $account) {
       break;
     case 'edit':
     	//Only users with a secure role has access to the edit panel
-    	return $account->has_secure_role;
+    	return user_edit_access($account) && $account->has_secure_role;
   }
 }
 
