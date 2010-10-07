@@ -86,18 +86,6 @@ function ding_page_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_menu_order';
-  $strongarm->value = array(
-    'primary-links' => '',
-    'secondary-links' => '',
-    'menu-english-pages' => '',
-    'menu-organisation' => '',
-  );
-
-  $export['menu_block_menu_order'] = $strongarm;
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'node_options_page';
   $strongarm->value = array(
     0 => 'status',
