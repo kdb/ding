@@ -23,10 +23,6 @@ function ding_library_user_profile_ctools_content_types() {
  */
 function ding_library_user_profile_content_type_content_types() {
   $types = array(
-    'ding_library_user_personal_info' => array(
-      'title' => t('Personal information'),
-      'description' => t('Display of the user’s personal information, with options to edit them.'),
-    ),
     'ding_library_user_library_settings' => array(
       'title' => t('Library settings'),
       'description' => t('The user’s library settings. Allows the user to choose a preferred library and suspend his reservations for a period.'),
@@ -69,12 +65,6 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
 
   if (ding_provider_invoke('user', 'logged in', $account)) {
     switch ($subtype) {
-      case 'ding_library_user_personal_info':
-        $data = ding_provider_invoke('user', 'get info', $account);
-        $block->title = t('Your profile');
-        $block->content = theme('ding_library_user_personal_info', $account, $data);
-        break;
-
       case 'ding_library_user_library_settings':
         if (ding_provider_supports('user', 'library settings form')) {
           $block->title = t('Your library');
@@ -125,7 +115,7 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         break;
     }
   }
-  elseif ($subtype == 'ding_library_user_personal_info') {
+  elseif ($subtype == 'ding_library_user_library_settings') {
     // TODO: Change the blocks above for those that should always be
     // shown, to tell the user that they need to log in.
     $block->content = t('Error fetching your library user profile.');
@@ -139,8 +129,6 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
  */
 function ding_library_user_profile_content_type_admin_title($subtype, $conf, $context) {
   switch($subtype) {
-    case 'ding_library_user_personal_info':
-      return t('“@s”: Personal information', array('@s' => $context->identifier));
     case 'ding_library_user_library_settings':
       return t('“@s”: Library settings', array('@s' => $context->identifier));
     case 'ding_library_user_loans_list':

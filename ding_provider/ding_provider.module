@@ -165,6 +165,7 @@ function ding_provider_ctools_plugin_booking() {
     ),
     'required functions' => array(
       'create',
+      'options',
       'list',
     ),
     'optional functions' => array(
