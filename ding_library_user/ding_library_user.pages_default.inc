@@ -23,14 +23,14 @@ function ding_library_user_default_page_manager_pages() {
   $page->path = 'user/%user/status';
   $page->access = array(
     'plugins' => array(
-      '0' => array(
+      0 => array(
         'name' => 'compare_users',
         'settings' => array(
           'equality' => '1',
         ),
         'context' => array(
-          '0' => 'argument_uid_1',
-          '1' => 'logged-in-user',
+          0 => 'argument_uid_1',
+          1 => 'logged-in-user',
         ),
       ),
     ),
@@ -75,15 +75,24 @@ function ding_library_user_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
-  $display->panel_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'profile';
@@ -96,13 +105,16 @@ function ding_library_user_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'left';
     $pane->type = 'reservation_list';
@@ -115,7 +127,9 @@ function ding_library_user_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array(
       'css_id' => 'reservation',
       'css_class' => '',
@@ -125,7 +139,30 @@ function ding_library_user_default_page_manager_pages() {
     $display->content['new-2'] = $pane;
     $display->panels['left'][1] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
+    $pane->panel = 'left';
+    $pane->type = 'booking_list';
+    $pane->subtype = 'bookings_details';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-3'] = $pane;
+    $display->panels['left'][2] = 'new-3';
+    $pane = new stdClass;
+    $pane->api_version = 1;
+    $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'relevant';
     $pane->subtype = 'relevant_campaigns';
@@ -133,21 +170,24 @@ function ding_library_user_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'empty',
+        0 => 'empty',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->api_version = 1;
+    $pane->pid = 'new-5';
     $pane->panel = 'top';
     $pane->type = 'profile';
     $pane->subtype = 'ding_library_user_debts_notice';
@@ -159,15 +199,18 @@ function ding_library_user_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['top'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['top'][0] = 'new-5';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['user_library_status'] = $page;
 
   /**
    * User debts page.
