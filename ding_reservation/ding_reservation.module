@@ -15,7 +15,7 @@ define('DING_RESERVATION_ERROR_NOT_ALLOWED', 5);
 function ding_reservation_menu() {
   $items = array();
 
-  $items['ding/reservation/%'] = array(
+  $items['ding/reservation/%ting_local_id'] = array(
     'title' => 'Reserve item',
     'page callback' => 'ding_reservation_page_reserve_item',
     'page arguments' => array(2),
@@ -115,6 +115,7 @@ function ding_reservation_list_form($form_state, $account, $records) {
 
     $form['selected'][$reservation['id']] = array(
       '#type' => 'checkbox',
+      '#return_value' => $reservation['id'],
       '#disabled' => TRUE,
     );
     if ($reservation['status'] == 'active' || ($cancel_fetchable && $reservation['status'] == 'fetchable')) {

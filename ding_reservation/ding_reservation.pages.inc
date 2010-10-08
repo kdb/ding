@@ -4,19 +4,9 @@
 /**
  * Reserve an item immediately.
  */
-function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
+function ding_reservation_page_reserve_item($object, $reservable = NULL) {
   global $user;
-  module_load_include('client.inc', 'ting');
   $is_ahah = ding_reservation_detect_ahah();
-  // Get object, enrich if not ahah.
-  $object = ting_get_object_by_local_id($item_id, !$is_ahah);
-  if (!$object) {
-    return drupal_not_found();
-  }
-
-  $user = $GLOBALS['user'];
-
-  $reservation_exists = ding_provider_invoke('reservation', 'exists', $user, $item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -65,7 +55,9 @@ function ding_reservation_page_reserve_item($item_id, $reservable = NULL) {
   }
 
   // Ensure that we're authenticated with the backend, redirect if not.
-  ding_provider_invoke('user', 'logged in', $user, TRUE);
+  ding_library_user_required();
+  ting_enrich_object($object);
+
   if ($reservation_exists && $reservation_exists != DING_PROVIDER_AUTH_REQUIRED) {
     drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
     return drupal_goto('user/' . $user->uid . '/status');

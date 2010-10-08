@@ -215,24 +215,27 @@ function ding_user_default_page_manager_handlers() {
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'left';
-    $pane->type = 'profile';
-    $pane->subtype = 'ding_library_user_personal_info';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_uid_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
+  $pane = new stdClass;
+  $pane->api_version = 1;
+  $pane->pid = 'new-1';
+  $pane->panel = 'left';
+  $pane->type = 'user_profile';
+  $pane->subtype = 'user_profile';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'context' => 'argument_uid_1',
+    'override_title' => 1,
+    'override_title_text' => '',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array();
+  $pane->extras = array();
+  $pane->position = 0;
+  $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';

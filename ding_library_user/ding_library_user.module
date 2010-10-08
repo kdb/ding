@@ -81,14 +81,31 @@ function ding_library_user_block($op = 'list', $delta = 0, $edit = array()) {
  * Implementation of hook_user().
  */
 function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
+  global $user;
   switch ($op) {
     case 'load':
       if ($account->uid) {
         // Attach the Alma user id and name to the user object when it
         // is loaded, so it's available everywhere the user is.
-        // TODO: Remove this, provider handles linking up with backend.
+        // TODO: Remove this, using authmap now.
         $data = db_fetch_array(db_query("SELECT * FROM {ding_library_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->library_user_id = $data['library_user_id'];
+      }
+      break;
+    case 'view':
+      if ($account->uid == $user->uid) {
+        $account->content['summary']['#access'] = FALSE;
+        $account->content['personal_info'] = array(
+          '#type' => 'user_profile_category',
+          '#title' => t('Your profile'),
+        );
+
+        // I know this is not pretty, should be refactored to something more
+        // like standard profile view.
+        $account->content['personal_info']['vcard'] = array(
+          '#value' => theme('ding_library_user_personal_info', $account, NULL),
+        );
+
       }
       break;
     case 'delete':
@@ -218,7 +235,6 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
       // Add our own validation handler, before the default Drupal login
       // validator.
       array_splice($form['#validate'], array_search('user_login_authenticate_validate', $form['#validate']), 0, 'ding_library_user_user_login_validate');
-
       // Add our own submit handler.
       $form['#submit'][] = 'ding_library_user_login_submit';
 
@@ -398,6 +414,31 @@ function ding_library_user_get_credentials($account) {
     return $_SESSION['ding_library_user_creds'][$account->uid];
   }
   return DING_PROVIDER_AUTH_REQUIRED;
+}
+
+/**
+ * Ensure that the user is authenticated.
+ *
+ * Will redirect to the authentication page, and return the user to
+ * the current path if necessary.
+ */
+function ding_library_user_required() {
+  global $user;
+  if (!ding_provider_invoke('user', 'logged in', $user)) {
+    // If destination is set, create a new one embedding the old, and
+    // unset destination, so drupal_goto wont go to the old
+    // destination.
+    if (isset($_REQUEST['destination'])) {
+      $path = isset($_GET['q']) ? $_GET['q'] : '';
+      $query = drupal_query_string_encode($_GET, array('q'));
+      if ($query != '') {
+        $path .= '?'. $query;
+      }
+      $new_destination = 'destination='. urlencode($path);
+      unset($_REQUEST['destination']);
+      drupal_goto('user/' . $user->uid . '/authenticate', $new_destination);
+    }
+  }
 }
 
 /**
