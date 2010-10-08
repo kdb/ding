@@ -320,11 +320,19 @@ function ding_library_user_user_login_validate($form, &$form_state) {
     if (isset($auth_res['creds'])) {
       $_SESSION['ding_library_user_creds'][$user->uid] = $auth_res['creds'];
     }
+    if (ding_provider_supports('user', 'authenticate finalize')) {
+      ding_provider_invoke('user', 'authenticate finalize', $user);
+    }
   }
   else {
     if (isset($auth_res['messages'])) {
       foreach ($auth_res['messages'] as $message) {
-        drupal_set_message($message, 'error');
+        if (is_array($message)) {
+          list($message, $type) = $message;
+        } else {
+          $type = 'warning';
+        }
+        drupal_set_message($message, $type);
       }
     }
   }
