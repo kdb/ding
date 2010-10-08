@@ -1,0 +1,162 @@
+<?php
+
+define('DING_BOOKING_SUCCESS', 0);
+define('DING_BOOKING_ERROR', 1);
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_booking_menu() {
+  $items = array();
+
+  $items['ding/book/%ting_local_id'] = array(
+    'title' => 'Book item',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_booking_book_form', 2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_ting_object_buttons().
+ */
+function ding_booking_ting_object_buttons($object) {
+  if (!empty($object->localId)) {
+    // Leave out booking buttons for some record types.
+    if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
+      return;
+    }
+
+    return l(t('Book'), 'ding/book/' . $object->localId, array('attributes' => array('class' => 'book-now'), 'query' => drupal_get_destination()));
+  }
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function ding_booking_requirements($phase) {
+  $requrements = array();
+  if ($phase == 'runtime') {
+    $booking_provider = ding_provider_description('booking');
+
+    $requrements['ding_booking'] = array(
+      'title' => t('Ding booking'),
+      'severity' => $booking_provider ? REQUIREMENT_INFO : REQUIREMENT_WARNING,
+      'value' => $booking_provider,
+      'description' => $booking_provider ? t('OK'): t('No booking provider active.'),
+    );
+  }
+
+  return $requrements;
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ *
+ * Tells CTools (and thus Panels) where to look for plugin code.
+ */
+function ding_booking_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function ding_booking_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_booking_list_form' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'ding_booking.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Booking details form.
+ *
+ * @todo Way too much logic in the theme function. Move some of it here.
+ */
+function ding_booking_list_form($form_state, $account, $records) {
+  $form = array();
+  $cancelable_states = array('waiting', 'ready', );
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['bookings'] = array(
+    '#type' => 'value',
+    '#grouped' => array(),
+    '#value' => array(),
+  );
+
+  $form['selected'] = array(
+    '#tree' => TRUE,
+  );
+
+  foreach ($records as $booking) {
+    $form['bookings']['#value'][$booking['id']] = $booking;
+;
+    $form['bookings']['#grouped'][$booking['status']][$booking['id']] = $booking;
+
+    $form['selected'][$booking['id']] = array(
+      '#type' => 'checkbox',
+      '#return_value' => $booking['id'],
+      '#disabled' => !in_array($booking['status'], $cancelable_states),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Booking form.
+ */
+function ding_booking_book_form($form_state, $ting_object) {
+  global $user;
+  ding_library_user_required();
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $user,
+  );
+
+  $form['object'] = array(
+    '#type' => 'value',
+    '#value' => $ting_object,
+  );
+
+  $form['options'] = ding_provider_invoke('booking', 'options', $user);
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit booking'),
+  );
+
+  return $form;
+}
+
+/**
+ *
+ */
+function ding_booking_book_form_submit($form, &$form_state) {
+  $result = ding_provider_invoke('booking', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, $form_state['values']['options']);
+  if (!isset($result['status'])) {
+    watchdog('ding_booking', 'Provider returned invalid result on create: @res', array('@res' => print_r($result, TRUE)), WATCHDOG_EROOR);
+    $result = array('status' => DING_BOOKING_ERROR);
+  }
+  switch ($result['status']) {
+    case DING_BOOKING_SUCCESS:
+      drupal_set_message(t('Booking created.'));
+      break;
+    default:
+      drupal_set_message(isset($result['message']) ? $result['message'] : t("Error booking"), 'error');
+      break;
+  }
+}

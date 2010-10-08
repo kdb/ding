@@ -1,0 +1,8 @@
+; $Id$
+name = Ting booking
+description = Adds support for booing Ting objects if the library system supports this
+package = Ding!
+core = 6.x
+dependencies[] = ting
+dependencies[] = ding_library_user
+dependencies[] = ding_provider
