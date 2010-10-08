@@ -212,6 +212,8 @@ function ding_library_user_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
 
+  $pages['user_library_status'] = $page;
+
   /**
    * User debts page.
    */
