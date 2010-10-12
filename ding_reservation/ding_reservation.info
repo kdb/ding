@@ -1,5 +1,5 @@
 ; $Id$
-name = Ting reservation
+name = Ding reservation
 description = Adds support for reserving Ting objects if the library system supports this
 package = Ding!
 core = 6.x
