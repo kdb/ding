@@ -1,5 +1,5 @@
 ; $Id$
-name = Ting booking
+name = Ding booking
 description = Adds support for booing Ting objects if the library system supports this
 package = Ding!
 core = 6.x
