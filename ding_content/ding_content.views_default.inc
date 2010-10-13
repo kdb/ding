@@ -783,7 +783,7 @@ function ding_content_views_default_views() {
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->override_option('arguments', array(
     'field_library_ref_nid' => array(
-      'default_action' => 'not found',
+      'default_action' => 'ignore',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
       'wildcard' => 'all',
