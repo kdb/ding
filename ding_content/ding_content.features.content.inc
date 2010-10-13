@@ -14,7 +14,7 @@ function ding_content_content_default_fields() {
       'weight' => '3',
       'parent' => '',
       '4' => array(
-        'format' => 'image_plain',
+        'format' => 'hidden',
         'exclude' => 1,
       ),
       'label' => array(
@@ -26,10 +26,6 @@ function ding_content_content_default_fields() {
       ),
       'full' => array(
         'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'image_plain',
         'exclude' => 0,
       ),
       '2' => array(
@@ -421,7 +417,7 @@ function ding_content_content_default_fields() {
       'weight' => '5',
       'parent' => '',
       '4' => array(
-        'format' => 'image_plain',
+        'format' => 'hidden',
         'exclude' => 1,
       ),
       'label' => array(
@@ -433,10 +429,6 @@ function ding_content_content_default_fields() {
       ),
       'full' => array(
         'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'image_plain',
         'exclude' => 0,
       ),
       '2' => array(
