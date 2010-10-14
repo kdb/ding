@@ -15,11 +15,11 @@ $plugin = array(
  */
 function ding_reservation_reservation_list_content_type_content_types() {
   $types = array(
-    'ding_library_user_reservations_list' => array(
+    'ding_reservation_list' => array(
       'title' => t('Reservation list'),
       'description' => t('A simple list of the user’s reservations.'),
     ),
-    'ding_library_user_reservations_details' => array(
+    'ding_reservation_list_form' => array(
       'title' => t('Reservation details'),
       'description' => t('A detailed list of the user’s reservations.'),
     ),
@@ -46,7 +46,7 @@ function ding_reservation_reservation_list_content_type_render($subtype, $conf, 
   if (ding_provider_invoke('user', 'logged in', $account)) {
     switch ($subtype) {
 
-      case 'ding_library_user_reservations_list':
+      case 'ding_reservation_list':
         $list = ding_provider_invoke('reservation', 'list', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your reservations');
@@ -54,8 +54,7 @@ function ding_reservation_reservation_list_content_type_render($subtype, $conf, 
         }
         break;
 
-      case 'ding_library_user_reservations_details':
-        module_load_include('forms.inc', 'ding_library_user');
+      case 'ding_reservation_list_form':
         $list = ding_provider_invoke('reservation', 'list', $account);
         $block->title = t('Your reservations');
         $block->content = drupal_get_form('ding_reservation_list_form', $account, $list);
@@ -71,9 +70,9 @@ function ding_reservation_reservation_list_content_type_render($subtype, $conf, 
  */
 function ding_reservation_reservation_list_content_type_admin_title($subtype, $conf, $context) {
   switch($subtype) {
-    case 'ding_library_user_reservations_list':
+    case 'ding_reservation_list':
       return t('“@s”: Reservation list', array('@s' => $context->identifier));
-    case 'ding_library_user_reservations_details':
+    case 'ding_reservation_list_form':
       return t('“@s”: Reservation details', array('@s' => $context->identifier));
   }
 }
