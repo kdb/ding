@@ -35,14 +35,6 @@ function ding_library_user_profile_content_type_content_types() {
       'title' => t('Loan details'),
       'description' => t('A detailed list of the user’s loans.'),
     ),
-    'ding_library_user_debts_notice' => array(
-      'title' => t('User debts notice'),
-      'description' => t('Provides a short noice to the user about his library debts.'),
-    ),
-    'ding_library_user_debts_details' => array(
-      'title' => t('User debts details'),
-      'description' => t('Provides the full list of user debts, with an option to pay them.'),
-    ),
   );
 
   // Append our default settings to every type.
@@ -87,32 +79,6 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
           $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
         }
         break;
-
-      case 'ding_library_user_debts_notice':
-        $data = module_invoke_all('ding_library_user_get_debts', $account);
-        if (count($data['debts']) == 1) {
-          $block->content = t('You owe @amount for “%note”. !pay_link.', array(
-            '@amount' => $data['total_formatted'],
-            '%note' => trim($data['debts'][0]['note']),
-            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
-          ));
-        }
-        elseif (count($data['debts']) > 1) {
-          $block->content = t('You owe @amount for “%note” and !others_link. !pay_link.', array(
-            '@amount' => $data['total_formatted'],
-            '%note' => trim($data['debts'][0]['note']),
-            '!others_link' => l(format_plural(count($data['debts']) - 1, 'one other', '@count others'),
-                                'user/' . $account->uid . '/debts'),
-            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
-          ));
-        }
-        break;
-
-      case 'ding_library_user_debts_details':
-        module_load_include('forms.inc', 'ding_library_user');
-        $data = module_invoke_all('ding_library_user_get_debts', $account);
-        $block->content = drupal_get_form('ding_library_user_forms_debts_details', $account, $data);
-        break;
     }
   }
   elseif ($subtype == 'ding_library_user_library_settings') {
@@ -135,10 +101,6 @@ function ding_library_user_profile_content_type_admin_title($subtype, $conf, $co
       return t('“@s”: Loan list', array('@s' => $context->identifier));
     case 'ding_library_user_loans_details':
       return t('“@s”: Loan details', array('@s' => $context->identifier));
-    case 'ding_library_user_debts_notice':
-      return t('“@s”: Debts notice', array('@s' => $context->identifier));
-    case 'ding_library_user_debts_details':
-      return t('“@s”: Debts list', array('@s' => $context->identifier));
   }
 }
 

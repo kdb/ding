@@ -1,0 +1,7 @@
+; $Id$
+name = Ding debt
+description = Adds support for displaying and paying fines.
+package = Ding!
+core = 6.x
+dependencies[] = ding_library_user
+dependencies[] = ding_provider

@@ -189,8 +189,8 @@ function ding_library_user_default_page_manager_pages() {
     $pane->api_version = 1;
     $pane->pid = 'new-5';
     $pane->panel = 'top';
-    $pane->type = 'profile';
-    $pane->subtype = 'ding_library_user_debts_notice';
+    $pane->type = 'debt_list';
+    $pane->subtype = 'ding_debt_notice';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -266,8 +266,8 @@ function ding_library_user_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'profile';
-    $pane->subtype = 'ding_library_user_debts_details';
+    $pane->type = 'debt_list';
+    $pane->subtype = 'ding_debt_list_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
