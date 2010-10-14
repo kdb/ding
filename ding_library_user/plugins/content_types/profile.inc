@@ -27,11 +27,11 @@ function ding_library_user_profile_content_type_content_types() {
       'title' => t('Library settings'),
       'description' => t('The user’s library settings. Allows the user to choose a preferred library and suspend his reservations for a period.'),
     ),
-    'ding_library_user_loans_list' => array(
+    'ding_library_user_loan_list' => array(
       'title' => t('Loan list'),
       'description' => t('A simple list of the user’s loans.'),
     ),
-    'ding_library_user_loans_details' => array(
+    'ding_library_user_loan_list_form' => array(
       'title' => t('Loan details'),
       'description' => t('A detailed list of the user’s loans.'),
     ),
@@ -64,19 +64,19 @@ function ding_library_user_profile_content_type_render($subtype, $conf, $panel_a
         }
         break;
 
-      case 'ding_library_user_loans_list':
+      case 'ding_library_user_loan_list':
         $list = ding_provider_invoke('loan', 'get loans', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your loans');
           $block->content = theme('ding_library_user_record_list', 'loan', $list);
         }
         break;
-      case 'ding_library_user_loans_details':
+      case 'ding_library_user_loan_list_form':
         module_load_include('forms.inc', 'ding_library_user');
         $list = ding_provider_invoke('loan', 'get loans', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your loans');
-          $block->content = drupal_get_form('ding_library_user_forms_loan_details', $account, $list);
+          $block->content = drupal_get_form('ding_library_user_loan_list_form', $account, $list);
         }
         break;
     }
@@ -97,9 +97,9 @@ function ding_library_user_profile_content_type_admin_title($subtype, $conf, $co
   switch($subtype) {
     case 'ding_library_user_library_settings':
       return t('“@s”: Library settings', array('@s' => $context->identifier));
-    case 'ding_library_user_loans_list':
+    case 'ding_library_user_loan_list':
       return t('“@s”: Loan list', array('@s' => $context->identifier));
-    case 'ding_library_user_loans_details':
+    case 'ding_library_user_loan_list_form':
       return t('“@s”: Loan details', array('@s' => $context->identifier));
   }
 }

@@ -19,7 +19,7 @@ function theme_ding_library_user_record_list($type, $records) {
 /**
  * Theming of loan details form.
  */
-function theme_ding_library_user_forms_loan_details($form) {
+function theme_ding_library_user_loan_list_form($form) {
   $date_format = variable_get('date_format_date_short', 'Y-m-d');
   module_load_include('client.inc', 'ting');
   $groups = array();
