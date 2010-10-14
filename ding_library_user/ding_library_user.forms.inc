@@ -17,7 +17,7 @@
  *    Redirect destination – boolean TRUE for default destination
  *    (user's profile page).
  */
-function ding_library_user_forms_authenticate($form_state, $account, $explanation=NULL, $redirect=TRUE) {
+function ding_library_user_authenticate_form($form_state, $account, $explanation=NULL, $redirect=TRUE) {
   $form = array();
 
   $form['redirect'] = array(
@@ -62,7 +62,7 @@ function ding_library_user_forms_authenticate($form_state, $account, $explanatio
 /**
  * Validation for authentication form.
  */
-function ding_library_user_forms_authenticate_validate($form, &$form_state) {
+function ding_library_user_authenticate_form_validate($form, &$form_state) {
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
 
   if (!is_array($auth_res) || !isset($auth_res['result'])) {
@@ -89,7 +89,7 @@ function ding_library_user_forms_authenticate_validate($form, &$form_state) {
 /**
  * Submit handler for authentication form.
  */
-function ding_library_user_forms_authenticate_submit($form, &$form_state) {
+function ding_library_user_authenticate_form_submit($form, &$form_state) {
   // If we do not have a destination already, use the redirect value.
   if (!isset($_REQUEST['destination']) && $form_state['values']['redirect']) {
     // If redirect is boolean TRUE, use the default redirect.
@@ -106,7 +106,7 @@ function ding_library_user_forms_authenticate_submit($form, &$form_state) {
 /**
  * Change password form.
  */
-function ding_library_user_forms_change_password($form_state, $account) {
+function ding_library_user_change_password_form($form_state, $account) {
   $password_length = variable_get('ding_library_user_password_length', 4);
   $form = array();
 
@@ -150,7 +150,7 @@ function ding_library_user_forms_change_password($form_state, $account) {
 /**
  * Validation for library password changing form.
  */
-function ding_library_user_forms_change_password_validate($form, &$form_state) {
+function ding_library_user_change_password_form_validate($form, &$form_state) {
   $password_length = variable_get('ding_library_user_password_length', 4);
   $creds = ding_library_user_get_credentials($form_state['values']['account']);
   if ($form_state['values']['current_password'] != $creds['password']) {
@@ -173,7 +173,7 @@ function ding_library_user_forms_change_password_validate($form, &$form_state) {
 /**
  * Submit handler for the password changing form.
  */
-function ding_library_user_forms_change_password_submit($form, &$form_state) {
+function ding_library_user_change_password_form_submit($form, &$form_state) {
   $creds = ding_library_user_get_credentials($form_state['values']['account']);
   module_invoke_all('ding_library_user_update_info', $creds, array('password' => $form_state['values']['new_password']));
 
@@ -192,7 +192,7 @@ function ding_library_user_forms_change_password_submit($form, &$form_state) {
  * @todo Way too much logic in the theme function. Move some of it here.
  */
 function ding_library_user_loan_list_form($form_state, $account, $records) {
-  $grouped = _ding_library_user_forms_group_loans($records);
+  $grouped = _ding_library_user_group_loans($records);
   $renew_buttons = FALSE;
   $form = array();
 
@@ -304,7 +304,7 @@ function ding_library_user_loan_list_form_submit($form, $form_state) {
 /**
  * Helper function to group loans by their due dates.
  */
-function _ding_library_user_forms_group_loans($records) {
+function _ding_library_user_group_loans($records) {
   $groups = array();
   $today = date('Y-m-d', $_SERVER['REQUEST_TIME']);
 
