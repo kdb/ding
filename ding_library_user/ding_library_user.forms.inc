@@ -191,7 +191,7 @@ function ding_library_user_forms_change_password_submit($form, &$form_state) {
  *
  * @todo Way too much logic in the theme function. Move some of it here.
  */
-function ding_library_user_forms_loan_details($form_state, $account, $records) {
+function ding_library_user_loan_list_form($form_state, $account, $records) {
   $grouped = _ding_library_user_forms_group_loans($records);
   $renew_buttons = FALSE;
   $form = array();
@@ -242,7 +242,7 @@ function ding_library_user_forms_loan_details($form_state, $account, $records) {
 /**
  * Loan details submit handler.
  */
-function ding_library_user_forms_loan_details_submit($form, $form_state) {
+function ding_library_user_loan_list_form_submit($form, $form_state) {
   global $user;
   $selected = array();
 
@@ -273,7 +273,7 @@ function ding_library_user_forms_loan_details_submit($form, $form_state) {
         $types[$res][] = $id;
       }
       // TODO: Add in material titles, but that requires that
-      // ding_library_user_forms_loan_details does the
+      // ding_library_user_loan_list_form does the
       // ding_provider_invoke('loan', 'details') thing before inserting the
       // loans in the form, rather than the theming.
       //

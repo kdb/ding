@@ -96,7 +96,7 @@ function ding_library_user_default_page_manager_pages() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'profile';
-    $pane->subtype = 'ding_library_user_loans_details';
+    $pane->subtype = 'ding_library_user_loan_list_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -286,7 +286,7 @@ function ding_library_user_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'profile';
-    $pane->subtype = 'ding_library_user_loans_list';
+    $pane->subtype = 'ding_library_user_loan_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
