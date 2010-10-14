@@ -83,15 +83,6 @@ function ding_library_user_block($op = 'list', $delta = 0, $edit = array()) {
 function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
   global $user;
   switch ($op) {
-    case 'load':
-      if ($account->uid) {
-        // Attach the Alma user id and name to the user object when it
-        // is loaded, so it's available everywhere the user is.
-        // TODO: Remove this, using authmap now.
-        $data = db_fetch_array(db_query("SELECT * FROM {ding_library_user} WHERE uid = %d LIMIT 1;", $account->uid));
-        $account->library_user_id = $data['library_user_id'];
-      }
-      break;
     case 'view':
       if ($account->uid == $user->uid) {
         $account->content['summary']['#access'] = FALSE;
@@ -108,26 +99,6 @@ function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
 
       }
       break;
-    case 'delete':
-      db_query('DELETE FROM {ding_library_user} WHERE uid=%d', $account->uid);
-      break;
-  }
-}
-
-/**
- * Implementation of hook_init().
- *
- * @todo
- *   Remove when ding_library_user_user is removed.
- */
-function ding_library_user_init() {
-  global $user;
-  $edit = array();
-
-  // Fire our own hook_user to have the Alma data available on the
-  // global $user object.
-  if ($user->uid > 1) {
-    ding_library_user_user('load', $edit, $user);
   }
 }
 
@@ -519,38 +490,4 @@ function ding_library_user_format_date($datestring, $date_format) {
     }
   }
   return $datestring;
-}
-
-/**
- * Implementation of loan form element.
- *
- * @todo
- *   Is this used anywhere?
- */
-function ding_library_user_elements_loan_process($element, $form_state) {
-  $element['#prefix'] = '<li class="loan loan-' . $element['#loan']['id'] . '">';
-  $element['#suffix'] = '</li>';
-
-  if ($element['#loan']['is_renewable']) {
-    $element['selected'] = array(
-      '#type' => 'checkbox',
-      '#prefix' => '<div class="select">',
-      '#suffix' => '</div>',
-    );
-  }
-  else {
-    $element['not_renewable'] = array(
-      '#value' => t('Not renewable'),
-      '#prefix' => '<div class="select">',
-      '#suffix' => '</div>',
-    );
-  }
-
-  $element['title'] = array(
-    '#value' => $element['#loan']['id'],
-    '#prefix' => '<div class="title">',
-    '#suffix' => '</div>',
-  );
-
-  return $element;
 }
