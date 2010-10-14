@@ -143,7 +143,7 @@ function ding_library_user_default_page_manager_pages() {
     $pane->pid = 'new-3';
     $pane->panel = 'left';
     $pane->type = 'booking_list';
-    $pane->subtype = 'bookings_details';
+    $pane->subtype = 'ding_booking_list_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(

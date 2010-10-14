@@ -15,11 +15,11 @@ $plugin = array(
  */
 function ding_booking_booking_list_content_type_content_types() {
   $types = array(
-    'bookings_list' => array(
+    'ding_booking_list' => array(
       'title' => t('Booking list'),
       'description' => t('A simple list of the user’s bookings.'),
     ),
-    'bookings_details' => array(
+    'ding_booking_list_form' => array(
       'title' => t('Booking details'),
       'description' => t('A detailed list of the user’s bookings.'),
     ),
@@ -46,7 +46,7 @@ function ding_booking_booking_list_content_type_render($subtype, $conf, $panel_a
   if (ding_provider_invoke('user', 'logged in', $account)) {
     switch ($subtype) {
 
-      case 'bookings_list':
+      case 'ding_booking_list':
         $list = ding_provider_invoke('booking', 'list', $account);
         if ($list != DING_PROVIDER_AUTH_REQUIRED) {
           $block->title = t('Your bookings');
@@ -54,7 +54,7 @@ function ding_booking_booking_list_content_type_render($subtype, $conf, $panel_a
         }
         break;
 
-      case 'bookings_details':
+      case 'ding_booking_list_form':
         module_load_include('forms.inc', 'ding_library_user');
         $list = ding_provider_invoke('booking', 'list', $account);
         $block->title = t('Your bookings');
@@ -71,9 +71,9 @@ function ding_booking_booking_list_content_type_render($subtype, $conf, $panel_a
  */
 function ding_booking_booking_list_content_type_admin_title($subtype, $conf, $context) {
   switch($subtype) {
-    case 'bookings_list':
+    case 'ding_booking_list':
       return t('“@s”: Booking list', array('@s' => $context->identifier));
-    case 'bookings_details':
+    case 'ding_booking_list_form':
       return t('“@s”: Booking details', array('@s' => $context->identifier));
   }
 }
