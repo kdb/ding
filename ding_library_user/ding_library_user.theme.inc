@@ -119,58 +119,6 @@ function theme_ding_library_user_forms_loan_details($form) {
   return $output;
 }
 
-/**
- * Theming of debt details form.
- */
-function theme_ding_library_user_forms_debts_details($form) {
-  $date_format = variable_get('date_format_date_short', 'Y-m-d');
-  $header = array(
-    t('Select'),
-    t('Note'),
-    t('Date'),
-    t('Amount'),
-  );
-
-  $colgroups = array(
-    array(
-      array(
-        'class' => 'col-selection',
-      ),
-      array(
-        'class' => 'col-note',
-      ),
-      array(
-        'class' => 'col-date',
-      ),
-      array(
-        'class' => 'col-amount',
-      ),
-    ),
-  );
-
-  $rows = array();
-  foreach ($form['debt_data']['#value']['debts'] as $key => $data) {
-    $rows[$data['id']] = array(
-      drupal_render($form['debts'][$data['id']]),
-      array (
-        'class' => 'note',
-        'data' => $data['note']
-      ),
-      array (
-        'class' => 'date',
-        'data' => ding_library_user_format_date($data['date'], $date_format),
-      ),
-      array (
-        'class' => 'amount',
-        'data' => $data['amount_formatted'],
-      ),
-    );
-  }
-
-  $output = theme('table', $header, $rows, array('colgroups' => $colgroups));
-  $output .= drupal_render($form);
-  return $output;
-}
 
 /**
  * Preprocess function for ding_library_user_list_item.

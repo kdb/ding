@@ -17,6 +17,7 @@ function ding_dibs_form_user_forms_debts_details_alter(&$form, &$form_state) {
  * Implementation of hook_dibsapi().
  */
 function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
+  global $user;
   switch ($op) {
     case 'info':
       $info = array('1' => array('info' => t('Ding DIBS debts payment')));
@@ -39,7 +40,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           '%transaction' => $transaction['payment_transaction_id'],
           '%order' => $transaction['payment_order_id'],
         ), WATCHDOG_DEBUG);
-        return drupal_goto('user/' . $GLOBALS['user']->uid . '/status');
+        return drupal_goto('user/' . $user->uid . '/status');
       }
       else {
         drupal_set_message(t('Payment not verified by DIBS. This indicates a problem with the network. Please try again and contact the system administrator if it persists'), 'error');
@@ -48,16 +49,48 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           '%order' => $transaction['payment_order_id'],
           '!data' => '<pre>' . check_plain(print_r($transaction, TRUE)) . '</pre>',
         ), WATCHDOG_CRITICAL);
-        return drupal_goto('user/' . $GLOBALS['user']->uid . '/debts');
+        return drupal_goto('user/' . $user->uid . '/debts');
       }
       break;
     case 'transaction_callback':
-      $payment_info = module_invoke_all('ding_dibs_add_payment', $transaction);
-      
       watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
         '%transaction' => $transaction['payment_transaction_id'],
         '%order' => $transaction['payment_order_id'],
       ), WATCHDOG_NOTICE);
+
+      if (isset($transaction['params']['callback'])) {
+        $callback = $transaction['params']['callback'];
+        if (function_exists($callback)) {
+          // Ensure that this session isn't saved.
+          session_save_session(FALSE);
+          // Clear it.
+          session_unset();
+          $orig_user = $user;
+          $user = user_load(array('uid' => $transaction['customer_uid']));
+          if (isset($transaction['params']['session'])) {
+            $res = db_query("SELECT sid, session FROM {sessions} WHERE sid = '%s'", $transaction['params']['session']);
+            $row = db_fetch_object($res);
+            // Load the session variables into $_SESSION
+            session_decode($row->session);
+          }
+
+          // Call the callback, which may now *read* the session.
+          call_user_func_array($callback, $transaction);
+          // Clear it in case the callback accidentally added to it.
+          session_unset();
+          // Reset user.
+          $user = $orig_user;
+          // We're not re-enabling session saving.
+        }
+        else {
+          watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);
+        }
+      }
+      else {
+        // Unlikely to happen, unless someone has been tampering with things
+        // they shouldn't.
+        watchdog('ding_dibs', "No callback function defined.", NULL, WATCHDOG_CRITICAL);
+      }
       break;
   }
 }
@@ -89,3 +122,31 @@ function ding_dibs_forms_debts_details_submit($form, &$form_state) {
   dibs_payment_prepare($payment_data);
 }
 
+/**
+ *
+ */
+function ding_dibs_payment_prepare($amount, $params, $callback) {
+  global $user;
+  $params['payment_price'] = $amount;
+  $params['api_module'] = 'ding_dibs';
+  $params['api_delta'] = '1';
+  $params['customer_uid'] = $user->uid;
+
+  if (!isset($params['params']) || !is_array($params['params'])) {
+    $params['params'] = array();
+  }
+  // Params is stored by dibs.module, so are tamper safe.
+  $params['params']['callback'] = $callback;
+  // Save session id for later loading.
+  if (empty($_COOKIE[session_name()])) {
+    $params['params']['session'] = session_id();
+  }
+
+  $params += array(
+    'order_info_short' => t('Payment of library dues'),
+    'order_price_info' => array('Total' => $amount),
+    // dibs module fills in missing data.
+  );
+
+  dibs_payment_prepare($params);
+}
