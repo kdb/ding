@@ -9,3 +9,12 @@
  * their own module.
  */
 
+/**
+ * Implementation of hook_update_N().
+ * 
+ * Disable date_locale module as it conflicts with our strongarmed
+ * date_format variables and the functionality is currently not needed.
+ */
+function ding_base_update_6000() {
+	module_disable(array('date_locale'));
+}
