@@ -254,7 +254,7 @@ function template_preprocess_ding_library_user_status_block(&$variables) {
       $variables['cart_count'] = ding_cart_user_count($account);
     }
     else {
-      $variables['cart_count'] = 0;
+      $variables['cart_count'] = NULL;
     }
   }
 }

@@ -5,7 +5,7 @@
  * @file alma_user_status_block.tpl.php
  * Template for the user status block.
  */
- 
+
 /*
  * TODO get status from mikl
  */
@@ -15,13 +15,13 @@ if( $user_status['loan_overdue_count'] >= 1){
 else{
   $loan_status  = "default";
 }
-  
+
 if( $user_status['reservation_count'] >= 1){
   $reservation_status = "ok";
 }
 else{
   $reservation_status = "default";
-  
+
 }
 ?>
 <div id="account-profile" class="clearfix">
@@ -38,10 +38,12 @@ else{
 
 	</div>
 	<?php if ($user_status_available): ?>
-		<div class="cart">
-	    <div class="count"><?php print $cart_count; ?></div>
-	    <?php print l(t('Go to cart'), 'user/' . $user->uid . '/cart'); ?>
-		</div>
+    <?php if ($cart_count): ?>
+      <div class="cart">
+        <div class="count"><?php print $cart_count; ?></div>
+        <?php print l(t('Go to cart'), 'user/' . $user->uid . '/cart'); ?>
+      </div>
+    <?php endif; ?>
 
 		<ul>
 	    <li>
@@ -57,7 +59,7 @@ else{
 				<div class="content reservations">
 	        <?php print l('<span>'.t("Reservations") . '</span> <strong>' . $user_status['reservation_count'] . '</strong>', 'user/'. $user->uid . '/status', array('html' => TRUE, 'fragment' => 'reservation')); ?>
 				</div>
-        <?php if($reservation_status  != "default"){ ?>				
+        <?php if($reservation_status  != "default"){ ?>
 				  <div class="status"><span class="<?php print $reservation_status ?>">ok</span></div>
         <?php } ?>
 
