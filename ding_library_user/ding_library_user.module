@@ -212,36 +212,6 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
       // Remove the standard user login links.
       unset($form['links']);
       break;
-    case 'user_profile_form':
-      $account = $form['_account']['#value'];
-      // When we have credentials available, make library patron
-      // information available for altering.
-      $user_info = ding_provider_invoke('user', 'get info', $account);
-      if ($user_info != DING_PROVIDER_AUTH_REQUIRED) {
-        // Store the patron information for validation purposes.
-        $form['ding_library_user_info'] = array(
-          '#type' => 'value',
-          '#value' => $user_info,
-        );
-
-        // Copy the standard mail field, hide it and use the new
-        // alma_mail field to edit the e-mail-address registered in Alma.
-        $form['account']['ding_library_user_mail'] = $form['account']['mail'];
-        $form['account']['mail']['#type'] = 'value';
-
-        // Use the e-mail-address from Alma as the default value for our
-        // new e-mail-address field.
-        if (isset($user_info['mails'][0])) {
-          $form['account']['ding_library_user_mail']['#default_value'] = $user_info['mails'][0]['mail'];
-        }
-
-        // Add our own validation and submit handling.
-        array_unshift($form['#validate'], 'ding_library_user_profile_validate');
-
-        $form['#submit'][] = 'ding_library_user_profile_submit';
-
-      }
-      break;
     case 'ding_library_admin_settings_main_form':
       // Since we're adding an option to the form, the placeholder is no
       // longer needed.
@@ -306,49 +276,6 @@ function ding_library_user_user_login_validate($form, &$form_state) {
         drupal_set_message($message, $type);
       }
     }
-  }
-}
-
-/**
- * Validation for the user profile form.
- */
-function ding_library_user_profile_validate($form, &$form_state) {
-  $user_info = $form_state['values']['ding_library_user_info'];
-
-  // Check if Alma e-mail-address has changed.
-  $new_mail = trim($form_state['values']['ding_library_user_mail']);
-  if ($new_mail != $user_info['mails'][0]['mail']) {
-    if (!filter_var($new_mail, FILTER_VALIDATE_EMAIL)) {
-      form_set_error('account][ding_library_user_mail', t('Please enter a valid e-mail-address.'));
-    }
-    else {
-      // Store the new mail as a new value, so we can test for it in the
-      // submit handler.
-      $form_state['values']['new_mail'] = $new_mail;
-
-      // If no Drupal users has this e-mail-address yet, also update
-      // Drupal's records.
-      if (!db_result(db_query("SELECT uid FROM {users} WHERE mail = '%s' AND uid != %d;", $form_state['values']['new_mail'], $form['_account']['#value']->uid))) {
-        $form_state['values']['mail'] = $new_mail;
-      }
-    }
-  }
-}
-
-/**
- * Submit handler for the user profile form.
- */
-function ding_library_user_profile_submit($form, &$form_state) {
-  $account = $form['_account']['#value'];
-  $creds = ding_library_user_get_credentials($account);
-  $user_info = $account->ding_library_user_info;
-  $new_user_info = array(
-    'phones' => $form_state['values']['alma_user_phone'],
-    'email' => $form_state['values']['ding_library_user_mail'],
-  );
-  //TODO figure out how to build new info
-  if ($new_user_info != $user_info) {
-    module_invoke_all('ding_library_user_update_info', $creds, $new_user_info, $user_info);
   }
 }
 
