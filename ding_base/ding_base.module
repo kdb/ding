@@ -76,4 +76,48 @@ function ding_base_date_formats() {
   );
 }
 
+/**
+ * Element validator. Checks that the value is a valid phone number.
+ */
+function ding_base_element_validate_phone_number($element, &$form_state) {
+  if ($element['#value']) {
+    $number = preg_replace('/\D+/', '', $element['#value']);
+    if (strlen($number) != 8 || $number < 20000000) {
+      form_error($element, t('Phone number must be 8 digits.'));
+    }
+    else {
+      // If processed number was valid, set it as the correct value.
+      form_set_value($element, $number, $form_state);
+    }
+  }
+}
+
+/**
+ * Element validator. Checks that the value is a valid positive integer.
+ */
+function ding_base_element_validate_positive_integer($element, &$form_state) {
+  if (!preg_match('/^\d+/', $element['#value']) || !($element['#value'] > 0)) {
+    form_error($element, t('Valid positive number required.'));
+  }
+}
+
+/**
+ * Element validator. Checks that the date is in the future.
+ *
+ * Format of date should be: YYYY-MM-DD.
+ */
+function ding_base_element_validate_future_date(&$element, &$form_state) {
+  if (!empty($element['#value']['date'])) {
+    list($year, $month, $day) = explode('-', trim($element['#value']['date']));
+    if (!checkdate($month, $day, $year)) {
+      form_error($element, t('Invalid date'));
+    }
+
+    $timestamp = strtotime($element['#value']['date']);
+    if ($timestamp <= $_SERVER['REQUEST_TIME']) {
+      form_error($element, t('Date must be later than today.'));
+    }
+  }
+}
+
 include_once('ding_base.features.inc');
