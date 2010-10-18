@@ -255,7 +255,7 @@ function ding_library_user_form_alter(&$form, $form_state, $form_id) {
  *   Whether the authentication was successful.
  */
 function ding_library_user_authenticate_user($name, $pass) {
-  $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+  $auth_res = ding_provider_invoke('user', 'authenticate', $name, $pass);
 
   if (!is_array($auth_res) || !isset($auth_res['result'])) {
     watchdog('ding_library_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
