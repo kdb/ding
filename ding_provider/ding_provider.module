@@ -67,6 +67,11 @@ function _ding_provider_types() {
       'current version' => 1,
       'minimum version' => 1
     ),
+    'branch' => array(
+      'name' => t('Branches'),
+      'current version' => 1,
+      'minimum version' => 1
+    ),
   );
 }
 
@@ -188,6 +193,26 @@ function ding_provider_ctools_plugin_booking() {
  * Implementation of hook_ctools_plugin_PLUGIN().
  */
 function ding_provider_ctools_plugin_debt() {
+  return array(
+    'cache' => TRUE,
+    'process' => 'ding_provider_plugin_process',
+    'defaults' => array(
+      'version' => 1,
+      'description' => '',
+    ),
+    'required functions' => array(
+      'list',
+    ),
+    'optional functions' => array(
+      'settings form',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_PLUGIN().
+ */
+function ding_provider_ctools_plugin_branch() {
   return array(
     'cache' => TRUE,
     'process' => 'ding_provider_plugin_process',
