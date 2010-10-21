@@ -306,7 +306,17 @@ function ding_library_user_user_login_validate($form, &$form_state) {
       // Else use a standard authname.
       ding_library_user_default_authname($form_state['values']['name']);
     }
+    // This sets the proper global $user.
     user_external_login_register($auth_name, 'ding_library_user');
+
+    // Let authenticate module provide some properties for the $user
+    // object. Thus they can set properties that gets used in
+    // hook_user('login').
+    if (isset($auth_res['user'])) {
+      foreach ($auth_res['user'] as $key => $value) {
+        $user->$key = $value;
+      }
+    }
 
     // Finalize login.
     user_authenticate_finalize($form_state['values']);
