@@ -13,24 +13,6 @@ function ding_provider_example_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implementation of hook_theme().
- */
-/*
- TODO: need a theme function?
-function ding_provider_example_theme($existing, $type, $theme, $path) {
-  return array(
-    'ding_library_user_personal_info' => array(
-      'arguments' => array(
-        'account' => NULL,
-        'alma_data' => NULL,
-      ),
-      'template' => 'ding_library_user_personal_info',
-    ),
-  );
-}
-*/
-
-/**
  * Implementation of hook_form_alter().
  *
  * Alter the login form to disable the standard Drupal username/password
@@ -40,158 +22,25 @@ function ding_provider_example_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-      // Add our own validation handler, before the default Drupal login
-      // validator.
-      array_splice($form['#validate'], array_search('user_login_authenticate_validate', $form['#validate']), 0, 'ding_provider_example_login_validate');
-      break;
-    case 'user_profile_form':
-      // When we have credentials available, make library patron
-      // information available for altering.
-      //  TODO: Demonstrate extra profile data.
-      // if (isset($form['ding_library_user_info'])) {
-      //   $form['account']['alma_user_phone'] = array(
-      //     '#type' => 'textfield',
-      //     '#title' => t('Phone number'),
-      //     '#description' => t('Phone number where the library can contact you. Is not published on the web site.'),
-      //     '#default_value' => $form['ding_library_user_info']['#value']['phones'][0]['phone'],
-      //   );
-
-      //   // Add our own validation and submit handling.
-      //   array_unshift($form['#validate'], 'alma_user_profile_validate');
-      //   $form['#submit'][] = 'alma_user_profile_submit';
-
-      // }
-       break;
-       // TODO: needed?
-    // case 'ding_library_user_authenticate_form':
-    // 	$form['#validate'][] = 'ding_library_user_authenticate_form_validate';
-    // 	break;
+    case 'ding_library_user_authenticate_form':
+      // Since the login name can be a user's CPR-number, that too is hidden.
+      $form['name']['#type'] = 'password';
+    break;
   }
-}
-
-/**
- * Get credentials for user.
- */
-function _ding_provider_example_get_credentials($account) {
-  // See if we have credentials for the given user in the session.
-  if ($_SESSION['ding_provider_example_creds'][$account->uid]) {
-    return $_SESSION['ding_provider_example_creds'][$account->uid];
-  }
-  return DING_PROVIDER_AUTH_REQUIRED;
 }
 
 // User related functions.
-
-/**
- * Implementation of hook_user().
- */
-function ding_provider_example_user($op, &$edit, &$account, $category = NULL) {
-  switch ($op) {
-    case 'login':
-      if ($account->ding_provider_example_creds) {
-        $_SESSION['ding_provider_example_creds'][$account->uid] = $account->ding_provider_example_creds;
-        unset($account->ding_provider_example_creds);
-      }
-      break;
-    case 'load':
-      // Possibly add more properties to the user object.
-      break;
-      /*
-       * There's no 'logout' case that delete credentials here, as
-       * user_logout calls session_destroy, which deletes the session
-       * and its data. The session is already gone by the time
-       * hook_user('logout') is called.
-       */
-  }
-}
-
-/**
- * Implementation of hook_init().
- */
-function ding_provider_example_init() {
-  global $user;
-  $edit = array();
-
-  // Fire our own hook_user to have the extra data available on the
-  // global $user object.
-  if ($user->uid > 1) {
-    ding_provider_example_user('load', $edit, $user);
-  }
-}
-
-/**
- * Implementation of hook_cron().
- *
- * Delete credentials after a while.
- */
-function ding_provider_example_cron() {
-  $expire_time = $_SERVER['REQUEST_TIME'] - variable_get('ding_provider_example_credential_cache_duration', 1800);
-  $res = db_query("SELECT sid, session, timestamp FROM {session} WHERE timestamp < %d", $expire_time);
-  // As the only PHP functions that reads and writes the
-  // almost-but-not-quite-serialized-data format of sessions does it to/from
-  // the current session, we're using our own session as a scratchpad.
-  $old_session = $_SESSION;
-  while ($row = db_fetch_object($res)) {
-    $_SESSION = array();
-    session_decode($ros->session);
-    if (isset($_SESSION['ding_provider_example_creds'])) {
-      unset($_SESSION['ding_provider_example_creds']);
-      $new_session = session_encode();
-      db_query("UPDATE {session} SET session = '%s' WHERE sid = %d AND timestamp = %d", $new_session, $row->sid, $row->timestamp);
-    }
-  }
-  $_SESSION = $old_session;
-}
-
-
-/**
- * Validation for the login form.
- */
-function ding_provider_example_login_validate($form, &$form_state) {
-  // If it looks like a CPR number, try logging in.
-  if (preg_match('/^dpe_.*$/', $form_state['values']['name'])) {
-    ding_provider_example_authenticate($form_state['values']);
-  }
-}
-
-/**
- * Try to authenticate the user.
- */
-function ding_provider_example_authenticate(&$form_values) {
-  // ding_provider_example_login_validate has already ensured that the
-  // username is one we pretend to be provider for.
-  if (!preg_match('/' . preg_quote($form_values['pass']) . '$/', $form_values['name'])) {
-    // Not found.
-    return;
-  }
-  // Now we know we have a valid user from the external system. Now tell
-  // Drupal about it.
-
-  $auth_name = md5(drupal_get_private_key() . $form_values['name']) . '@ding_provider_example';
-  user_external_login_register($auth_name, 'ding_provider_example');
-
-  global $user;
-  // Save credentials for later use. This is the recommended way to deal with
-  // caching credentials. See ding_provider_example_user and
-  // ding_provider_example_cron for more information.
-  $user->ding_provider_example_creds = array(
-    'user_id' => $form_values['name'],
-    'password' => $form_values['pass'],
-  );
-
-  // Set display_name. If the external username is sensitive data, we need to
-  // set a display_name. But we're not that picky.
-  $user->display_name = 'Fake user ' . $form_values['name'];
-
-  // Finalize login.
-  user_authenticate_finalize($form_values);
-}
 
 // Loan related functions.
 
 
 // Reservation related functions.
 
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Add options and buttons to the reservation list.
+ */
 function ding_provider_example_form_ding_reservation_list_form_alter(&$form, $form_state) {
   $form['options']['new_expiry'] = array(
     '#type' => 'date_popup',
@@ -226,6 +75,9 @@ function ding_provider_example_form_ding_reservation_list_form_alter(&$form, $fo
 
 }
 
+/**
+ * Form validation function.
+ */
 function ding_provider_example_ding_reservation_list_form_validate($form, $form_state) {
   $reservations = $form_state['values']['reservations'];
   foreach (array_filter($form_state['values']['selected']) as $id) {
@@ -270,7 +122,9 @@ function ding_provider_example_ding_reservation_list_form_update($form, $form_st
 // Cart reservation support.
 
 /**
- * Implements hook_form_alter
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Add options and buttons to the cart.
  */
 function ding_provider_example_form_ding_cart_list_form_alter(&$form, &$form_state) {
 
@@ -317,4 +171,61 @@ function ding_provider_example_ding_cart_list_form_submit($form, &$form_state) {
       drupal_set_message(t('Reservation of “@title” failed. It may be on your reservation list already.', array('@title' => $form['cart']['#value'][$local_id]['title'])), 'error');
     }
   }
+}
+
+// Booking related functions
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Add options and buttons to the booking list.
+ */
+function ding_provider_example_form_ding_booking_list_form_alter(&$form, $form_state) {
+}
+
+// Debt related functions
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Add options and buttons to the debt list.
+ */
+function ding_provider_example_form_ding_debt_list_form_alter(&$form, $form_state) {
+  if (function_exists('ding_dibs_payment_prepare')) {
+    $form['buttons']['pay'] = array(
+      '#type' => 'submit',
+      '#value' => t('Pay all'),
+      '#attributes' => array('class' => 'update-button'),
+      '#submit' => array('ding_provider_example_ding_debt_list_form_pay'),
+    );
+  }
+}
+
+/**
+ * Submit handler.
+ */
+function ding_provider_example_ding_debt_list_form_pay($form, &$form_state) {
+  $params = array(
+    'customer_name' => "Anders And",
+    'customer_city' => "Andeby",
+    'customer_zipcode' => "1234",
+  );
+  $params['customer_address'] = 'ATT: Rip, Rap & Rup';
+  $params['customer_address_2'] = "Paradisæblevej 113";
+  $params['customer_email'] = "rrr@hotduck.com";
+  $params['customer_phone'] = "42135";
+
+  ding_dibs_payment_prepare($form_state['values']['total'], $params, 'ding_provider_example_debt_dibs_add_payment');
+}
+
+/**
+ * Callback for payment processing.
+ *
+ * Remember that while the global user and session is the proper ones, they're
+ * read-only due to implementation details.
+ */
+function ding_provider_example_debt_dibs_add_payment($transaction) {
+  global $user;
+  $creds = ding_library_user_get_credentials($user);
+  // Tell some backend system that the payment has been approved.
 }
