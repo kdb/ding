@@ -13,9 +13,42 @@ $plugin = array(
 );
 
 /**
+ * Get the users reservations.
+ *
+ * Should only return data readily available, and leave out data that
+ * requires extra requests. Implementation can add extra data used by
+ * the 'details' function. All the keys described in the return value
+ * can be left to the details function to fill in, so the minimum
+ * return value can be:
+ * @code
+ *   array(
+ *     123 => array('id' => 123),
+ *   );
+ * @endcode
+ *
+ * @param $account
+ *   The Drupal user.
+ * @return array
+ *   An array of id => reservation, where reservation is an array of:
+ *   - id: The same id as the key.
+ *   - materials_number: Materials number, optional. Is shown to the user.
+ *   - title: Title of the item. Optional.
+ *   - authors: The authors of the item. Optional.
+ *   - display_title: Alternative title string, optional. Used if title is
+ *     empty. If neither 'title' nor 'display_title' is specified, an
+ *     'Title not available' message is displayed.
+ *   - status: Status of the reservation, 'active' or 'fetchable'.
+ *   - create_date: Creation date, format: YYYY-MM-DD.
+ *   - queue_number: For active reservations, number in queue. Optional.
+ *   - pickup_number: For fetchable reservations. Optional.
+ *   - valid_from: Reservation valid from. Format: YYYY-MM-DD.
+ *   - valid_to: Reservation valid to. Format: YYYY-MM-DD.
+ *   - pickup_expire_date: For 'fetchable': Expiry of pickup. Optional
+ *
+ * @see ding_provider_example_reservation_details()
  */
 function ding_provider_example_reservation_list($account) {
-  $creds = _ding_provider_example_get_credentials($account);
+  $creds = ding_library_user_get_credentials($account);
   if ($creds == DING_PROVIDER_AUTH_REQUIRED) {
     return $creds;
   }
@@ -119,8 +152,22 @@ function ding_provider_example_reservation_details($reservation) {
  *   The user to reserve for.
  * @param array $provider_id
  *   Id to reserve.
- * @return boolean
- *   Success or not.
+ * @return array
+ *   with the following keys:
+ *   - success:
+ *     One of the following constants:
+ *     - DING_PROVIDER_AUTH_REQUIRED: Authentication required.
+ *     - DING_RESERVATION_SUCCESS: Successfully reserved.
+ *     - DING_RESERVATION_ERROR_NO_DEFAULT_BRANCH: User haven't set a default
+ *       branch.
+ *     - DING_RESERVATION_ERROR_RESERVATION_EXISTS: Already reserved.
+ *     - DING_RESERVATION_ERROR_NOT_AVAILABLE: Not available for reservation.
+ *     - DING_RESERVATION_ERROR_NOT_ALLOWED: Reservation is not allowed for
+ *       user.
+ *     - DING_RESERVATION_ERROR: General error (use sparingly).
+ *     Any other value is treated like DING_RESERVATION_ERROR.
+ *   - branch: (optional) In case of DING_RESERVATION_SUCCESS, the branch
+ *     the material is reserved to.
  */
 function ding_provider_example_reservation_create($account, $provider_id) {
   return FALSE;
