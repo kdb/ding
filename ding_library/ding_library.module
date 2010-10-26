@@ -83,22 +83,6 @@ function ding_library_cron() {
   }
 }
 
-
-/**
- * Implementation of hook_node_info().
- */
-function ding_library_node_info() {
-  return array(
-    'library' => array(
-      'name' => t('Library'),
-      'module' => 'ding_library',
-      'description' => 'A physical library, with a location, opening hours, etc.',
-      'title_label' => t('Name'),
-      'body_label' => t('Description'),
-    ),
-  );
-}
-
 /**
  * Implementation of hook_access().
  */
