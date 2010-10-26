@@ -75,11 +75,11 @@ function ding_page_strongarm() {
   $strongarm->value = array(
     'title' => '-5',
     'body_field' => '0',
-    'revision_information' => '2',
-    'comment_settings' => '3',
+    'revision_information' => '3',
+    'comment_settings' => '4',
     'menu' => '-3',
     'taxonomy' => '-2',
-    'path' => '5',
+    'path' => '6',
   );
 
   $export['content_extra_weights_page'] = $strongarm;
