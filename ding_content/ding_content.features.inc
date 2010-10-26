@@ -37,6 +37,103 @@ function ding_content_imagecache_default_presets() {
 }
 
 /**
+ * Implementation of hook_node_info().
+ */
+function ding_content_node_info() {
+  $items = array(
+    'article' => array(
+      'name' => t('Blog post'),
+      'module' => 'features',
+      'description' => t('A staff profile with description, profile picture, and tags.'),
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'has_body' => '1',
+      'body_label' => t('Description'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'event' => array(
+      'name' => t('Event'),
+      'module' => 'features',
+      'description' => t('An event, usually related to a library.'),
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'has_body' => '1',
+      'body_label' => t('Description'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'feature' => array(
+      'name' => t('Facility/service'),
+      'module' => 'features',
+      'description' => t('An event, usually related to a library.'),
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'has_body' => '1',
+      'body_label' => t('Description'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'flexifield_link' => array(
+      'name' => t('Link'),
+      'module' => 'features',
+      'description' => t('Flexifield container: A link with a description.'),
+      'has_title' => '0',
+      'title_label' => '',
+      'has_body' => '0',
+      'body_label' => '',
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'flexifield_text' => array(
+      'name' => t('Text'),
+      'module' => 'features',
+      'description' => t('Flexifield container: A text block.'),
+      'has_title' => '0',
+      'title_label' => '',
+      'has_body' => '0',
+      'body_label' => '',
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'flexifield_ting_refs' => array(
+      'name' => t('Ting references'),
+      'module' => 'features',
+      'description' => t('Flexifield container: A collection of Ting references.'),
+      'has_title' => '0',
+      'title_label' => '',
+      'has_body' => '0',
+      'body_label' => '',
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'profile' => array(
+      'name' => t('Staff profile'),
+      'module' => 'features',
+      'description' => t('A staff profile with description, profile picture, and tags.'),
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'has_body' => '1',
+      'body_label' => t('Description'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+    'topic' => array(
+      'name' => t('Topic'),
+      'module' => 'features',
+      'description' => t('A collection of links and Ting objects relevant to a specific topic, possibly related to a library.'),
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'has_body' => '1',
+      'body_label' => t('Description'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+  );
+  return $items;
+}
+
+/**
  * Implementation of hook_rules_defaults().
  */
 function ding_content_rules_defaults() {
