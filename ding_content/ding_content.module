@@ -15,86 +15,8 @@
  */
 function ding_content_perm() {
   return array(
-    'create article',
-    'edit article',
-    'delete article',
-    'create event',
-    'edit event',
-    'delete event',
-    'create feature',
-    'edit feature',
-    'delete feature',
-    'create profile',
-    'edit profile',
-    'delete profile',
-    'create topic',
-    'edit topic',
-    'delete topic',
     'edit advanced node properties',
   );
-}
-
-/**
- * Implementation of hook_access().
- */
-function ding_content_access($op, $node, $account = NULL) {
-  // For nodes that have not been created yet, the $node parameter
-  // actually contains the type name.
-  if ($node instanceOf stdClass) {
-    $type = $node->type;
-  }
-  else {
-    $type = $node;
-  }
-
-  $permissions = array(
-    'article' => array(
-      'create' => 'create article',
-      'update' => 'edit article',
-      'delete' => 'delete article',
-    ),
-    'feature' => array(
-      'create' => 'create feature',
-      'update' => 'edit feature',
-      'delete' => 'delete feature',
-    ),
-    'profile' => array(
-      'create' => 'create profile',
-      'update' => 'edit profile',
-      'delete' => 'delete profile',
-    ),
-    'topic' => array(
-      'create' => 'create event',
-      'update' => 'edit event',
-      'delete' => 'delete event',
-    ),
-    'event' => array(
-      'create' => 'create event',
-      'update' => 'edit event',
-      'delete' => 'delete event',
-    ),
-  );
-
-  if (isset($permissions[$type][$op])) {
-    return user_access($permissions[$type][$op], $account);
-  }
-}
-
-/**
- * Implementation of hook_menu().
- */
-function ding_content_menu() {
-  $items = array();
-
-  $items['admin/settings/ding_content'] = array(
-    'title' => 'Ding! content settings',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_content_admin_settings_form'),
-    'access arguments' => array('administer content'),
-    'file' => 'ding_content.admin.inc',
-  );
-
-  return $items;
 }
 
 /**
