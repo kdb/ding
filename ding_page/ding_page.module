@@ -21,21 +21,6 @@ function ding_page_perm() {
 }
 
 /**
- * Implementation of hook_node_info().
- */
-function ding_page_node_info() {
-  return array(
-    'page' => array(
-      'name' => t('Page'),
-      'module' => 'ding_page',
-      'description' => t('A static CMS page. Used for hierarcihal content that seldom changes. Does not allow comments and is not by default displayed on the front page.'),
-      'title_label' => t('Title'),
-      'body_label' => t('Body'),
-    ),
-  );
-}
-
-/**
  * Implementation of hook_access().
  */
 function ding_page_access($op, $node, $account) {

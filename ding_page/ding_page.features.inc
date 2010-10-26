@@ -1,37 +1,34 @@
 <?php
 
 /**
- * Implementation of hook_content_default_fields().
- */
-function ding_page_content_default_fields() {
-  module_load_include('inc', 'ding_page', 'ding_page.defaults');
-  $args = func_get_args();
-  return call_user_func_array('_ding_page_content_default_fields', $args);
-}
-
-/**
  * Implementation of hook_ctools_plugin_api().
  */
 function ding_page_ctools_plugin_api() {
-  module_load_include('inc', 'ding_page', 'ding_page.defaults');
-  $args = func_get_args();
-  return call_user_func_array('_ding_page_ctools_plugin_api', $args);
+  list($module, $api) = func_get_args();
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => 1);
+  }
+  elseif ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => 1);
+  }
 }
 
 /**
- * Implementation of hook_default_page_manager_handlers().
+ * Implementation of hook_node_info().
  */
-function ding_page_default_page_manager_handlers() {
-  module_load_include('inc', 'ding_page', 'ding_page.defaults');
-  $args = func_get_args();
-  return call_user_func_array('_ding_page_default_page_manager_handlers', $args);
-}
-
-/**
- * Implementation of hook_strongarm().
- */
-function ding_page_strongarm() {
-  module_load_include('inc', 'ding_page', 'ding_page.defaults');
-  $args = func_get_args();
-  return call_user_func_array('_ding_page_strongarm', $args);
+function ding_page_node_info() {
+  $items = array(
+    'page' => array(
+      'name' => t('Page'),
+      'module' => 'features',
+      'description' => t('A static CMS page. Used for hierarcihal content that seldom changes. Does not allow comments and is not by default displayed on the front page.'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'has_body' => '1',
+      'body_label' => t('Body'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
+  );
+  return $items;
 }
