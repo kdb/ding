@@ -6,35 +6,6 @@
  */
 
 /**
- * Implementation of hook_perm().
- *
- * Since we are limiting the ability to create new nodes to certain users,
- * we need to define what those permissions are here. We also define a permission
- * to allow users to edit the nodes they created.
- */
-function ding_page_perm() {
-  return array(
-    'create page',
-    'edit page',
-    'delete page',
-  );
-}
-
-/**
- * Implementation of hook_access().
- */
-function ding_page_access($op, $node, $account) {
-  switch ($op) {
-    case 'create':
-      return user_access('create page', $account);
-    case 'update':
-      return user_access('edit page', $account);
-    case 'delete':
-      return user_access('delete page', $account);
-  }
-}
-
-/**
  * Implementation of hook_form().
  *
  * Provides the node editing form.
