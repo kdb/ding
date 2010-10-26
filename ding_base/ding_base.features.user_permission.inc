@@ -10,8 +10,9 @@ function ding_base_user_default_permissions() {
   $permissions['access comments'] = array(
     'name' => 'access comments',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -19,8 +20,9 @@ function ding_base_user_default_permissions() {
   $permissions['access content'] = array(
     'name' => 'access content',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -28,8 +30,9 @@ function ding_base_user_default_permissions() {
   $permissions['access similarterms content'] = array(
     'name' => 'access similarterms content',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -37,8 +40,9 @@ function ding_base_user_default_permissions() {
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -46,7 +50,8 @@ function ding_base_user_default_permissions() {
   $permissions['post comments'] = array(
     'name' => 'post comments',
     'roles' => array(
-      '0' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'authenticated user',
     ),
   );
 
@@ -54,7 +59,8 @@ function ding_base_user_default_permissions() {
   $permissions['post comments without approval'] = array(
     'name' => 'post comments without approval',
     'roles' => array(
-      '0' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'authenticated user',
     ),
   );
 
@@ -62,8 +68,9 @@ function ding_base_user_default_permissions() {
   $permissions['search content'] = array(
     'name' => 'search content',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -71,7 +78,8 @@ function ding_base_user_default_permissions() {
   $permissions['subscribe to comments'] = array(
     'name' => 'subscribe to comments',
     'roles' => array(
-      '0' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'authenticated user',
     ),
   );
 
@@ -79,8 +87,9 @@ function ding_base_user_default_permissions() {
   $permissions['view imagecache 120_120'] = array(
     'name' => 'view imagecache 120_120',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -88,8 +97,9 @@ function ding_base_user_default_permissions() {
   $permissions['view imagecache 180_x'] = array(
     'name' => 'view imagecache 180_x',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -97,8 +107,9 @@ function ding_base_user_default_permissions() {
   $permissions['view imagecache 680_200_crop'] = array(
     'name' => 'view imagecache 680_200_crop',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -106,8 +117,9 @@ function ding_base_user_default_permissions() {
   $permissions['view imagecache 80_x'] = array(
     'name' => 'view imagecache 80_x',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -115,8 +127,9 @@ function ding_base_user_default_permissions() {
   $permissions['view imagecache ting_search_carousel'] = array(
     'name' => 'view imagecache ting_search_carousel',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -124,8 +137,9 @@ function ding_base_user_default_permissions() {
   $permissions['view search carousel'] = array(
     'name' => 'view search carousel',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
