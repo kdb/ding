@@ -52,16 +52,9 @@ function ding_library_menu() {
 
 /**
  * Implementation of hook_perm().
- *
- * Since we are limiting the ability to create new nodes to certain users,
- * we need to define what those permissions are here. We also define a permission
- * to allow users to edit the nodes they created.
  */
 function ding_library_perm() {
   return array(
-    'create library',
-    'edit library',
-    'delete library',
     'configure libraries',
   );
 }
@@ -80,20 +73,6 @@ function ding_library_cron() {
     // before the next day.
     variable_set('ding_library_nightly_cron', time());
     lock_release('ding_library_nightly_cron');
-  }
-}
-
-/**
- * Implementation of hook_access().
- */
-function ding_library_access($op, $node, $account) {
-  switch ($op) {
-    case 'create':
-      return user_access('create library', $account);
-    case 'update':
-      return user_access('edit library', $account);
-    case 'delete':
-      return user_access('delete library', $account);
   }
 }
 
