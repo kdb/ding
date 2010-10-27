@@ -4,17 +4,20 @@
  * @file
  * Install file providing upgrade hooks for the entire Ding project.
  *
- * Here goes all the upgrades that does not pertain to a more specific 
- * module. It is still preferable to store module-specific upgrades in 
+ * Here goes all the upgrades that does not pertain to a more specific
+ * module. It is still preferable to store module-specific upgrades in
  * their own module.
  */
 
+function ding_base_install() {
+  // Set up default filter configuration.
+  ding_base_setup_filters();
+}
+
 /**
- * Implementation of hook_update_N().
- * 
  * Disable date_locale module as it conflicts with our strongarmed
  * date_format variables and the functionality is currently not needed.
  */
 function ding_base_update_6000() {
-	module_disable(array('date_locale'));
+  module_disable(array('date_locale'));
 }
