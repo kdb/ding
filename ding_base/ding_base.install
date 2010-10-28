@@ -21,3 +21,22 @@ function ding_base_install() {
 function ding_base_update_6000() {
   module_disable(array('date_locale'));
 }
+
+/**
+ * Remove empty translations.
+ *
+ * This is a strait copy of locale_update_6003. For some unknown reason, we've
+ * encountered duplicates in the locales_target table, which causes locale
+ * export to generate an invalid po file. How it could happen is the question,
+ * but until we see it again, we assume someone messed up once and leave it at
+ * that.
+ *
+ * This simply deletes all translation sources without a translation. The
+ * duplicates we encountered didn't have any translations, and this is a safe
+ * operation.
+ */
+function ding_base_update_6001() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {locales_source} WHERE lid NOT IN (SELECT lid FROM {locales_target})");
+  return $ret;
+}
