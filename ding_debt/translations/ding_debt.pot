@@ -1,0 +1,108 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_debt.info: n/a
+#  ding_debt.module: n/a
+#  plugins/content_types/debt_list.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-10-28 13:14+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_debt.info:0 ding_debt.module:14
+msgid "Ding debt"
+msgstr ""
+
+#: ding_debt.info:0
+msgid "Adds support for displaying and paying fines."
+msgstr ""
+
+#: ding_debt.info:0
+msgid "Ding!"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:10;31
+msgid "Library user profile"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:19
+msgid "User debts notice"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:20
+msgid "Provides a short noice to the user about his library debts."
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:23
+msgid "User debts details"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:24
+msgid "Provides the full list of user debts, with an option to pay them."
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:32
+msgid "user"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:52
+msgid "You owe @amount for “%note”. !pay_link."
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:55;67
+msgid "Pay now"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:62
+msgid "You owe @amount for “%note” and !others_link. !pay_link."
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:88
+msgid "“@s”: Debts notice"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:90
+msgid "“@s”: Debts list"
+msgstr ""
+
+#: plugins/content_types/debt_list.inc:65
+msgid "one other"
+msgid_plural "@count others"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ding_debt.module:17
+msgid "OK"
+msgstr ""
+
+#: ding_debt.module:17
+msgid "No debt provider active."
+msgstr ""
+
+#: ding_debt.module:102
+msgid "Select"
+msgstr ""
+
+#: ding_debt.module:103
+msgid "Note"
+msgstr ""
+
+#: ding_debt.module:104
+msgid "Date"
+msgstr ""
+
+#: ding_debt.module:105
+msgid "Amount"
+msgstr ""
+

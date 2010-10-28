@@ -2,13 +2,13 @@
 #
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
-# Generated from file: draggable_checkboxes.info: n/a
+# Generated from file: d7backports.info: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2010-10-28 13:14+0200\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: draggable_checkboxes.info:0
-msgid "Draggable checkboxes"
+#: d7backports.info:0
+msgid "Drupal 7 backports"
 msgstr ""
 
-#: draggable_checkboxes.info:0
-msgid "Exposes a drag and drop reorderable checkboxes form element to other modules."
+#: d7backports.info:0
+msgid "Contains several API functions from Drupal 7 backported to Drupal 6. Use this to help ensure forward compatibility, and remember to remove this module before attempting an update to Drupal 7."
 msgstr ""
 

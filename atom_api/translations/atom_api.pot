@@ -2,13 +2,15 @@
 #
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
-# Generated from file: draggable_checkboxes.info: n/a
+# Generated from files:
+#  atom_api.info: n/a
+#  atom_api.module: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2010-10-28 13:14+0200\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -17,11 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: draggable_checkboxes.info:0
-msgid "Draggable checkboxes"
+#: atom_api.info:0
+msgid "Atom API"
 msgstr ""
 
-#: draggable_checkboxes.info:0
-msgid "Exposes a drag and drop reorderable checkboxes form element to other modules."
+#: atom_api.info:0
+msgid "Provides API methods to generate Atom 1.0 feeds."
+msgstr ""
+
+#: atom_api.info:0
+msgid "Syndication"
+msgstr ""
+
+#: atom_api.module:42
+msgid "Atom feed"
 msgstr ""
 

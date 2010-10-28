@@ -2,7 +2,9 @@
 #
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
-# Generated from file: draggable_checkboxes.info: n/a
+# Generated from files:
+#  ding_admin.info: n/a
+#  ding_admin.module: n/a
 #
 #, fuzzy
 msgid ""
@@ -17,11 +19,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: draggable_checkboxes.info:0
-msgid "Draggable checkboxes"
+#: ding_admin.info:0
+msgid "Ding! admin"
 msgstr ""
 
-#: draggable_checkboxes.info:0
-msgid "Exposes a drag and drop reorderable checkboxes form element to other modules."
+#: ding_admin.info:0
+msgid "Tweaks and overrides for the admin interface."
+msgstr ""
+
+#: ding_admin.info:0
+msgid "Ding!"
+msgstr ""
+
+#: ding_admin.module:12
+msgid "Not in menu"
 msgstr ""
 
