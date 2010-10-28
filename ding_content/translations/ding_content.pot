@@ -3,14 +3,16 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  ding_content.module: n/a
 #  ding_content.info: n/a
+#  ding_content.features.content.inc: n/a
+#  ding_content.features.inc: n/a
+#  ding_content.module: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-09-27 15:29+0200\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -18,110 +20,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: ding_content.module:42
-msgid "Blog post"
-msgstr ""
-
-#: ding_content.module:45;52;59;66;94
-msgid "Name"
-msgstr ""
-
-#: ding_content.module:46;53;60;67;95
-msgid "Description"
-msgstr ""
-
-#: ding_content.module:49
-msgid "Facility/service"
-msgstr ""
-
-#: ding_content.module:56
-msgid "Staff profile"
-msgstr ""
-
-#: ding_content.module:63
-msgid "Topic"
-msgstr ""
-
-#: ding_content.module:70
-msgid "Link"
-msgstr ""
-
-#: ding_content.module:77
-msgid "Ting references"
-msgstr ""
-
-#: ding_content.module:84
-msgid "Text"
-msgstr ""
-
-#: ding_content.module:91
-msgid "Event"
-msgstr ""
-
-#: ding_content.module:18
-msgid "create article"
-msgstr ""
-
-#: ding_content.module:19
-msgid "edit article"
-msgstr ""
-
-#: ding_content.module:20
-msgid "delete article"
-msgstr ""
-
-#: ding_content.module:21
-msgid "create event"
-msgstr ""
-
-#: ding_content.module:22
-msgid "edit event"
-msgstr ""
-
-#: ding_content.module:23
-msgid "delete event"
-msgstr ""
-
-#: ding_content.module:24
-msgid "create feature"
-msgstr ""
-
-#: ding_content.module:25
-msgid "edit feature"
-msgstr ""
-
-#: ding_content.module:26
-msgid "delete feature"
-msgstr ""
-
-#: ding_content.module:27
-msgid "create profile"
-msgstr ""
-
-#: ding_content.module:28
-msgid "edit profile"
-msgstr ""
-
-#: ding_content.module:29
-msgid "delete profile"
-msgstr ""
-
-#: ding_content.module:30
-msgid "create topic"
-msgstr ""
-
-#: ding_content.module:31
-msgid "edit topic"
-msgstr ""
-
-#: ding_content.module:32
-msgid "delete topic"
-msgstr ""
-
-#: ding_content.module:0
-msgid "ding_content"
-msgstr ""
 
 #: ding_content.info:0
 msgid "Ding! content"
@@ -133,5 +31,149 @@ msgstr ""
 
 #: ding_content.info:0
 msgid "Ding!"
+msgstr ""
+
+#: ding_content.features.content.inc:2026
+msgid "Arbejder med"
+msgstr ""
+
+#: ding_content.features.content.inc:2027
+msgid "Beskrivelse"
+msgstr ""
+
+#: ding_content.features.content.inc:2028
+msgid "Bibliotek"
+msgstr ""
+
+#: ding_content.features.content.inc:2029
+msgid "Biblioteker"
+msgstr ""
+
+#: ding_content.features.content.inc:2030
+msgid "Entré"
+msgstr ""
+
+#: ding_content.features.content.inc:2031
+msgid "Indholdsbilleder"
+msgstr ""
+
+#: ding_content.features.content.inc:2032 ding_content.features.inc:78
+msgid "Link"
+msgstr ""
+
+#: ding_content.features.content.inc:2033
+msgid "Listevisningsbillede"
+msgstr ""
+
+#: ding_content.features.content.inc:2034
+msgid "Materialer"
+msgstr ""
+
+#: ding_content.features.content.inc:2035
+msgid "Materialer og links"
+msgstr ""
+
+#: ding_content.features.content.inc:2036
+msgid "Overskrift"
+msgstr ""
+
+#: ding_content.features.content.inc:2037
+msgid "Profilbillede"
+msgstr ""
+
+#: ding_content.features.content.inc:2038
+msgid "Smagsprøve"
+msgstr ""
+
+#: ding_content.features.content.inc:2039
+msgid "Stilling"
+msgstr ""
+
+#: ding_content.features.content.inc:2040
+msgid "Tid & dato"
+msgstr ""
+
+#: ding_content.features.content.inc:2041
+msgid "Vedhæftede filer"
+msgstr ""
+
+#: ding_content.module:45
+msgid "Revision information"
+msgstr ""
+
+#: ding_content.module:53
+msgid "Create new revision"
+msgstr ""
+
+#: ding_content.module:58
+msgid "Log message"
+msgstr ""
+
+#: ding_content.module:61
+msgid "An explanation of the additions or updates being made to help other authors understand your motivations."
+msgstr ""
+
+#: ding_content.module:18
+msgid "edit advanced node properties"
+msgstr ""
+
+#: ding_content.features.inc:45
+msgid "Blog post"
+msgstr ""
+
+#: ding_content.features.inc:47;113
+msgid "A staff profile with description, profile picture, and tags."
+msgstr ""
+
+#: ding_content.features.inc:49;60;71;115;126
+msgid "Name"
+msgstr ""
+
+#: ding_content.features.inc:51;62;73;117;128
+msgid "Description"
+msgstr ""
+
+#: ding_content.features.inc:56
+msgid "Event"
+msgstr ""
+
+#: ding_content.features.inc:58;69
+msgid "An event, usually related to a library."
+msgstr ""
+
+#: ding_content.features.inc:67
+msgid "Facility/service"
+msgstr ""
+
+#: ding_content.features.inc:80
+msgid "Flexifield container: A link with a description."
+msgstr ""
+
+#: ding_content.features.inc:89
+msgid "Text"
+msgstr ""
+
+#: ding_content.features.inc:91
+msgid "Flexifield container: A text block."
+msgstr ""
+
+#: ding_content.features.inc:100
+msgid "Ting references"
+msgstr ""
+
+#: ding_content.features.inc:102
+msgid "Flexifield container: A collection of Ting references."
+msgstr ""
+
+#: ding_content.features.inc:111
+msgid "Staff profile"
+msgstr ""
+
+#: ding_content.features.inc:122
+msgid "Topic"
+msgstr ""
+
+#: ding_content.features.inc:124
+msgid "A collection of links and Ting objects relevant to a specific topic, possibly related to a library."
 msgstr ""
 

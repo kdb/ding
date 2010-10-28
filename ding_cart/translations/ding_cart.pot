@@ -1,0 +1,175 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_cart.module: n/a
+#  ding_cart.theme.inc: n/a
+#  plugins/content_types/cart.inc: n/a
+#  ding_cart.install: n/a
+#  ding_cart.info: n/a
+#  ding_cart.forms.inc: n/a
+#  ding_cart.buttons.js: n/a
+#  ding_cart.pages.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-10-28 13:14+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_cart.module:61
+msgid "Add to cart"
+msgstr ""
+
+#: ding_cart.module:129
+msgid "Select"
+msgstr ""
+
+#: ding_cart.module:129
+msgid "Title"
+msgstr ""
+
+#: ding_cart.module:165
+msgid "The cart is empty."
+msgstr ""
+
+#: ding_cart.module:11
+msgid "Add item to cart"
+msgstr ""
+
+#: ding_cart.theme.inc:9
+msgid "by"
+msgstr ""
+
+#: plugins/content_types/cart.inc:17
+msgid "Library patron cart"
+msgstr ""
+
+#: plugins/content_types/cart.inc:27
+msgid "User cart details"
+msgstr ""
+
+#: plugins/content_types/cart.inc:28
+msgid "Displays the contents of the user’s cart."
+msgstr ""
+
+#: plugins/content_types/cart.inc:35
+msgid "Library patron profile"
+msgstr ""
+
+#: plugins/content_types/cart.inc:36
+msgid "Patron"
+msgstr ""
+
+#: plugins/content_types/cart.inc:69
+msgid "“@s”: Cart details"
+msgstr ""
+
+#: ding_cart.install:30
+msgid "Keep track of the user’s cart."
+msgstr ""
+
+#: ding_cart.install:33
+msgid "{users}.uid for user"
+msgstr ""
+
+#: ding_cart.install:39
+msgid "Local ID in Ting lingo."
+msgstr ""
+
+#: ding_cart.install:45
+msgid "Ting ID – used to look up data from Ting."
+msgstr ""
+
+#: ding_cart.install:51
+msgid "Timestamp for when this record was created."
+msgstr ""
+
+#: ding_cart.install:57
+msgid "The title for this record"
+msgstr ""
+
+#: ding_cart.install:63
+msgid "The author name for this record"
+msgstr ""
+
+#: ding_cart.install:69
+msgid "The record type - book, DVD, magnaprint, etc."
+msgstr ""
+
+#: ding_cart.install:75
+msgid "The thumbnail URL for this record"
+msgstr ""
+
+#: ding_cart.info:0
+msgid "Ding! cart"
+msgstr ""
+
+#: ding_cart.info:0
+msgid "Provides a shopping cart for reserving books."
+msgstr ""
+
+#: ding_cart.info:0
+msgid "Ding!"
+msgstr ""
+
+#: ding_cart.forms.inc:41
+msgid "Remove selected"
+msgstr ""
+
+#: ding_cart.forms.inc:58
+msgid "Please select one or more items from the cart."
+msgstr ""
+
+#: ding_cart.forms.inc:66
+msgid "Date must be in the future."
+msgstr ""
+
+#: ding_cart.buttons.js:0
+msgid "View cart…"
+msgstr ""
+
+#: ding_cart.pages.inc:25
+msgid "Not logged in"
+msgstr ""
+
+#: ding_cart.pages.inc:26
+msgid "You have to log in to put books in your cart"
+msgstr ""
+
+#: ding_cart.pages.inc:31
+msgid "Already in cart"
+msgstr ""
+
+#: ding_cart.pages.inc:32;57
+msgid "@item is already in your cart."
+msgstr ""
+
+#: ding_cart.pages.inc:37
+msgid "Success"
+msgstr ""
+
+#: ding_cart.pages.inc:38
+msgid "@item is now in your cart."
+msgstr ""
+
+#: ding_cart.pages.inc:44
+msgid "Cart saving error"
+msgstr ""
+
+#: ding_cart.pages.inc:45
+msgid "An error occurred while saving to the cart. Please try again."
+msgstr ""
+
+#: ding_cart.pages.inc:94
+msgid "Add %book to your cart?"
+msgstr ""
+

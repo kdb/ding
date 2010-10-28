@@ -2,7 +2,10 @@
 #
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
-# Generated from file: draggable_checkboxes.info: n/a
+# Generated from files:
+#  similarterms_preview.info: n/a
+#  similarterms_preview.module: n/a
+#  similarterms_preview.node-form.js: n/a
 #
 #, fuzzy
 msgid ""
@@ -17,11 +20,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: draggable_checkboxes.info:0
-msgid "Draggable checkboxes"
+#: similarterms_preview.info:0
+msgid "Similar By Terms Preview"
 msgstr ""
 
-#: draggable_checkboxes.info:0
-msgid "Exposes a drag and drop reorderable checkboxes form element to other modules."
+#: similarterms_preview.info:0
+msgid "Displays a preview of other content that is similar by keywords (taxonomy terms) while the node is being edited."
+msgstr ""
+
+#: similarterms_preview.module:24
+msgid "preview similar content by terms"
+msgstr ""
+
+#: similarterms_preview.node-form.js:0
+msgid "Similar content"
 msgstr ""
 
