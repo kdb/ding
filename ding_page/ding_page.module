@@ -6,41 +6,6 @@
  */
 
 /**
- * Implementation of hook_form().
- *
- * Provides the node editing form.
- */
-function ding_page_form(&$node) {
-  // The site admin can decide if this node type has a title and body, and how
-  // the fields should be labeled. We need to load these settings so we can
-  // build the node form correctly.
-  $type = node_get_types('type', $node);
-  $form = array();
-
-  // Add JavaScript tweaks to the form page.
-  drupal_add_js(drupal_get_path('module', 'ding_page') . '/ding_page.js');
-
-  if ($type->has_title) {
-    $form['title'] = array(
-      '#type' => 'textfield',
-      '#title' => check_plain($type->title_label),
-      '#required' => TRUE,
-      '#default_value' => $node->title,
-      '#weight' => -5
-    );
-  }
-
-  if ($type->has_body) {
-    // In Drupal 6, we can use node_body_field() to get the body and filter
-    // elements. This replaces the old textarea + filter_form() method of
-    // setting this up. It will also ensure the teaser splitter gets set up
-    // properly.
-    $form['body_field'] = node_body_field($node, $type->body_label, $type->min_word_count);
-  }
-  return $form;
-}
-
-/**
  * Implementation of hook_form_alter().
  */
 function ding_page_form_alter(&$form, $form_state, $form_id) {
@@ -52,17 +17,6 @@ function ding_page_form_alter(&$form, $form_state, $form_id) {
       '#value' => 0,
     );
   }
-}
-
-/**
- * Implementation of hook_view().
- *
- * This is a typical implementation that simply runs the node text through
- * the output filters.
- */
-function ding_page_view($node, $teaser = FALSE, $page = FALSE) {
-  $node = node_prepare($node, $teaser);
-  return $node;
 }
 
 include_once('ding_page.features.inc');

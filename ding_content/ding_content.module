@@ -36,35 +36,44 @@ function ding_content_menu_alter(&$items) {
 function ding_content_form_alter(&$form, $form_state, $form_id) {
   // Allow access to certain features that are usually restricted to users with
   // the "administer nodes" permission.
-  if (substr($form_id, -10) == '_node_form' && user_access('edit advanced node properties')) {
-    if (empty($form['revision_information']['revision']['#access'])) {
-      if (!isset($form['revision_information'])) {
-        // The following is copied from node_form().
-        $form['revision_information'] = array(
-          '#type' => 'fieldset',
-          '#title' => t('Revision information'),
-          '#collapsible' => TRUE,
-          // Collapsed by default when "Create new revision" is unchecked
-          '#collapsed' => !$node->revision,
-          '#weight' => 20,
-        );
-        $form['revision_information']['revision'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('Create new revision'),
-          '#default_value' => $node->revision,
-        );
-        $form['revision_information']['log'] = array(
-          '#type' => 'textarea',
-          '#title' => t('Log message'),
-          '#default_value' => (isset($node->log) ? $node->log : ''),
-          '#rows' => 2,
-          '#description' => t('An explanation of the additions or updates being made to help other authors understand your motivations.'),
-        );
-      }
-      $form['revision_information']['revision']['#access'] = TRUE;
+  if (substr($form_id, -10) == '_node_form') {
+    if (in_array($form['type']['#value'], array('profile', 'article', 'feature'))) {
+      // For these node types, we don't want splittable teasers, so let's
+      // disable that.
+      unset($form['body_field']['teaser_js']);
+      unset($form['body_field']['teaser_include']);
+    }
 
-      $form['author']['#access'] = TRUE;
-      $form['options']['#access'] = TRUE;
+    if (user_access('edit advanced node properties')) {
+      if (empty($form['revision_information']['revision']['#access'])) {
+        if (!isset($form['revision_information'])) {
+          // The following is copied from node_form().
+          $form['revision_information'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Revision information'),
+            '#collapsible' => TRUE,
+            // Collapsed by default when "Create new revision" is unchecked
+            '#collapsed' => !$node->revision,
+            '#weight' => 20,
+          );
+          $form['revision_information']['revision'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Create new revision'),
+            '#default_value' => $node->revision,
+          );
+          $form['revision_information']['log'] = array(
+            '#type' => 'textarea',
+            '#title' => t('Log message'),
+            '#default_value' => (isset($node->log) ? $node->log : ''),
+            '#rows' => 2,
+            '#description' => t('An explanation of the additions or updates being made to help other authors understand your motivations.'),
+          );
+        }
+        $form['revision_information']['revision']['#access'] = TRUE;
+
+        $form['author']['#access'] = TRUE;
+        $form['options']['#access'] = TRUE;
+      }
     }
   }
 }
@@ -84,64 +93,9 @@ function ding_content_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       $node->uid = 0;
     }
   }
-}
-
-/**
- * Implementation of hook_form().
- *
- * Provides the node editing form.
- */
-function ding_content_form(&$node) {
-  // The site admin can decide if this node type has a title and body, and how
-  // the fields should be labeled. We need to load these settings so we can
-  // build the node form correctly.
-  $type = node_get_types('type', $node);
-  $form = array();
-
-  if ($type->has_title) {
-    $form['title'] = array(
-      '#type' => 'textfield',
-      '#title' => check_plain($type->title_label),
-      '#required' => TRUE,
-      '#default_value' => $node->title,
-      '#weight' => -5
-    );
-  }
-
-  if ($type->has_body) {
-    // In Drupal 6, we can use node_body_field() to get the body and filter
-    // elements. This replaces the old textarea + filter_form() method of
-    // setting this up. It will also ensure the teaser splitter gets set up
-    // properly.
-    $form['body_field'] = node_body_field($node, $type->body_label, $type->min_word_count);
-  }
-
-  if (in_array($type->type, array('profile', 'article', 'feature'))) {
-    // For these node types, we don't want splittable teasers, so let's
-    // disable that.
-    unset($form['body_field']['teaser_js']);
-    unset($form['body_field']['teaser_include']);
-  }
-
-  return $form;
-}
-
-/**
- * Implementation of hook_view().
- *
- * This is a typical implementation that simply runs the node text through
- * the output filters.
- */
-function ding_content_view($node, $teaser = FALSE, $page = FALSE) {
-  // Don't allow profile node to be viewed on its own, instead redirect to
-  // the user profile page.
-  if ($node->type == 'profile' && $_GET['q'] == 'node/' . $node->nid) {
-    // Use a 301 permanent redirect.
+  if ($op == 'view' && $node->type == 'profile' && $_GET['q'] == 'node/' . $node->nid) {
     return drupal_goto('user/' . $node->uid, NULL, NULL, 301);
   }
-
-  $node = node_prepare($node, $teaser);
-  return $node;
 }
 
 require_once('ding_content.features.inc');
