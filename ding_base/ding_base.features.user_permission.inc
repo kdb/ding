@@ -11,7 +11,8 @@ function ding_base_user_default_permissions() {
     'name' => 'access admin theme',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -20,7 +21,8 @@ function ding_base_user_default_permissions() {
     'name' => 'access administration pages',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -60,6 +62,7 @@ function ding_base_user_default_permissions() {
       '0' => 'administrator',
       '1' => 'anonymous user',
       '2' => 'authenticated user',
+      '3' => 'author',
     ),
   );
 
@@ -77,7 +80,8 @@ function ding_base_user_default_permissions() {
     'name' => 'access site-wide contact form',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -123,7 +127,8 @@ function ding_base_user_default_permissions() {
     'name' => 'administer comments',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -285,7 +290,8 @@ function ding_base_user_default_permissions() {
     'name' => 'change own username',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -303,7 +309,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create article content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -321,7 +328,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create event content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -330,7 +338,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create feature content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -348,7 +357,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create page content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -357,7 +367,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -366,7 +377,8 @@ function ding_base_user_default_permissions() {
     'name' => 'create topic content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -384,7 +396,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any article content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -402,7 +415,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any event content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -411,7 +425,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any feature content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -429,7 +444,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any page content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -438,7 +454,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -447,7 +464,8 @@ function ding_base_user_default_permissions() {
     'name' => 'delete any topic content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -465,7 +483,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any article content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -483,7 +502,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any event content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -492,7 +512,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any feature content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -510,7 +531,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any page content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -519,7 +541,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -528,7 +551,8 @@ function ding_base_user_default_permissions() {
     'name' => 'edit any topic content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -546,7 +570,8 @@ function ding_base_user_default_permissions() {
     'name' => 'notify of path changes',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -582,7 +607,8 @@ function ding_base_user_default_permissions() {
     'name' => 'preview similar content by terms',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -591,7 +617,8 @@ function ding_base_user_default_permissions() {
     'name' => 'revert revisions',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -628,7 +655,8 @@ function ding_base_user_default_permissions() {
     'name' => 'use admin toolbar',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -673,7 +701,8 @@ function ding_base_user_default_permissions() {
     'name' => 'view date repeats',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
@@ -732,7 +761,8 @@ function ding_base_user_default_permissions() {
     'name' => 'view revisions',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'editor',
+      '1' => 'author',
+      '2' => 'editor',
     ),
   );
 
