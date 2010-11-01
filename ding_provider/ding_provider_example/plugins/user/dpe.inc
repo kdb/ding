@@ -35,7 +35,7 @@ $plugin = array(
  *   TRUE if the account is authenticated.
  */
 function ding_provider_example_user_logged_in($account) {
-  $creds = _ding_provider_example_get_credentials($account);
+  $creds = ding_library_user_get_credentials($account);
   return $creds != DING_PROVIDER_AUTH_REQUIRED;
 }
 
@@ -73,11 +73,63 @@ function ding_provider_example_user_settings_form() {
  */
 function ding_provider_example_user_library_settings_form() {
   $form = array();
-  $creds = _ding_provider_example_get_credentials();
+  $creds = ding_library_user_get_credentials();
   if ($creds == DING_PROVIDER_AUTH_REQUIRED) {
     return $form;
   }
 
   // We don't have anything, but we know that the reservation plugin have.
   return $form;
+}
+
+/**
+ * Authenticate user.
+ *
+ * @param string $name
+ *   Username.
+ * @param string $pass
+ *   Password.
+ *
+ * @return array
+ *   An array with the following keys:
+ *   - result: Boolean, whether the authentication succeeded.
+ *   - authname: String. Normally ding_library_user generates an authname for
+ *     the authmap table, but the authenticator can override it with this
+ *     (useful for migration).
+ *   - creds: Credentials for the credentials cache. These will be retrievable
+ *     with ding_library_user_get_credentials later. Can be anything
+ *     serializable.
+ *   - user: Array of extra properties for the user object. These will be
+ *     available in any hook_user('login') functions. 'display_name' and
+ *     'auth_mail' are recommended.
+ */
+function openruth_user_authenticate($name, $pass) {
+  $return = array(
+    'result' => FALSE,
+  );
+
+  if (!preg_match('/^dpe_.*$/', $name)) {
+    return $return;
+  }
+
+  $return['result'] = TRUE;
+  $return['creds'] = array(
+    'name' => $name,
+    'pass' => $pass,
+  );
+
+  return $return;
+}
+
+/**
+ * Additional authentication handling.
+ *
+ * Authenticators might implement this function for additional setup
+ * after the user has been logged in.
+ *
+ * Warning: The supplied user is not a reference, so modifying it wont
+ * propagate. Also, only modify the global $user if the uid is the
+ * same, as it might not be the same user.
+ */
+function openruth_user_authenticate_finalize($user) {
 }

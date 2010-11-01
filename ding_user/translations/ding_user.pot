@@ -1,0 +1,100 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_user.module: n/a
+#  ding_user.admin.inc: n/a
+#  ding_user.forms.inc: n/a
+#  ding_user.info: n/a
+#  ding_user.install: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_user.module:82;95
+msgid "Display name"
+msgstr ""
+
+#: ding_user.module:83;96
+msgid "Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR."
+msgstr ""
+
+#: ding_user.module:164
+msgid "change other user’s passwords"
+msgstr ""
+
+#: ding_user.module:14
+msgid "Ding! user settings"
+msgstr ""
+
+#: ding_user.module:22
+msgid "Change password"
+msgstr ""
+
+#: ding_user.admin.inc:16
+msgid "Secure roles"
+msgstr ""
+
+#: ding_user.admin.inc:17
+msgid "Select the roles that are high security, requiring username/password login instead the simple Alma patron login. Note that the superuser account (uid=1) is always considered to have a secure role."
+msgstr ""
+
+#: ding_user.forms.inc:17
+msgid "New password"
+msgstr ""
+
+#: ding_user.forms.inc:19
+msgid "The new password must have at least one letter, one number, and must be a least 8 characters long."
+msgstr ""
+
+#: ding_user.forms.inc:24
+msgid "Save new password"
+msgstr ""
+
+#: ding_user.forms.inc:35
+msgid "The new password must be a least 8 characters long."
+msgstr ""
+
+#: ding_user.forms.inc:39
+msgid "The new password must have at least one letter."
+msgstr ""
+
+#: ding_user.forms.inc:43
+msgid "The new password must have at least one number."
+msgstr ""
+
+#: ding_user.forms.inc:62
+msgid "Your new password has been saved."
+msgstr ""
+
+#: ding_user.info:0
+msgid "Ding! user"
+msgstr ""
+
+#: ding_user.info:0
+msgid "Modifies the Drupal user system to use more secure passwords annd similar customisation."
+msgstr ""
+
+#: ding_user.info:0
+msgid "Ding!"
+msgstr ""
+
+#: ding_user.install:30
+msgid "Ding user data – stronger encrypted passwords, etc."
+msgstr ""
+
+#: ding_user.install:33
+msgid "{users}.uid for node"
+msgstr ""
+

@@ -9,6 +9,21 @@
  */
 
 /**
+ * Implementation of hook_menu().
+ */
+function ding_base_menu() {
+  $items['admin/settings/filters/ding_reset'] = array(
+    'title' => 'Ding reset',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_base_reset_filters_confirm_form'),
+    'access arguments' => array('administer filters'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
  * Implementation of hook_date_format_types().
  */
 function ding_base_date_format_types() {
@@ -116,6 +131,111 @@ function ding_base_element_validate_future_date(&$element, &$form_state) {
     $timestamp = strtotime($element['#value']['date']);
     if ($timestamp <= $_SERVER['REQUEST_TIME']) {
       form_error($element, t('Date must be later than today.'));
+    }
+  }
+}
+
+/**
+ * Reset filters confirm form.
+ */
+function ding_base_reset_filters_confirm_form() {
+  // filter_formats only returns filters the user has access to, but we assume
+  // that if you have access to the admin pages, you'll have access to all
+  // filters.
+  $formats = filter_formats();
+  $question = t("Reset filters to Ding defaults?");
+  $description = t("This will reset the %filter_1, %filter_2 and %filter_3 formats and the WYSIWYG setup associated with %filter_3 filter to default values.", array('%filter_1' => $formats[1]->name, '%filter_2' => $formats[2]->name, '%filter_3' => $formats[3]->name));
+
+  return confirm_form(array(), $question, 'admin/settings/filters/ding_reset', $description, t('Reset'));
+}
+
+/**
+ * Submit function for filter reset form.
+ */
+function ding_base_reset_filters_confirm_form_submit($form, &$form_state) {
+  ding_base_setup_filters();
+  $form_state['redirect'] = 'admin/settings/filters';
+}
+
+/**
+ * Set input filters to standard configuration.
+ */
+function ding_base_setup_filters() {
+  $formats = array(
+    array(
+      'format' => 1,
+      'name' => 'Markdown',
+      'roles' => ',1,2,3,4,',
+      'cache' => 1,
+      'filters' => array(
+        'htmlLawed:0:10',
+        "filter:2:0",
+        "htmLawed:0:10",
+        "markdown:0:10",
+      ),
+      'wysiwyg' => array('', NULL),
+    ),
+    array(
+      'format' => 2,
+      'name' => 'Full HTML',
+      'roles' => ',,',
+      'cache' => 1,
+      'filters' => array(
+        "filter:2:0",
+        "filter:3:10",
+        "htmLawed:0:10",
+        "image_resize_filter:0:10",
+        "oembed:0:10",
+      ),
+      'wysiwyg' => array('', NULL),
+    ),
+    array(
+      'format' => 3,
+      'name' => 'WYSIWYG',
+      'roles' => ',3,4,',
+      'cache' => 1,
+      'filters' => array(
+        "htmLawed:0:10",
+        "image_resize_filter:0:10",
+      ),
+      'wysiwyg' => array('tinymce', 'a:20:{s:7:"default";i:1;s:11:"user_choose";i:0;s:11:"show_toggle";i:1;s:5:"theme";s:8:"advanced";s:8:"language";s:2:"en";s:7:"buttons";a:4:{s:7:"default";a:23:{s:4:"bold";i:1;s:6:"italic";i:1;s:9:"underline";i:1;s:13:"strikethrough";i:1;s:11:"justifyleft";i:1;s:13:"justifycenter";i:1;s:12:"justifyright";i:1;s:7:"bullist";i:1;s:7:"numlist";i:1;s:7:"outdent";i:1;s:6:"indent";i:1;s:4:"undo";i:1;s:4:"redo";i:1;s:4:"link";i:1;s:6:"unlink";i:1;s:6:"anchor";i:1;s:5:"image";i:1;s:7:"cleanup";i:1;s:10:"blockquote";i:1;s:4:"code";i:1;s:2:"hr";i:1;s:5:"paste";i:1;s:7:"charmap";i:1;}s:12:"inlinepopups";a:1:{s:12:"inlinepopups";i:1;}s:5:"style";a:1:{s:10:"styleprops";i:1;}s:5:"table";a:1:{s:13:"tablecontrols";i:1;}}s:11:"toolbar_loc";s:3:"top";s:13:"toolbar_align";s:4:"left";s:8:"path_loc";s:6:"bottom";s:8:"resizing";i:1;s:11:"verify_html";i:1;s:12:"preformatted";i:0;s:22:"convert_fonts_to_spans";i:1;s:17:"remove_linebreaks";i:1;s:23:"apply_source_formatting";i:1;s:27:"paste_auto_cleanup_on_paste";i:1;s:13:"block_formats";s:32:"p,address,pre,h2,h3,h4,h5,h6,div";s:11:"css_setting";s:5:"theme";s:8:"css_path";s:0:"";s:11:"css_classes";s:0:"";}'),
+    ),
+  );
+
+  foreach ($formats as $format) {
+    if (!drupal_write_record('filter_formats', $format, 'format')) {
+      drupal_write_record('filter_formats', $format);
+    }
+    db_query("DELETE FROM {filters} WHERE format = %d", $format['format']);
+    foreach ($format['filters'] as $def) {
+      $tmp = explode(':', $def);
+      $filter = array(
+        'format' => $format['format'],
+        'module' => $tmp[0],
+        'delta' => $tmp[1],
+        'weight' => $tmp[2],
+      );
+      drupal_write_record('filters', $filter);
+    }
+    db_query("DELETE FROM {wysiwyg} WHERE format = %d", $format['format']);
+    db_query("INSERT INTO {wysiwyg} (format, editor, settings) VALUES (%d, '%s', '%s')", $format['format'], $format['wysiwyg'][0], $format['wysiwyg'][1]);
+  }
+  // Set better_formats.
+  $types = array(
+    'block',
+    'comment',
+    'node',
+  );
+  $rid_format = array(
+    4 => 3,
+    1 => 0,
+    2 => 0,
+  );
+  $i = -25;
+  foreach ($rid_format as $rid => $format) {
+    db_query("DELETE FROM {better_formats_defaults} WHERE rid = %d", $rid);
+    foreach ($types as $type) {
+      db_query("INSERT INTO {better_formats_defaults} (rid, type, format, type_weight, weight) VALUES (%d, '%s', %d, %d, %d)", $rid, $type, $format, 1, $i++);
     }
   }
 }

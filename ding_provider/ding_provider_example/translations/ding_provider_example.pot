@@ -1,0 +1,200 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_provider_example.module: n/a
+#  plugins/booking/dpe.inc: n/a
+#  plugins/branch/dpe.inc: n/a
+#  plugins/reservation/dpe.inc: n/a
+#  plugins/debt/dpe.inc: n/a
+#  plugins/loan/dpe.inc: n/a
+#  plugins/user/dpe.inc: n/a
+#  plugins/availability/dpe.inc: n/a
+#  ding_provider_example.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_provider_example.module:47
+msgid "Valid to"
+msgstr ""
+
+#: ding_provider_example.module:54
+msgid "New pickup branch"
+msgstr ""
+
+#: ding_provider_example.module:63
+msgid "Save changes for selected reservations"
+msgstr ""
+
+#: ding_provider_example.module:71
+msgid "Delete selected reservations"
+msgstr ""
+
+#: ding_provider_example.module:87
+msgid "You can not change expiry on reservations which are ready for pick up"
+msgstr ""
+
+#: ding_provider_example.module:96
+msgid "Invalid date"
+msgstr ""
+
+#: ding_provider_example.module:102
+msgid "Date must be later than today."
+msgstr ""
+
+#: ding_provider_example.module:135
+msgid "Not interested after"
+msgstr ""
+
+#: ding_provider_example.module:143 plugins/booking/dpe.inc:85
+msgid "Pickup branch"
+msgstr ""
+
+#: ding_provider_example.module:152
+msgid "Reserve selected"
+msgstr ""
+
+#: ding_provider_example.module:171
+msgid "Reservation of “@title” failed. It may be on your reservation list already."
+msgstr ""
+
+#: ding_provider_example.module:197
+msgid "Pay all"
+msgstr ""
+
+#: plugins/branch/dpe.inc:11
+msgid "Example branch plugin"
+msgstr ""
+
+#: plugins/reservation/dpe.inc:11
+msgid "Example reservation plugin"
+msgstr ""
+
+#: plugins/booking/dpe.inc:11
+msgid "Example booking plugin"
+msgstr ""
+
+#: plugins/booking/dpe.inc:59
+msgid "From"
+msgstr ""
+
+#: plugins/booking/dpe.inc:68
+msgid "To"
+msgstr ""
+
+#: plugins/booking/dpe.inc:77
+msgid "Number to book"
+msgstr ""
+
+#: plugins/debt/dpe.inc:11
+msgid "Example debt plugin"
+msgstr ""
+
+#: plugins/debt/dpe.inc:21
+msgid "Ding Dibs Integration module is required for payments."
+msgstr ""
+
+#: plugins/debt/dpe.inc:26
+msgid "Payments"
+msgstr ""
+
+#: plugins/debt/dpe.inc:27
+msgid "Enabled"
+msgstr ""
+
+#: plugins/debt/dpe.inc:27
+msgid "Disabled"
+msgstr ""
+
+#: plugins/loan/dpe.inc:11
+msgid "Example loan plugin"
+msgstr ""
+
+#: plugins/loan/dpe.inc:180
+msgid "Unknown loan"
+msgstr ""
+
+#: plugins/loan/dpe.inc:187
+msgid "Cannot renew due"
+msgstr ""
+
+#: plugins/loan/dpe.inc:191
+msgid "Cannot renew"
+msgstr ""
+
+#: plugins/user/dpe.inc:12
+msgid "Example user provider"
+msgstr ""
+
+#: plugins/user/dpe.inc:50
+msgid "Credential cache duration"
+msgstr ""
+
+#: plugins/user/dpe.inc:51
+msgid "Determines how long the user’s library system credentials will be cached for. For the duration of the cache, the user will be able to access his personal information and interact with the library system without having to provide his credentials again."
+msgstr ""
+
+#: plugins/user/dpe.inc:53
+msgid "5 minutes"
+msgstr ""
+
+#: plugins/user/dpe.inc:54
+msgid "15 minutes"
+msgstr ""
+
+#: plugins/user/dpe.inc:55
+msgid "30 minutes"
+msgstr ""
+
+#: plugins/user/dpe.inc:56
+msgid "1 hour"
+msgstr ""
+
+#: plugins/user/dpe.inc:57
+msgid "3 hours"
+msgstr ""
+
+#: plugins/user/dpe.inc:58
+msgid "12 hours"
+msgstr ""
+
+#: plugins/user/dpe.inc:59
+msgid "1 day"
+msgstr ""
+
+#: plugins/user/dpe.inc:60
+msgid "3 days"
+msgstr ""
+
+#: plugins/user/dpe.inc:61
+msgid "7 days"
+msgstr ""
+
+#: plugins/availability/dpe.inc:11
+msgid "Example availability plugin"
+msgstr ""
+
+#: ding_provider_example.info:0
+msgid "Ding Provider example module"
+msgstr ""
+
+#: ding_provider_example.info:0
+msgid "Example implementation of a Ding Provider module, which also serves as a testbed and reference implementation."
+msgstr ""
+
+#: ding_provider_example.info:0
+msgid "Ding!"
+msgstr ""
+

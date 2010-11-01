@@ -4,14 +4,16 @@
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
 #  ding_event.module: n/a
-#  ding_event.info: n/a
+#  ding_event_similar_events.tpl.php: n/a
 #  plugins/content_types/similar_events.inc: n/a
+#  plugins/content_types/categories.inc: n/a
+#  ding_event.info: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -20,44 +22,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ding_event.module:29
-msgid "Event"
-msgstr ""
-
-#: ding_event.module:32
-msgid "Name"
-msgstr ""
-
-#: ding_event.module:33
-msgid "Description"
-msgstr ""
-
-#: ding_event.module:17
-msgid "create event"
-msgstr ""
-
 #: ding_event.module:18
-msgid "edit event"
+msgid "KultuNaut event feed"
 msgstr ""
 
-#: ding_event.module:19
-msgid "delete event"
-msgstr ""
-
-#: ding_event.module:0
-msgid "ding_event"
-msgstr ""
-
-#: ding_event.info:0
-msgid "Ding! event"
-msgstr ""
-
-#: ding_event.info:0
-msgid "Controls the event content type."
-msgstr ""
-
-#: ding_event.info:0
-msgid "Ding!"
+#: ding_event_similar_events.tpl.php:10
+msgid "Other events you may like"
 msgstr ""
 
 #: plugins/content_types/similar_events.inc:16;34;35
@@ -74,5 +44,41 @@ msgstr ""
 
 #: plugins/content_types/similar_events.inc:55
 msgid "\"@s\" similar events"
+msgstr ""
+
+#: plugins/content_types/categories.inc:17;66
+msgid "Event categories"
+msgstr ""
+
+#: plugins/content_types/categories.inc:18
+msgid "Provides a selector for event categories."
+msgstr ""
+
+#: plugins/content_types/categories.inc:20
+msgid "Ting"
+msgstr ""
+
+#: plugins/content_types/categories.inc:48
+msgid "All"
+msgstr ""
+
+#: plugins/content_types/categories.inc:83
+msgid "Vocabulary"
+msgstr ""
+
+#: plugins/content_types/categories.inc:84
+msgid "Select the vocabulary used for event categories."
+msgstr ""
+
+#: ding_event.info:0
+msgid "Ding! event"
+msgstr ""
+
+#: ding_event.info:0
+msgid "Controls the event content type."
+msgstr ""
+
+#: ding_event.info:0
+msgid "Ding!"
 msgstr ""
 

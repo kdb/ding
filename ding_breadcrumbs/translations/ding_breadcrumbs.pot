@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 14:08+0200\n"
+"POT-Creation-Date: 2010-10-28 13:15+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -19,8 +19,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ding_breadcrumbs.module:17;53
+#: ding_breadcrumbs.module:17;57
 msgid "Home"
+msgstr ""
+
+#: ding_breadcrumbs.module:21;25;58
+msgid "Libraries"
 msgstr ""
 
 #: ding_breadcrumbs.module:30
@@ -31,12 +35,8 @@ msgstr ""
 msgid "Events"
 msgstr ""
 
-#: ding_breadcrumbs.module:89
+#: ding_breadcrumbs.module:90
 msgid "Unknown"
-msgstr ""
-
-#: ding_breadcrumbs.module:0
-msgid "ding_breadcrumbs"
 msgstr ""
 
 #: ding_breadcrumbs.info:0

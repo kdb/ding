@@ -13,9 +13,39 @@ $plugin = array(
 );
 
 /**
+ * Get the users current loans.
+ *
+ * Should only return data readily available, and leave out data that
+ * requires extra requests. Implementation can add extra data used by
+ * the 'details' function. All the keys described in the return value
+ * can be left to the details function to fill in, so the minimum
+ * return value can be:
+ * @code
+ *   array(
+ *     123 => array('id' => 123),
+ *   );
+ * @endcode
+ *
+ * @param $account
+ *   The Drupal user.
+ * @return array
+ *   An array of id => loan, where loan is an array of:
+ *   - id: The same id as the key.
+ *   - materials_number: Materials number, optional. Is shown to the user.
+ *   - title: Title of the item. Optional.
+ *   - authors: The authors of the item. Optional.
+ *   - display_title: Alternative title string, optional. Used if title is
+ *     empty. If neither 'title' nor 'display_title' is specified, an
+ *     'Title not available' message is displayed.
+ *   - loan_date: The date the material was loaned, format YYYY-MM-DD. Optional.
+ *   - due_date: The date the material is due, format YYYY-MM-DD. Optional.
+ *   - is_renewable: Whether the loan can be renewed.
+ *   - remote_loan: Whether it is a remote loan. Optional.
+ *
+ * @see ding_provider_example_loan_details()
  */
 function ding_provider_example_loan_get_loans($account) {
-  $creds = _ding_provider_example_get_credentials($account);
+  $creds = ding_library_user_get_credentials($account);
   if ($creds == DING_PROVIDER_AUTH_REQUIRED) {
     return $creds;
   }

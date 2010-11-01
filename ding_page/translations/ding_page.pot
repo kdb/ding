@@ -3,14 +3,15 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  ding_page.module: n/a
+#  ding_page.features.inc: n/a
 #  ding_page.info: n/a
+#  ding_page.features.content.inc: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"POT-Creation-Date: 2010-10-28 13:14+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -19,36 +20,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ding_page.module:29
+#: ding_page.features.inc:22
 msgid "Page"
 msgstr ""
 
-#: ding_page.module:31
+#: ding_page.features.inc:24
 msgid "A static CMS page. Used for hierarcihal content that seldom changes. Does not allow comments and is not by default displayed on the front page."
 msgstr ""
 
-#: ding_page.module:32
+#: ding_page.features.inc:26
 msgid "Title"
 msgstr ""
 
-#: ding_page.module:33
+#: ding_page.features.inc:28
 msgid "Body"
-msgstr ""
-
-#: ding_page.module:17
-msgid "create page"
-msgstr ""
-
-#: ding_page.module:18
-msgid "edit page"
-msgstr ""
-
-#: ding_page.module:19
-msgid "delete page"
-msgstr ""
-
-#: ding_page.module:0
-msgid "ding_page"
 msgstr ""
 
 #: ding_page.info:0
@@ -61,5 +46,29 @@ msgstr ""
 
 #: ding_page.info:0
 msgid "Ding!"
+msgstr ""
+
+#: ding_page.features.content.inc:428
+msgid "Beskrivelse"
+msgstr ""
+
+#: ding_page.features.content.inc:429
+msgid "Bibliotek"
+msgstr ""
+
+#: ding_page.features.content.inc:430
+msgid "Indholdsbilleder"
+msgstr ""
+
+#: ding_page.features.content.inc:431
+msgid "Listevisningsbillede"
+msgstr ""
+
+#: ding_page.features.content.inc:432
+msgid "Materialer"
+msgstr ""
+
+#: ding_page.features.content.inc:433
+msgid "Vedhæftede filer"
 msgstr ""
 
