@@ -227,9 +227,9 @@ function ding_base_setup_filters() {
     'node',
   );
   $rid_format = array(
+    4 => 3,
     1 => 0,
     2 => 0,
-    4 => 3,
   );
   $i = -25;
   foreach ($rid_format as $rid => $format) {
