@@ -6,6 +6,11 @@
 function ding_base_user_default_roles() {
   $roles = array();
 
+  // Exported role: author
+  $roles['author'] = array(
+    'name' => 'author',
+  );
+
   // Exported role: editor
   $roles['editor'] = array(
     'name' => 'editor',
