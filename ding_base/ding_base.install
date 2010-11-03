@@ -10,6 +10,10 @@
  */
 
 function ding_base_install() {
+  // Module file isn't loaded when install.php runs the install hook.
+  if (!function_exists('ding_base_setup_filters')) {
+    module_load_include('module', 'ding_base');
+  }
   // Set up default filter configuration.
   ding_base_setup_filters();
 }
