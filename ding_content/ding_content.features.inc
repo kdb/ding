@@ -44,7 +44,7 @@ function ding_content_node_info() {
     'article' => array(
       'name' => t('Blog post'),
       'module' => 'features',
-      'description' => t('A staff profile with description, profile picture, and tags.'),
+      'description' => t('A library blog post.'),
       'has_title' => '1',
       'title_label' => t('Name'),
       'has_body' => '1',
@@ -66,7 +66,7 @@ function ding_content_node_info() {
     'feature' => array(
       'name' => t('Facility/service'),
       'module' => 'features',
-      'description' => t('An event, usually related to a library.'),
+      'description' => t('A facility/service related to a library.'),
       'has_title' => '1',
       'title_label' => t('Name'),
       'has_body' => '1',
