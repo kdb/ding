@@ -47,26 +47,42 @@ function ding_debt_debt_list_content_type_render($subtype, $conf, $panel_args, $
     switch ($subtype) {
       case 'ding_debt_notice':
         $debts = ding_provider_invoke('debt', 'list', $account);
-        if (count($debts) == 1) {
-          $debt = array_pop($debts);
-          $block->content = t('You owe @amount for “%note”. !pay_link.', array(
-            '@amount' => $debts['amount'],
-            '%note' => trim($debts['display_title']),
-            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
+        $debt_with_note = NULL;
+        foreach ($debts as $debt) {
+          if ($debt['display_title']) {
+            $debt_with_note = $debt;
+            break;
+          }
+        }
+
+        $block->content = t('You owe @amount kr.', array(
+                            '@amount' => _ding_debt_list_get_total($debts),
+                          ));
+        if ($debt_with_note) {
+          $block->content .= ' ' . t('for “%note”', array(
+            '%note' => trim($debt_with_note['display_title']),
           ));
         }
-        elseif (count($debts) > 1) {
-          $total = _ding_debt_list_get_total($debts);
-          reset($debts);
-          $debt = current($debts);
-          $block->content = t('You owe @amount for “%note” and !others_link. !pay_link.', array(
-            '@amount' => $total,
-            '%note' => trim($debt['display_title']),
-            '!others_link' => l(format_plural(count($debts) - 1, 'one other', '@count others'),
+
+        if (count($debts) > 1) {
+          if ($debt_with_note) {
+            $block->content .= ' ' . t('and !debt_others_link', array(
+                                 '!debt_others_link' => l(format_plural(count($debts) - 1, 'one other', '@count others'),
+                                                      'user/' . $account->uid . '/debts'),
+            ));
+          }
+          else {
+            $block->content .= ' ' . t('for !debts_link', array(
+                                 '!debts_link' => l(format_plural(count($debts) - 1, 'one debt', '@count debts'),
                                 'user/' . $account->uid . '/debts'),
-            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
-          ));
+            ));
+          }
         }
+
+        $block->content .= t('. !debt_pay_link.', array(
+            '!debt_pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
+          ));
+
         break;
 
       case 'ding_debt_list_form':
