@@ -65,7 +65,7 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
           $mail = array_shift($mail);
         }
         if ($mail != $account->mail) {
-          db_query("UPDATE {user} SET mail = '%s' WHERE uid = %d;", $mail, $account->uid);
+          db_query("UPDATE {users} SET mail = '%s' WHERE uid = %d;", $mail, $account->uid);
           $account->mail = $mail;
         }
         unset($account->auth_mail); // Shouldn't be saved by
@@ -214,7 +214,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       	                       'form_id', 'form_build_id', 'form_token', 'submit',
       	                       // Account form elements
       	                       'account' => array('alma_mail', 'alma_user_phone'), '_account', 'alma_user_patron_info');
-      	
+
       	foreach (element_children($form) as $element) {
       		if (!in_array($element, $form_elements) && !is_array($form_elements[$element])) {
 	      			$form[$element]['#type'] = 'value';
