@@ -50,6 +50,21 @@ function ding_user_menu_alter(&$items) {
  */
 function ding_user_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
+    case 'validate':
+      // If email is already used, fudge around Drupals uniqueness validator.
+      // Logic stolen from sharedemail.
+      if (isset($edit['mail']) and $account->uid) {
+        $uid = db_result(db_query("SELECT uid FROM {users} WHERE uid <> %d AND LOWER(mail) = LOWER('%s')", $account->uid, $edit['mail']));
+        if (!empty($uid)) {
+          $edit['mail']= 'ding_user_'. $edit['mail'];
+        }
+      }
+      break;
+    case 'submit':
+      if (isset($edit['mail']) && strpos($edit['mail'], 'ding_user_') == 0) {
+        $edit['mail'] = str_replace('ding_user_', '', $edit['mail']);
+      }
+      break;
     case 'login':
       // When logging in a returning normal user, update its display name if
       // authenticating module set it.
