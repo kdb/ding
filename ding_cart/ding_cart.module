@@ -53,7 +53,12 @@ function ding_cart_ting_object_buttons($object) {
   if (!empty($object->localId) && ting_object_is($object, 'cartable')) {
     // TODO: Check if item is reserved/in basket already.
     drupal_add_js(drupal_get_path('module', 'ding_cart') . '/ding_cart.buttons.js');
-    return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
+    return array(
+      array(
+        'data' => l(t('Add to cart'), 'ding/cart/add/'  . $object->localId),
+        'class' => 'add-to-cart'
+      )
+    );
   }
 }
 
