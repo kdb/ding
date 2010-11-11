@@ -31,12 +31,7 @@ function ding_reservation_menu() {
  * Implementation of hook_ting_object_buttons().
  */
 function ding_reservation_ting_object_buttons($object) {
-  if (!empty($object->localId)) {
-    // Leave out reserve buttons for some record types.
-    if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
-      return;
-    }
-
+  if (!empty($object->localId) && ting_object_is($object, 'reservable')) {
     drupal_add_js(drupal_get_path('module', 'ding_reservation') . '/ding_reservation.buttons.js');
     return l(t('Reserve now'), 'ding/reservation/' . $object->localId, array('attributes' => array('class' => 'reserve-now')));
   }
@@ -124,4 +119,19 @@ function ding_reservation_list_form($form_state, $account, $records) {
   }
 
   return $form;
+}
+
+/**
+ * Implementation of hook_ting_object_is().
+ */
+function ding_reservation_ting_object_is($object, $class) {
+  if ($class == 'reservable') {
+    if (ting_object_is($object, 'online')) {
+      return FALSE;
+    }
+    elseif (in_array(drupal_strtolower($object->type), array('artikel', 'tidsskrift'))) {
+      return FALSE;
+    }
+    return TRUE;
+  }
 }
