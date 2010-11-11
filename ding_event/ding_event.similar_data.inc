@@ -18,7 +18,7 @@ function ding_event_similar_data_generate() {
   $db_info = content_database_info($datetime_field);
 
   // Get events that has not started yet.
-  $query = db_query('SELECT n.nid FROM %s JOIN {node} n USING (nid) WHERE n.status = 1 %s > NOW() ORDER BY %s ASC', array($db_info['table'], $db_info['columns']['value']['column'], $db_info['columns']['value']['column']));
+  $query = db_query('SELECT n.nid FROM %s JOIN {node} n USING (nid) WHERE n.status = 1 AND %s > NOW() ORDER BY %s ASC', array($db_info['table'], $db_info['columns']['value']['column'], $db_info['columns']['value']['column']));
   while ($nid = db_result($query)) {
     $data['events'][$nid] = $nid;
   }
