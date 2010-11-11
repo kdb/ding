@@ -173,4 +173,10 @@ function ding_event_preprocess_ding_event_similar_events($variables) {
   }
 }
 
+function ding_event_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'event_list' and isset($vars['fields']['field_datetime_value'])) {
+    $vars['is_today'] = date_format_date(date_make_date($vars['fields']['field_datetime_value']->raw), 'custom', 'Ymd') == date('Ymd') ? 'today' : '';
+  }
+}
+
 include_once('ding_event.features.inc');
