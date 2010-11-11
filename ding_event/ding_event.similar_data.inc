@@ -12,17 +12,13 @@
 function ding_event_similar_data_generate() {
   $data = array();
 
-  // Get information about the datetime field from CCK, so we can make 
+  // Get information about the datetime field from CCK, so we can make
   // SQL queries against it.
   $datetime_field = content_fields('field_datetime', 'event');
   $db_info = content_database_info($datetime_field);
 
   // Get events that has not started yet.
-  $query = db_query('SELECT nid FROM %s WHERE %s > NOW() ORDER BY %s ASC', array(
-    ':table' => $db_info['table'], 
-    ':column' => $db_info['columns']['value']['column'],
-    ':column_again' => $db_info['columns']['value']['column'],
-  ));
+  $query = db_query('SELECT n.nid FROM %s JOIN {node} n USING (nid) WHERE n.status = 1 %s > NOW() ORDER BY %s ASC', array($db_info['table'], $db_info['columns']['value']['column'], $db_info['columns']['value']['column']));
   while ($nid = db_result($query)) {
     $data['events'][$nid] = $nid;
   }
