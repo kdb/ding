@@ -125,7 +125,7 @@ function ding_reservation_list_form($form_state, $account, $records) {
  * Implementation of hook_ting_object_is().
  */
 function ding_reservation_ting_object_is($object, $class) {
-  if ($class == 'reservable') {
+  if ($class == 'reservable' || $class == 'cartable') {
     if (ting_object_is($object, 'online')) {
       return FALSE;
     }

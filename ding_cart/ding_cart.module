@@ -50,15 +50,10 @@ function ding_cart_theme($existing, $type, $theme, $path) {
  * // TODO Not all library systems may support reservations - refactor this to use hook or form_alter
  */
 function ding_cart_ting_object_buttons($object) {
-  if (!empty($object->localId)) {
-	  // Leave out cart buttons for some record types.
-	  if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
-	    return;
-	  }
-
+  if (!empty($object->localId) && ting_object_is($object, 'cartable')) {
     // TODO: Check if item is reserved/in basket already.
     drupal_add_js(drupal_get_path('module', 'ding_cart') . '/ding_cart.buttons.js');
-	  return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
+    return l(t('Add to cart'), 'ding/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart')));
   }
 }
 

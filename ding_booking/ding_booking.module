@@ -24,12 +24,7 @@ function ding_booking_menu() {
  * Implementation of hook_ting_object_buttons().
  */
 function ding_booking_ting_object_buttons($object) {
-  if (!empty($object->localId)) {
-    // Leave out booking buttons for some record types.
-    if (in_array($object->type, array('Tidsskrift', 'Artikel', 'Netdokument', 'Lydbog (online)'))) {
-      return;
-    }
-
+  if (!empty($object->localId) && ting_object_is($object, 'bookable')) {
     return l(t('Book'), 'ding/book/' . $object->localId, array('attributes' => array('class' => 'book-now'), 'query' => drupal_get_destination()));
   }
 }
@@ -158,5 +153,15 @@ function ding_booking_book_form_submit($form, &$form_state) {
     default:
       drupal_set_message(isset($result['message']) ? $result['message'] : t("Error booking"), 'error');
       break;
+  }
+}
+
+/**
+ * Implementation of hook_ting_object_is().
+ */
+function ding_booking_ting_object_is($object, $class) {
+  if ($class == 'bookable') {
+    // Follow ding_reservation.
+    return ting_object_is($object, 'reservable');
   }
 }
