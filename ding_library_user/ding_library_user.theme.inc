@@ -252,10 +252,11 @@ function template_preprocess_ding_library_user_status_block(&$variables) {
 
     // Get the item count from ding_cart, if the module is available.
     if (function_exists('ding_cart_user_count')) {
+      $variables['has_cart'] = TRUE;
       $variables['cart_count'] = ding_cart_user_count($account);
     }
     else {
-      $variables['cart_count'] = NULL;
+      $variables['has_cart'] = FALSE;
     }
   }
 }

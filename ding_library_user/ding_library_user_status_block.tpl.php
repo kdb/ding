@@ -38,7 +38,7 @@ else{
 
   </div>
   <?php if ($user_status_available): ?>
-    <?php if ($cart_count): ?>
+    <?php if ($has_cart): ?>
       <div class="cart">
         <div class="count"><?php print $cart_count; ?></div>
         <?php print l(t('Go to cart'), 'user/' . $user->uid . '/cart'); ?>
