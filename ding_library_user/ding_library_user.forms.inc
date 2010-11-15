@@ -153,7 +153,8 @@ function ding_library_user_change_password_form($form_state, $account) {
 function ding_library_user_change_password_form_validate($form, &$form_state) {
   $password_length = variable_get('ding_library_user_password_length', 4);
   $creds = ding_library_user_get_credentials($form_state['values']['account']);
-  if ($form_state['values']['current_password'] != $creds['password']) {
+
+  if ($form_state['values']['current_password'] != $creds['pass']) {
     form_set_error('current_password', t('Please provide your current password.'));
   }
 
@@ -174,12 +175,16 @@ function ding_library_user_change_password_form_validate($form, &$form_state) {
  * Submit handler for the password changing form.
  */
 function ding_library_user_change_password_form_submit($form, &$form_state) {
-  $creds = ding_library_user_get_credentials($form_state['values']['account']);
-  module_invoke_all('ding_library_user_update_info', $creds, array('password' => $form_state['values']['new_password']));
-
-  // Cache the new password
-  ding_library_user_cache_credentials($form_state['values']['account'], $creds['user_id'], $form_state['values']['new_password']);
-
+  if ($res = ding_provider_invoke('user', 'password change', $form_state['values']['account'], $form_state['values']['new_password']) && $res != DING_PROVIDER_AUTH_REQUIRED) {
+    // Cache the new password
+    $_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['pass'] = $form_state['values']['new_password'];
+  }
+  elseif ($res == DING_PROVIDER_AUTH_REQUIRED) {
+    drupal_set_message(t("You need to be logged in to change password."), 'error');
+  }
+  else {
+    drupal_set_message(t("There was a problem changing your password, please contact your library."), 'error');
+  }
   // If we do not have a destination already, go to the profile.
   if (!isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';

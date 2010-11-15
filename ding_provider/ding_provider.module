@@ -94,6 +94,7 @@ function ding_provider_ctools_plugin_user() {
       'authenticate finalize',
       'settings form',
       'library settings form',
+      'password change',
     ),
   );
 }
