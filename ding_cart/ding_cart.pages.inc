@@ -34,7 +34,7 @@ function ding_cart_page_add_to_cart($item_id) {
     else {
       if (ding_cart_add_ting_object($object) == SAVED_NEW) {
         $reply['status'] = 'success';
-        $reply['title'] = t('Success');
+        $reply['title'] = t('Added to cart');
         $reply['message'] = t('@item is now in your cart.', array('@item' => $object->title));
         $reply['cart_link'] = url('user/' . $user->uid . '/cart');
       }

@@ -15,7 +15,7 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
     switch ($result['status']) {
       case DING_RESERVATION_SUCCESS:
         $reply['status'] = 'success';
-        $reply['title'] = t('Success');
+        $reply['title'] = t('Reservation added');
         $reply['message'] = isset($result['branch']) ?
           t('You have reserved @item and will be notified when its ready for pickup at @branch.', array('@item' => $object->title, '@branch' => $result['branch'])) :
           t('You have reserved @item and will be notified when its ready for pickup.', array('@item' => $object->title));
