@@ -11,7 +11,7 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
     $reply = array();
-    $result = ding_provider_invoke('reservation', 'create', $user, $item_id);
+    $result = ding_provider_invoke('reservation', 'create', $user, $object->localId);
     switch ($result['status']) {
       case DING_RESERVATION_SUCCESS:
         $reply['status'] = 'success';
