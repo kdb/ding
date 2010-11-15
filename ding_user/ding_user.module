@@ -190,9 +190,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 
       // Set the POST callback to point to the main user login page to
       // avoid caching issues.
-      $form['#action'] = $url_function('user/login', array(
-        'query' => array('destination' => drupal_get_path_alias($_GET['q'])),
-      ));
+      $form['#action'] = $url_function('user/login', array('query' => drupal_get_destination()));
 
       // Replace Drupal's standard user/pass authentication with our own.
       $key = array_search('user_login_authenticate_validate', $form['#validate']);
