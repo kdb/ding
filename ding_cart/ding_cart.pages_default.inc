@@ -18,7 +18,22 @@ function ding_cart_default_page_manager_pages() {
   $page->admin_title = 'User cart page';
   $page->admin_description = '';
   $page->path = 'user/%user/cart';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_uid_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array();
   $page->arguments = array(
     'user' => array(
@@ -47,16 +62,16 @@ function ding_cart_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'twocol_left_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
-  $display->title_pane = 0;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'cart';
@@ -76,6 +91,7 @@ function ding_cart_default_page_manager_pages() {
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'right';
     $pane->type = 'relevant';
@@ -84,9 +100,9 @@ function ding_cart_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'empty',
-        '2' => 'empty',
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -98,10 +114,12 @@ function ding_cart_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_user_cart'] = $page;
 
- return $pages;
+  return $pages;
 }
 
