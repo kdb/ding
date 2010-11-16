@@ -164,3 +164,4 @@ function ding_booking_ting_object_is($object, $class) {
     // Follow ding_reservation.
     return ting_object_is($object, 'reservable');
   }
+}
