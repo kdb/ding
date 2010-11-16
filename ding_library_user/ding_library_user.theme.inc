@@ -194,10 +194,13 @@ function theme_ding_library_user_list_item_image($type, $item, $preset) {
  * Preprocessor for the ding_library_user_personal_info template.
  */
 function template_preprocess_ding_library_user_personal_info(&$variables) {
-  $variables['links'] = theme('item_list', array(
+  $links = array(
     l(t('Edit contact information'), 'user/' . $variables['account']->uid . '/edit'),
-    l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin'),
-  ));
+  );
+  if (ding_provider_supports('user', 'password change')) {
+    $links[] = l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin');
+  }
+  $variables['links'] = theme('item_list', $links);
 }
 
 /**
@@ -249,10 +252,11 @@ function template_preprocess_ding_library_user_status_block(&$variables) {
 
     // Get the item count from ding_cart, if the module is available.
     if (function_exists('ding_cart_user_count')) {
+      $variables['has_cart'] = TRUE;
       $variables['cart_count'] = ding_cart_user_count($account);
     }
     else {
-      $variables['cart_count'] = NULL;
+      $variables['has_cart'] = FALSE;
     }
   }
 }

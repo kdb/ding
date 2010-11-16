@@ -52,7 +52,7 @@ function ding_cart_list_form(&$form_state, $account) {
  * Validation for cart details form.
  */
 function ding_cart_list_form_validate($form, &$form_state) {
-  $selected_items = array_keys(array_filter($form_state['values']['cart']));
+  $selected_items = array_keys(array_filter($form_state['values']['selected']));
 
   if (empty($selected_items)) {
     form_set_error('items', t('Please select one or more items from the cart.'));
@@ -72,6 +72,8 @@ function ding_cart_list_form_validate($form, &$form_state) {
  * Submit handler for cart details form.
  */
 function ding_cart_list_form_delete_submit($form, &$form_state) {
-  db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . join(',', $form_state['values']['selected_items']) . ");", $form_state['values']['account']->uid);
+  $args = array($form_state['values']['account']->uid);
+  $args = array_merge($args, $form_state['values']['selected_items']);
+  db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id IN (" . db_placeholders($form_state['values']['selected_items']) . ")", $args);
 }
 

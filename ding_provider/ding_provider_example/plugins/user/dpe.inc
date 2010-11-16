@@ -103,7 +103,7 @@ function ding_provider_example_user_library_settings_form() {
  *     available in any hook_user('login') functions. 'display_name' and
  *     'auth_mail' are recommended.
  */
-function openruth_user_authenticate($name, $pass) {
+function ding_provider_example_user_authenticate($name, $pass) {
   $return = array(
     'result' => FALSE,
   );
@@ -131,5 +131,13 @@ function openruth_user_authenticate($name, $pass) {
  * propagate. Also, only modify the global $user if the uid is the
  * same, as it might not be the same user.
  */
-function openruth_user_authenticate_finalize($user) {
+function ding_provider_example_user_authenticate_finalize($user) {
+}
+
+/**
+ * Change user password.
+ *
+ * The caller has already checked that the user knows the old password.
+ */
+function ding_provider_example_user_password_change($user, $new_password) {
 }
