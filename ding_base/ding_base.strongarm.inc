@@ -36,6 +36,13 @@ function ding_base_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'filter_default_format';
+  $strongarm->value = 3;
+
+  $export['filter_default_format'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'htmLawed_format_1';
   $strongarm->value = array(
     'article' => array(
