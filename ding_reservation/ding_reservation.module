@@ -28,6 +28,50 @@ function ding_reservation_menu() {
 }
 
 /**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function ding_reservation_form_ding_cart_list_form_alter(&$form, $form_state) {
+  if (ding_provider_supports('reservation', 'options')) {
+    $form['options'] = ding_provider_invoke('reservation', 'options', $account, TRUE);
+    $form['options']['#tree'] = TRUE;
+  }
+
+  $form['buttons']['reserve'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reserve selected'),
+    '#attributes' => array('class' => 'reserve-button'),
+    '#validate' => array('ding_reservation_ding_cart_list_form_validate'),
+    '#submit' => array('ding_reservation_ding_cart_list_form_reserve'),
+  );
+}
+
+/**
+ * Form validate handler.
+ */
+function ding_reservation_ding_cart_list_form_validate($form, &$form_state) {
+  if (empty($form_state['values']['selected'])) {
+    form_error($form['selected'], t('You must select some items.'));
+  }
+}
+
+/**
+ * Form submit handler.
+ */
+function ding_reservation_ding_cart_list_form_reserve($form, &$form_state) {
+  foreach ($form_state['values']['selected'] as $local_id) {
+    $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $local_id, $form_state['values']['options'] ? $form_state['values']['options'] : array());
+
+    // If reservation was successful, remove the item from the cart.
+    if ($reservation and $reservation != DING_PROVIDER_AUTH_REQUIRED) {
+      ding_cart_remove_item($form_state['values']['account'], $local_id);
+    }
+    else {
+      drupal_set_message(t('Reservation of “@title” failed. It may be on your reservation list already.', array('@title' => $form['cart']['#value'][$local_id]['title'])), 'error');
+    }
+  }
+}
+
+/**
  * Implementation of hook_ting_object_buttons().
  */
 function ding_reservation_ting_object_buttons($object) {

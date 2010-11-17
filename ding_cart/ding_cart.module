@@ -134,18 +134,10 @@ function theme_ding_cart_list_form($form) {
   foreach ($form['cart']['#value'] as $item) {
     $cells = array();
 
-    if (isset($form['selected'][$item['local_id']])) {
-      $cells['checkbox'] = array(
-        'class' => 'checkbox',
-        'data' => drupal_render($form['selected'][$item['local_id']]),
-      );
-    }
-    else {
-      $cells['checkbox'] = array(
-        'class' => 'checkbox empty',
-        'data' => '–',
-      );
-    }
+    $cells['checkbox'] = array(
+      'class' => 'checkbox',
+      'data' => drupal_render($form['selected'][$item['local_id']]),
+    );
 
     $image_url = ting_covers_faust_url($item['local_id'], '80_x');
     $cells['image'] = array(
@@ -177,3 +169,10 @@ function ding_cart_detect_ahah() {
   return (isset($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json')) || (strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')));
 }
 
+/**
+ * Remove an item from the cart.
+ */
+function ding_cart_remove_item($account, $local_id) {
+  db_query("DELETE FROM {ding_cart} WHERE uid = %d AND local_id = '%s';", $account->uid, $local_id);
+
+}
