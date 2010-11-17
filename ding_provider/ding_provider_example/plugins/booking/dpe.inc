@@ -93,7 +93,7 @@ function ding_provider_example_booking_options($account) {
 /**
  * Create a booking.
  *
- * @param array $account
+ * @param object $account
  *   The user to book for.
  * @param array $provider_id
  *   Id to book.
@@ -112,4 +112,26 @@ function ding_provider_example_booking_options($account) {
  *     message.
  */
 function ding_provider_example_booking_create($account, $provider_id, $optional = array()) {
+}
+
+/**
+ * Delete bookings.
+ *
+ * @param object $account
+ *   The user to book for.
+ * @param array $booking_ids
+ *   The bookings to delete.
+ * @return array
+ *   Array of booking_id => (bool) success.
+ */
+function openruth_booking_delete($account, $booking_ids) {
+  $result = array();
+  foreach ($bookings_ids as $bookings_id) {
+    $result[$bookings_id] = openruth_client_invoke('cancel_booking', $bookings_id);
+  }
+
+  // Flush cached user status.
+  _openruth_user_status();
+
+  return $result;
 }

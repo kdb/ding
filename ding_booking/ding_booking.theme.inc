@@ -68,18 +68,10 @@ function theme_ding_booking_list_form($form) {
 
     foreach ($bookings as $item) {
       $cells = array();
-      if (isset($form['selected'][$item['id']])) {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox',
-          'data' => drupal_render($form['selected'][$item['id']]),
-        );
-      }
-      else {
-        $cells['checkbox'] = array(
-          'class' => 'checkbox empty',
-          'data' => theme('image', drupal_get_path('module', 'ding_library_user').'/img/checkbox-blocked.jpg', t('Unable to renew loan'), t('Unable to renew loan')),
-        );
-      }
+      $cells['checkbox'] = array(
+        'class' => 'checkbox',
+        'data' => drupal_render($form['selected'][$item['id']]),
+      );
 
       $cells['image'] = array(
         'class' => 'image',
