@@ -118,7 +118,90 @@ function ding_reservation_list_form($form_state, $account, $records) {
     }
   }
 
+  if (ding_provider_supports('reservation', 'update') && ding_provider_supports('reservation', 'options')) {
+    $form['options'] = ding_provider_invoke('reservation', 'options', $account, FALSE);
+    $form['options']['#tree'] = TRUE;
+
+    $form['buttons']['update'] = array(
+      '#type' => 'submit',
+      '#value' => t('Save changes for selected reservations'),
+      '#attributes' => array('class' => 'update-button'),
+      '#submit' => array('ding_reservation_list_form_update'),
+    );
+  }
+  $form['buttons']['remove'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete selected reservations'),
+    '#attributes' => array('class' => 'cancel-button'),
+    '#submit' => array('ding_reservation_list_form_remove'),
+  );
+
   return $form;
+}
+
+/**
+ * Form validation function.
+ */
+function ding_reservation_list_form_validate($form, &$form_state) {
+  if (empty($form_state['values']['selected'])) {
+    form_error($form['selected'], t('You must select some reservations.'));
+  }
+}
+
+/**
+ * Form submit handler.
+ */
+function ding_reservation_list_form_update($form, &$form_state) {
+  ding_library_user_required();
+  $reservation_ids = array_filter($form_state['values']['selected']);
+
+  $result = ding_provider_invoke('reservation', 'update', $form_state['values']['account'], $reservation_ids, $form_state['values']['options']);
+  foreach ($result as $reservation_id => $success) {
+    if ($success) {
+      $successes[] = $reservation_id;
+    }
+    else {
+      $failures[] = $reservation_id;
+    }
+  }
+
+  if ($successes && !$failures) {
+    drupal_set_message(t('Reservations updated.'));
+  }
+  elseif ($failures && !$successes) {
+    drupal_set_message(t('Could not update reservations.', 'error'));
+  }
+  else {
+    drupal_set_message(t('Updated @ok_count reservations, @failed_count failed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'error');
+  }
+}
+
+/**
+ * Form submit handler.
+ */
+function ding_reservation_list_form_remove($form, &$form_state) {
+  ding_library_user_required();
+  $reservation_ids = array_filter($form_state['values']['selected']);
+  $result = ding_provider_invoke('reservation', 'delete', $form_state['values']['account'], $reservation_ids);
+
+  foreach ($reservation_ids as $reservation_id => $success) {
+    if ($success) {
+      $successes[] = $reservation_id;
+    }
+    else {
+      $failures[] = $reservation_id;
+    }
+  }
+
+  if (!empty($successes) && empty($failures)){
+    drupal_set_message(t('Reservations deleted.'));
+  }
+  elseif (!empty($failures) && empty($successes)) {
+    drupal_set_message(t('Could not delete reservations.', 'error'));
+  }
+  else {
+    drupal_set_message(t('Deleted @ok_count reservations, @failed_count failed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'error');
+  }
 }
 
 /**

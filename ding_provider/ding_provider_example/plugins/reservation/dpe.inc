@@ -148,7 +148,7 @@ function ding_provider_example_reservation_details($reservation) {
  * Should use any available user defaults for interest period or
  * pickup branch.
  *
- * @param array $account
+ * @param object $account
  *   The user to reserve for.
  * @param array $provider_id
  *   Id to reserve.
@@ -176,7 +176,7 @@ function ding_provider_example_reservation_create($account, $provider_id) {
 /**
  * Check if a reservation exists.
  *
- * @param array $account
+ * @param object $account
  *   The user to check for.
  * @param array $provider_id
  *   Id to reserve.
@@ -185,4 +185,48 @@ function ding_provider_example_reservation_create($account, $provider_id) {
  */
 function ding_provider_example_reservation_exists($account, $provider_id) {
   return FALSE;
+}
+
+/**
+ * Return options form fragment for updating/creating reservations.
+ *
+ * @param object $account
+ *   User.
+ * @param boolean $create
+ *   Whether it's for creating or updating reservations.
+ * @return array
+ *   Form fragment.
+ */
+function ding_provider_example_reservation_options($account, $create = TRUE) {
+
+}
+
+/**
+ * Update reservations.
+ *
+ * @param object $account
+ *   The user.
+ * @param array $reservation_ids
+ *   The reservations to update.
+ * @param array $options
+ *   The options gathered through reservation_options.
+ * @return array
+ *   Reservation_id => success.
+ */
+function ding_provider_example_reservation_update($account, $reservation_ids, $options = array()) {
+
+}
+
+/**
+ * Delete reservations.
+ *
+ * @param object $account
+ *   The user to delete for.
+ * @param array $reservation_ids
+ *   The reservations to delete.
+ * @return array
+ *   Reservation_id => success.
+ */
+function ding_provider_example_reservation_delete($account, $reservation_ids) {
+
 }
