@@ -137,7 +137,7 @@ function ding_provider_ctools_plugin_reservation() {
       // 'update',
       'delete',
       'list',
-      'exists',
+      // 'exists',
     ),
     'optional functions' => array(
       'settings form',
