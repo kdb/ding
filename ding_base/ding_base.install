@@ -24,6 +24,7 @@ function ding_base_install() {
  */
 function ding_base_update_6000() {
   module_disable(array('date_locale'));
+  return array();
 }
 
 /**
@@ -42,5 +43,29 @@ function ding_base_update_6000() {
 function ding_base_update_6001() {
   $ret = array();
   $ret[] = update_sql("DELETE FROM {locales_source} WHERE lid NOT IN (SELECT lid FROM {locales_target})");
+  return $ret;
+}
+
+/**
+ * Enable new modules.
+ */
+function ding_base_update_6002() {
+  $modules = array(
+    'ding_provider',
+    'ding_library_user',
+    'ding_reservation',
+    'ding_debt',
+    'ding_dibs',
+    'ting_availability',
+  );
+  if (db_result(db_query("SELECT COUNT(*) FROM system WHERE name = 'alma_cart'"))) {
+    $modules[] = 'ding_cart';
+  }
+  $ret = array();
+  drupal_install_modules($modules);
+  $ret[] = array(
+    'success' => TRUE,
+    'query' => t('Enabled new modules'),
+  );
   return $ret;
 }

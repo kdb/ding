@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install and upgrade functions for ding_library_user.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_library_user_install() {
+  $ret = array();
+  // Migration: Login block moved from alma to ding_library_user.
+  $ret[] = update_sql("UPDATE {blocks} SET module = 'ding_library_user' WHERE module = 'alma_user' AND delta = 'account'");
+  return $ret;
+}
