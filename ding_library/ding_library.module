@@ -314,14 +314,23 @@ function ding_library_requirements($phase) {
   $requrements = array();
 
   if ($phase == 'runtime') {
-    $branch_provider = ding_provider_description('branch');
+    if (!function_exists('ding_provider_description')) {
+      $requrements['ding_library'] = array(
+        'title' => t('Ding Library'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('Ding provider module not enabled.'),
+      );
+    }
+    else {
+      $branch_provider = ding_provider_description('branch');
 
-    $requrements['ding_library'] = array(
-      'title' => t('Ding branch'),
-      'severity' => $branch_provider ? REQUIREMENT_INFO : REQUIREMENT_WARNING,
-      'value' => $branch_provider,
-      'description' => $branch_provider ? t('OK'): t('No branch provider active.'),
-    );
+      $requrements['ding_library'] = array(
+        'title' => t('Ding branch'),
+        'severity' => $branch_provider ? REQUIREMENT_INFO : REQUIREMENT_WARNING,
+        'value' => $branch_provider,
+        'description' => $branch_provider ? t('OK'): t('No branch provider active.'),
+      );
+    }
   }
 
   return $requrements;
