@@ -154,12 +154,21 @@ function ding_library_user_change_password_form_validate($form, &$form_state) {
   $password_length = variable_get('ding_library_user_password_length', 4);
   $creds = ding_library_user_get_credentials($form_state['values']['account']);
 
-  if ($form_state['values']['current_password'] != $creds['pass']) {
+  // This should be fixed.
+  $old_pass = NULL;
+  if ($creds['pass']) {
+    $old_pass = $creds['pass'];
+  }
+  elseif ($creds['password']) {
+    $old_pass = $creds['password'];
+  }
+
+  if ($form_state['values']['current_password'] != $old_pass) {
     form_set_error('current_password', t('Please provide your current password.'));
   }
 
   if ($form_state['values']['current_password'] == $form_state['values']['new_password']) {
-    form_set_error('new_pin', t('The new password must be different than the current password.'));
+    form_set_error('new_password', t('The new password must be different than the current password.'));
   }
 
   if ($form_state['values']['new_password_confirm'] != $form_state['values']['new_password']) {
@@ -177,7 +186,13 @@ function ding_library_user_change_password_form_validate($form, &$form_state) {
 function ding_library_user_change_password_form_submit($form, &$form_state) {
   if ($res = ding_provider_invoke('user', 'password change', $form_state['values']['account'], $form_state['values']['new_password']) && $res != DING_PROVIDER_AUTH_REQUIRED) {
     // Cache the new password
-    $_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['pass'] = $form_state['values']['new_password'];
+    if ($_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['pass']) {
+      $_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['pass'] = $form_state['values']['new_password'];
+    }
+    elseif ($_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['password']) {
+      $_SESSION['ding_library_user_creds'][$form_state['values']['account']->uid]['password'] = $form_state['values']['new_password'];
+    }
+
   }
   elseif ($res == DING_PROVIDER_AUTH_REQUIRED) {
     drupal_set_message(t("You need to be logged in to change password."), 'error');
