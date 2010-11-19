@@ -38,6 +38,7 @@ function ding_reservation_form_ding_cart_list_form_alter(&$form, $form_state) {
 
   $form['buttons']['reserve'] = array(
     '#type' => 'submit',
+    '#op' => 'reserve',
     '#value' => t('Reserve selected'),
     '#attributes' => array('class' => 'reserve-button'),
     '#validate' => array('ding_reservation_ding_cart_list_form_validate'),
@@ -58,11 +59,11 @@ function ding_reservation_ding_cart_list_form_validate($form, &$form_state) {
  * Form submit handler.
  */
 function ding_reservation_ding_cart_list_form_reserve($form, &$form_state) {
-  foreach ($form_state['values']['selected'] as $local_id) {
+  foreach (array_filter($form_state['values']['selected']) as $local_id) {
     $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $local_id, $form_state['values']['options'] ? $form_state['values']['options'] : array());
 
     // If reservation was successful, remove the item from the cart.
-    if ($reservation and $reservation != DING_PROVIDER_AUTH_REQUIRED) {
+    if ($reservation && ($reservation !== DING_PROVIDER_AUTH_REQUIRED)) {
       ding_cart_remove_item($form_state['values']['account'], $local_id);
     }
     else {

@@ -58,15 +58,7 @@ function ding_cart_list_form_validate($form, &$form_state) {
     form_set_error('items', t('Please select one or more items from the cart.'));
   }
   $form_state['values']['selected_items'] = $selected_items;
-
-  // Strip off the time part of the return value.
-  $form_state['values']['expiry'] = substr($form_state['values']['expiry'], 0, 10);
-
-  if (date('Y-m-d', $_SERVER['REQUEST_TIME']) >= $form_state['values']['expiry']) {
-    form_set_error('expiry', t('Date must be in the future.'));
-  }
 }
-
 
 /**
  * Submit handler for cart details form.
