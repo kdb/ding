@@ -163,6 +163,29 @@ function ding_event_get_similar($node, $count = 5) {
 }
 
 /**
+ *
+ */
+function ding_event_preprocess_node(&$vars) {
+  if ($vars['type'] == 'event') {
+    $variables['past_event'] = FALSE;
+    $start = strtotime($vars['field_datetime'][0]['value'] . 'Z');
+    $end = strtotime($vars['field_datetime'][0]['value2'] . 'Z');
+
+    // If no end time is set, use the start time for comparison.
+    if (2 > $end) {
+      $end = $start;
+    }
+
+    // Find out the end time of the event. If there's no specified end
+    // time, we’ll use the start time. If the event is in the past, we
+    // create the alert box.
+    if (($end > 0 && format_date($end, 'custom', 'Ymd') < format_date($_SERVER['REQUEST_TIME'], 'custom', 'Ymd'))) {
+      $vars['past_event'] = TRUE;
+    }
+  }
+}
+
+/**
  * Variable preprocessing for the ding_event_similar_events template.
  */
 function ding_event_preprocess_ding_event_similar_events($variables) {
