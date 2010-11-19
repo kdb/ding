@@ -54,10 +54,11 @@ function ding_debt_debt_list_content_type_render($subtype, $conf, $panel_args, $
             break;
           }
         }
-
-        $block->content = t('You owe @amount kr.', array(
-                            '@amount' => _ding_debt_list_get_total($debts),
-                          ));
+        $total_debt = _ding_debt_list_get_total($debts);
+        if ($total_debt <= 0) {
+          break;
+        }
+        $block->content = t('You owe @amount kr.', array('@amount' => $total_debt,));
         if ($debt_with_note) {
           $block->content .= ' ' . t('for “%note”', array(
             '%note' => trim($debt_with_note['display_title']),
