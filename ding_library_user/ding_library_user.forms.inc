@@ -244,12 +244,12 @@ function ding_library_user_loan_list_form($form_state, $account, $records) {
   }
 
   if ($renew_buttons) {
-    $form['renew'] = array(
+    $form['buttons']['renew'] = array(
       '#type' => 'submit',
       '#value' => t('Renew selected'),
     );
 
-    $form['renew_all'] = array(
+    $form['buttons']['renew_all'] = array(
       '#type' => 'submit',
       '#value' => t('Renew all'),
       '#attributes' => array('class' => 'renew-all-button'),
