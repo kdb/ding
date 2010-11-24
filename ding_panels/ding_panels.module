@@ -124,7 +124,7 @@ function template_preprocess_ding_panels_content_library_location(&$variables) {
       'markers' => $node->location['latitude'] . ',' . $node->location['longitude'],
       'sensor' => 'false',
     )));
-    $variables['library_map'] = theme('image', $map_url, '', '', NULL, FALSE);
+    $variables['library_map'] = theme('image', _ding_panels_get_image($map_url), '', '', NULL, FALSE);
   }
 
   // Add links to the location, based on the ones defined on a node,
@@ -190,3 +190,35 @@ function template_preprocess_ding_panels_library_user_staff_title(&$variables) {
   }
 }
 
+/**
+ * Utitlity function for caching remote images locally for 24 hours.
+ *
+ * @param $path the path to the image
+ * @return string the local path for the image
+ */
+function _ding_panels_get_image($path) {
+  $return = $path;
+  
+  $base_path = file_directory_path().'/ding_panels';
+  file_check_directory($base_path, FILE_CREATE_DIRECTORY);
+
+  $cut_path = str_ireplace("http://", "", $path);
+  $image_name  = preg_replace("/[^\w]/", "-", $path);
+  
+  $image_path = $base_path."/".$image_name;
+  if (file_exists($image_path) && 
+    time() < (filectime($imagepath) + (60*60*24))) {
+    // File already downloaded and within 24 hours cache lifetime
+    $return = $image_path;
+  } else {
+    //Old or missing image so download it (again)
+    $response = drupal_http_request($path);
+    if ($response->data) {
+      //This will replace any existing image
+      file_put_contents($image_path, $response->data);
+    }
+    $return = $image_path;
+  }
+   
+  return $return;
+}
