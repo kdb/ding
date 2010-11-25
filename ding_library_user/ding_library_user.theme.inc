@@ -27,6 +27,12 @@ function theme_ding_library_user_loan_list_form($form) {
 
   if ($form['buttons']) {
     $form['top_buttons'] = $form['buttons'];
+    // Add suffix to duplicated form button ids to ensure uniqueness
+    foreach (element_children($form['top_buttons']) as $key) {
+      if (isset($form['top_buttons'][$key]['#id'])) {
+        $form['top_buttons'][$key]['#id'] .= '-top';
+      }
+    }
     $output .= drupal_render($form['top_buttons']);
   }
 
