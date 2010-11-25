@@ -203,8 +203,11 @@ function ding_base_setup_filters() {
   );
 
   foreach ($formats as $format) {
-    if (!drupal_write_record('filter_formats', $format, 'format')) {
+    if (db_result(db_query("SELECT COUNT(format) FROM {filter_formats} WHERE format = %d", $format['format'])) == 0) {
       drupal_write_record('filter_formats', $format);
+    }
+    else {
+      drupal_write_record('filter_formats', $format, 'format');
     }
     db_query("DELETE FROM {filters} WHERE format = %d", $format['format']);
     foreach ($format['filters'] as $def) {
