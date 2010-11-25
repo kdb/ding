@@ -149,17 +149,19 @@ function ding_reservation_list_form($form_state, $account, $records) {
     '#tree' => TRUE,
   );
 
-  foreach ($records as $reservation) {
-    $form['reservations']['#value'][$reservation['id']] = $reservation;
-    $form['reservations']['#grouped'][$reservation['status']][$reservation['id']] = $reservation;
-
-    $form['selected'][$reservation['id']] = array(
-      '#type' => 'checkbox',
-      '#return_value' => $reservation['id'],
-      '#disabled' => TRUE,
-    );
-    if ($reservation['status'] == 'active' || ($cancel_fetchable && $reservation['status'] == 'fetchable')) {
-      $form['selected'][$reservation['id']]['#disabled'] = FALSE;
+  if (is_array($records)) {
+    foreach ($records as $reservation) {
+      $form['reservations']['#value'][$reservation['id']] = $reservation;
+      $form['reservations']['#grouped'][$reservation['status']][$reservation['id']] = $reservation;
+  
+      $form['selected'][$reservation['id']] = array(
+        '#type' => 'checkbox',
+        '#return_value' => $reservation['id'],
+        '#disabled' => TRUE,
+      );
+      if ($reservation['status'] == 'active' || ($cancel_fetchable && $reservation['status'] == 'fetchable')) {
+        $form['selected'][$reservation['id']]['#disabled'] = FALSE;
+      }
     }
   }
 
