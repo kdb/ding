@@ -24,6 +24,12 @@ function theme_ding_library_user_loan_list_form($form) {
   module_load_include('client.inc', 'ting');
   $groups = array();
   $output = '';
+
+  if ($form['buttons']) {
+    $form['top_buttons'] = $form['buttons'];
+    $output .= drupal_render($form['top_buttons']);
+  }
+
   $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
 
   $colgroups = array(

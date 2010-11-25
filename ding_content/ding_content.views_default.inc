@@ -660,6 +660,16 @@ function ding_content_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('sorts', array(
+    'created' => array(
+      'order' => 'DESC',
+      'granularity' => 'second',
+      'id' => 'created',
+      'table' => 'node',
+      'field' => 'created',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('title', 'Seneste indlæg');
   $handler->override_option('items_per_page', 5);
   $handler->override_option('use_pager', '0');
