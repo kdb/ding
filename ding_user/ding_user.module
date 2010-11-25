@@ -222,24 +222,24 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       global $user;
       // Strip all but account form elements from profile form for normal library users
       if (!ding_user_has_secure_role($user)) {
-      	// These elements we keep:
-      	$form_elements = array(// Required Drupal from elements
-      	                       'form_id', 'form_build_id', 'form_token', 'submit',
-      	                       // Account form elements
-      	                       'account' => array('alma_mail', 'alma_user_phone'), '_account', 'alma_user_patron_info');
+        // These elements we keep:
+        $form_elements = array(// Required Drupal from elements
+                               'form_id', 'form_build_id', 'form_token', 'submit',
+                               // Account form elements
+                               'account' => array('alma_mail', 'alma_user_phone'), '_account', 'alma_user_patron_info');
 
-      	foreach (element_children($form) as $element) {
-      		if (!in_array($element, $form_elements) && !is_array($form_elements[$element])) {
-	      			$form[$element]['#type'] = 'value';
-      		} else {
-      			// Nested form elements means that we keep elements in fieldsets
-      			foreach (element_children($form[$element]) as $child_element) {
-      				if (!in_array($child_element, $form_elements[$element])) {
+        foreach (element_children($form) as $element) {
+          if (!in_array($element, $form_elements) && !is_array($form_elements[$element])) {
+              $form[$element]['#type'] = 'value';
+          } else {
+            // Nested form elements means that we keep elements in fieldsets
+            foreach (element_children($form[$element]) as $child_element) {
+              if (!in_array($child_element, $form_elements[$element])) {
                 $form[$element][$child_element]['#type'] = 'value';
-      				}
-      			}
-      		}
-      	}
+              }
+            }
+          }
+        }
       }
       break;
   }
