@@ -24,16 +24,16 @@
 <?php } ?>
 <span class="title"><?php print $title; ?></span>
 <?php if ($authors or $type) { ?>
-  <span class='creator'>
+  <span class="creator">
   <?php if ($authors) { ?>
-    <span class='byline'><?php print t('by'); ?></span>
+    <span class="byline"><?php print t('by'); ?></span>
     <?php print $authors; ?>
   <?php } ?>
   <?php if ($type) { ?>
-    <span class='date'>(<?php print $type; ?>)</span>
+    <span class="date">(<?php print $type; ?>)</span>
   <?php } ?>
   <?php if ($remote_loan) { ?>
-    <span class='remote'>(<?php print t('remote loan'); ?>)</span>
+    <span class="remote">(<?php print t('remote loan'); ?>)</span>
   <?php } ?>
   <?php if ($materials_number) { ?>
       (<span class="material-number"><?php print t('Mat. no @num', array('@num' => $materials_number)); ?></span>)
