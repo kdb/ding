@@ -53,7 +53,7 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
     case 'validate':
       // If email is already used, fudge around Drupals uniqueness validator.
       // Logic stolen from sharedemail.
-      if (isset($edit['mail']) and $account->uid) {
+      if (isset($edit['mail'])) {
         $uid = db_result(db_query("SELECT uid FROM {users} WHERE uid <> %d AND LOWER(mail) = LOWER('%s')", $account->uid, $edit['mail']));
         if (!empty($uid)) {
           $edit['mail']= 'ding_user_'. $edit['mail'];
@@ -116,6 +116,12 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
 
       return $form;
     case 'insert':
+      if (strpos($user->mail, 'sharedemail_') == 0) {
+        $realmail = str_replace('ding_user_', '', $mail);
+        db_query("UPDATE {users} SET mail = '%s' WHERE uid = '%d'", $realmail, $user->uid);
+        $user->mail = $realmail;
+      }
+
       db_query("INSERT INTO {ding_user} (uid, pass, display_name) VALUES (%d, '%s', '%s');", $account->uid, user_hash_password($edit['pass']), check_plain($edit['display_name']));
 
       // According to hook_user docs, we should set the values we save
@@ -123,6 +129,9 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
       $edit['display_name'] = NULL;
       break;
     case 'update':
+      if (isset($edit['mail']) && strpos($edit['mail'], 'ding_user_') == 0) {
+        $edit['mail'] = str_replace('ding_user_', '', $edit['mail']);
+      }
       if (isset($edit['display_name']) && !is_null($edit['display_name'])) {
         if ($account->secure_pass === FALSE) {
           db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, check_plain($edit['display_name']));
@@ -275,6 +284,9 @@ function ding_user_login_validate($form, &$form_state) {
  *    Boolean indicating that user has a secure role.
  */
 function ding_user_has_secure_role($account) {
+  if ($account->uid == 1) {
+    return TRUE;
+  }
   return array_intersect_key($account->roles, variable_get('ding_user_secure_roles', array()));
 }
 

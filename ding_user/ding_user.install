@@ -10,6 +10,7 @@
  * Implementation of hook_install().
  */
 function ding_user_install() {
+  update_sql("UPDATE {system} SET weight = -10 WHERE name = 'ding_user'");
   drupal_install_schema('ding_user');
 }
 
@@ -73,6 +74,15 @@ function ding_user_update_6001() {
     'default' => '',
     'description' => "User's display name.",
   ));
+  return $ret;
+}
+
+/**
+ * Update module weight.
+ */
+function ding_user_update_6002() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = -10 WHERE name = 'ding_user'");
   return $ret;
 }
 
