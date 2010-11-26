@@ -17,11 +17,6 @@
  */
 ?>
 <!-- ding-library-user-list-item.tpl -->
-<?php if ($image) { ?>
-  <span class="image">
-    <?php print $image; ?>
-  </span>
-<?php } ?>
 <span class="title"><?php print $title; ?></span>
 <?php if ($authors or $type) { ?>
   <span class="creator">
