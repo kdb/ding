@@ -13,7 +13,7 @@ define('DING_PROVIDER_AUTH_REQUIRED', '9830f1673cd4295cfe742c1cf8933fa0');
 function ding_provider_menu() {
   $items = array();
 
-  $items['admin/settings/ding_provider'] = array(
+  $items['admin/settings/ding/ding_provider'] = array(
     'title' => 'Ding! provider',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_provider_admin_form'),
@@ -21,12 +21,13 @@ function ding_provider_menu() {
     'file' => 'ding_provider.admin.inc',
   );
 
-  $items['admin/settings/ding_provider/%/settings'] = array(
+  $items['admin/settings/ding/ding_provider/%/settings'] = array(
     'title' => 'Ding! provider plugin settings',
     'page callback' => 'ding_provider_admin_plugin_settings_page',
-    'page arguments' => array(3),
+    'page arguments' => array(4),
     'access arguments' => array('administer site configuration'),
     'file' => 'ding_provider.admin.inc',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;

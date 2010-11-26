@@ -12,6 +12,15 @@
  * Implementation of hook_menu().
  */
 function ding_base_menu() {
+  $items['admin/settings/ding'] = array(
+    'title' => 'Ding!',
+    'description' => "Manage Ding! settings.",
+    'position' => 'left',
+    'weight' => -10,
+    'page callback' => 'ding_base_menu_block_page',
+    'access arguments' => array('access administration pages'),
+  );
+
   $items['admin/settings/filters/ding_reset'] = array(
     'title' => 'Ding reset',
     'page callback' => 'drupal_get_form',
@@ -133,6 +142,20 @@ function ding_base_element_validate_future_date(&$element, &$form_state) {
       form_error($element, t('Date must be later than today.'));
     }
   }
+}
+
+/**
+ * Clone of system_admin_menu_block_page().
+ */
+function ding_base_menu_block_page() {
+  $item = menu_get_item();
+  if ($content = system_admin_menu_block($item)) {
+    $output = theme('admin_block_content', $content);
+  }
+  else {
+    $output = t('No active ding modules have any settings.');
+  }
+  return $output;
 }
 
 /**

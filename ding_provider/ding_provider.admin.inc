@@ -22,7 +22,7 @@ function ding_provider_admin_form() {
     }
     elseif ($active_plugin) {
       if (ding_provider_supports($active_plugin['plugin type'], 'settings form')) {
-        $active_value .= ' ' . l(t('Settings'), 'admin/settings/ding_provider/' . $active_plugin['plugin type'] . '/settings');
+        $active_value .= ' ' . l(t('Settings'), 'admin/settings/ding/ding_provider/' . $active_plugin['plugin type'] . '/settings');
       }
     }
 
