@@ -11,6 +11,12 @@
  */
 function ding_cart_install() {
   drupal_install_schema('ding_cart');
+  
+  $sandbox = array();
+  do {
+    //Migrate data from alma_cart
+    $result = ding_cart_update_6000($sandbox);
+  } while ($result['#finished'] != 1);
 }
 
 /**
@@ -87,3 +93,39 @@ function ding_cart_schema() {
   return $schema;
 }
 
+/**
+ * Migrate data from alma_cart.
+ */
+function ding_cart_update_6000(&$sandbox) {
+  $ret = array();
+  
+  //Meta work
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_result(db_query('SELECT COUNT(*) FROM {alma_cart}'));
+  }
+
+  $alma_carts = db_query_range("SELECT uid, alma_id, ting_id, created, title, author, type, thumbnail_url FROM {alma_cart} ORDER BY uid ASC", 0, 500);
+  while ($cart = db_fetch_object($alma_carts)) {
+    //Transfer record from alma_cart to ding_cart 
+    db_query("INSERT INTO {ding_cart} (uid, local_id, ting_id, created, title, author, type, thumbnail_url) 
+              VALUES (%d, %d, '%s', %d, '%s', '%s', '%s', '%s')",
+              array($cart->uid, $cart->alma_id, $cart->ting_id, $cart->created,
+                    $cart->title, $cart->author, $cart->type, $cart->thumbnail_url));
+    
+    //Delete existing record
+    db_query("DELETE FROM {alma_cart} WHERE uid = %d AND alma_id = %d", $cart->uid, $cart->alma_id);
+  }
+  
+  //More meta work...
+  $remaining = db_result(db_query('SELECT COUNT(*) FROM {alma_cart}'));
+  $sandbox['done'] = $sandbox['total'] - $remaining;
+
+  $ret['#finished'] = empty($sandbox['total']) ? 1 : ($sandbox['done'] / $sandbox['total']);
+
+  if ($ret['#finished'] == 1) {
+    // Finally, drop the table.
+    $ret[] = db_drop_table($ret, 'alma_cart');
+  }
+
+  return $ret;  
+}
