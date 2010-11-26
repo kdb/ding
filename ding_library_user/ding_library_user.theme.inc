@@ -196,7 +196,7 @@ function theme_ding_library_user_list_item_image($type, $item, $preset) {
   }
 
   if ($item['ting_object']) {
-    $image_url = ting_covers_faust_url($item['ting_object']->id, $preset);
+    $image_url = ting_covers_faust_url($item['ting_object']->localId, $preset);
     return ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '';
   }
   return '';

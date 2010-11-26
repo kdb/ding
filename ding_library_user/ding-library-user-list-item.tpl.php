@@ -19,7 +19,7 @@
 <!-- ding-library-user-list-item.tpl -->
 <?php if ($image) { ?>
   <span class="image">
-    <?php print theme('image', $image_url, '', '', NULL, FALSE); ?>
+    <?php print $image; ?>
   </span>
 <?php } ?>
 <span class="title"><?php print $title; ?></span>
