@@ -182,7 +182,10 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
     }
   }
   if ($vars['provider_type'] == 'loan') {
-    $vars['remote_loan'] = isset($item['remote_loan']) ? ((bool) $item['remote_loan']) : FALSE;
+    $vars['remote'] = isset($item['remote_loan']) && $item['remote_loan'] ? t('remote loan') : FALSE;
+  }
+  elseif ($vars['provider_type'] == 'reservation') {
+    $vars['remote'] = isset($item['remote_reservation']) && $item['remote_reservation'] ? t('remote reservation') : FALSE;
   }
   $vars['materials_number'] = isset($item['materials_number']) ? $item['materials_number'] : '';
 }

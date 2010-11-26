@@ -13,7 +13,7 @@
  * - $authors: Authors (optional).
  * - $type: Item type (optional).
  * - $url: Url of item.
- * - $remote_loan: Boolean.
+ * - $remote: Remote loan/reservations indicator (string).
  */
 ?>
 <!-- ding-library-user-list-item.tpl -->
@@ -27,12 +27,12 @@
   <?php if ($type) { ?>
     <span class="date">(<?php print $type; ?>)</span>
   <?php } ?>
-  <?php if ($remote_loan) { ?>
-    <span class="remote">(<?php print t('remote loan'); ?>)</span>
-  <?php } ?>
-  <?php if ($materials_number) { ?>
-      (<span class="material-number"><?php print t('Mat. no @num', array('@num' => $materials_number)); ?></span>)
-  <?php } ?>
 </span>
+<?php } ?>
+<?php if ($remote) { ?>
+  <span class="remote">(<?php print $remote; ?>)</span>
+<?php } ?>
+<?php if ($materials_number) { ?>
+    (<span class="material-number"><?php print t('Mat. no @num', array('@num' => $materials_number)); ?></span>)
 <?php } ?>
 <!-- /ding-library-user-list-item.tpl -->

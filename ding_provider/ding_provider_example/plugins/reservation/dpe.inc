@@ -44,6 +44,7 @@ $plugin = array(
  *   - valid_from: Reservation valid from. Format: YYYY-MM-DD.
  *   - valid_to: Reservation valid to. Format: YYYY-MM-DD.
  *   - pickup_expire_date: For 'fetchable': Expiry of pickup. Optional
+ *   - remote_reservation: Whether it is a remote reservation. Optional.
  *
  * @see ding_provider_example_reservation_details()
  */
