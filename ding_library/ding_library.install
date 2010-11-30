@@ -23,19 +23,19 @@ function ding_library_uninstall() {
 /**
  * Implementation of hook_schema().
  */
-function ding_library_schema() {  
+function ding_library_schema() {
   $schema['ding_library'] = array(
     'fields' => array(
       'vid' => array(
-        'type' => 'int', 
-        'unsigned' => TRUE, 
-        'not null' => TRUE, 
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => '{node}.vid for node',
       ),
       'nid' => array(
-        'type' => 'int', 
-        'unsigned' => TRUE, 
-        'not null' => TRUE, 
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => '{node}.nid for node',
       ),
       'branch_id' => array(
@@ -70,11 +70,9 @@ function ding_library_schema() {
       ),
     ),
     'primary key' => array('vid', 'nid'),
-    'unique keys' => array(
-      'branch_id' => array('branch_id'),
-    ),
     'indexes' => array(
       'nid' => array('nid'),
+      'branch_id' => array('branch_id'),
       'library_weight' => array('library_weight'),
       'library_show_on_map' => array('library_show_on_map'),
     ),
@@ -186,3 +184,12 @@ function ding_library_update_6006() {
   return $ret;
 }
 
+/**
+ * Change branch_id index to non-unique.
+ */
+function ding_library_update_6007() {
+  $ret = array();
+  db_drop_index($ret, 'ding_library', 'branch_id');
+  db_add_index($ret, 'ding_library', 'branch_id', array('branch_id'));
+  return $ret;
+}
