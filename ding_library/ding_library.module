@@ -141,41 +141,6 @@ function ding_library_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * Implementation of hook_update().
- *
- * As an existing node is being updated in the database, we need to do our own
- * database updates.
- */
-function ding_library_update($node) {
-  // Check if theres an existing row in {ding_library}
-  $prev_vid = db_result(db_query("SELECT vid FROM {ding_library} WHERE nid=%d", $node->nid));
-  // If this is a new node or we're adding a new revision,
-  if ($node->revision || !$prev_vid) {
-    ding_library_insert($node);
-  }
-  else {
-    drupal_write_record('ding_library', $node, array('nid', 'vid'));
-    if (empty($node->branch_id)) {
-      // drupal_write_record() does not support updating a column to NULL.
-      db_query('UPDATE {ding_library} SET branch_id = NULL WHERE nid = %d AND vid = %d', $node->nid, $node->vid);
-    }
-
-    if ($node->library_page_type == 'portal') {
-      // Check if this library already has a menu.
-      if (db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name = 'ding_library_%d' LIMIT 1", $node->nid))) {
-        // If so, update the menu with the new name (if any).
-        _ding_library_portal_menu($node);
-      }
-      // Otherwise, create a new menu.
-      else {
-        drupal_write_record('menu_custom', $menu);
-        _ding_library_portal_menu($node, FALSE);
-      }
-    }
-  }
-}
-
-/**
  * Implementation of hook_nodeapi().
  *
  * When a node revision is deleted, we need to remove the corresponding record
