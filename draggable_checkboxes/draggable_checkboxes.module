@@ -56,7 +56,7 @@ function draggable_checkboxes_process($element) {
     // If #value or #default_value is provided, set it on our two elements.
     // #value takes precedence.
     if (isset($element['#value'][$value]) && is_numeric($element['#value'][$value])) {
-      // Value of a checkbox is the one it provides to the form API when 
+      // Value of a checkbox is the one it provides to the form API when
       // it's checked.
       $element[$value]['check']['#value'] = $value;
       $element[$value]['weight']['#value'] = $element['#value'][$value];
@@ -73,7 +73,7 @@ function draggable_checkboxes_process($element) {
     }
   }
 
-  // Finally, remove #value and #default_value from the main element, 
+  // Finally, remove #value and #default_value from the main element,
   // since it causes troubles in form_set_value.
   unset($element['#value']);
   unset($element['#default_value']);
@@ -87,6 +87,10 @@ function draggable_checkboxes_preprocess_draggable_checkboxes($vars) {
   $vars['table_id'] = 'dragcheck-' . $vars['element']['#id'];
   drupal_add_tabledrag($vars['table_id'], 'order', 'sibling', 'draggable-weight');
   drupal_add_css(drupal_get_path('module', 'draggable_checkboxes') . '/draggable_checkboxes.css');
+
+  if ($vars['element']['#title']) {
+    $vars['title'] = t('!title: !required', array('!title' => $vars['element']['#title'], '!required' => (isset($vars['element']['#required']) ? (bool) $vars['element']['#required'] : FALSE)));
+  }
 
   $vars['checkboxes'] = array();
 

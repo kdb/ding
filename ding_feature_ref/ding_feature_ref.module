@@ -50,8 +50,9 @@ function ding_feature_ref_widget(&$form, &$form_state, $field, $items, $delta = 
 
       $element = array(
         '#type' => 'draggable_checkboxes',
-        // We can't use #options, since that confuses Drupals built-in 
-        // option validator, since this element returns a different 
+        '#title' => t('Library features'),
+        // We can't use #options, since that confuses Drupals built-in
+        // option validator, since this element returns a different
         // structure than it expects.
         '#checkbox_options' => _ding_feature_ref_feature_options($node->nid, $items),
         '#default_value' => $values,
@@ -62,6 +63,7 @@ function ding_feature_ref_widget(&$form, &$form_state, $field, $items, $delta = 
     case 'ding_feature_ref_library':
       $element = array(
         '#type' => 'select',
+        '#title' => t('Library features'),
         '#default_value' => $items,
       );
       break;
@@ -114,7 +116,7 @@ ORDER BY fr.delta ASC", $nid);
     $query = db_query("
 SELECT n.nid, n.vid, n.title
 FROM {node} AS n
-LEFT JOIN {content_field_library_ref} AS lr ON ( lr.vid = n.vid ) 
+LEFT JOIN {content_field_library_ref} AS lr ON ( lr.vid = n.vid )
 WHERE n.type = 'feature'
 AND field_library_ref_nid IS NULL");
   }
@@ -125,7 +127,7 @@ AND field_library_ref_nid IS NULL");
 }
 
 /**
- * Helper function to sort the values from the sortable checkboxes, so 
+ * Helper function to sort the values from the sortable checkboxes, so
  * they get saved in the correct order in the database.
  */
 function _ding_feature_ref_values_sort($a, $b) {

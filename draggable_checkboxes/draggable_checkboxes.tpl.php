@@ -14,11 +14,14 @@
 ?>
 <table id="<?php print $table_id; ?>" class="draggable-checkboxes">
   <tbody>
-<?php foreach($checkboxes as $nid => $checkbox): ?>
-    <tr class="draggable node-<?php print $nid; ?>">
-      <?php print $checkbox; ?>
-    </tr>
-<?php endforeach; ?>
+    <?php if ($title): ?>
+      <thead><tr><th colspan="2"><?php print $title; ?></th></tr></thead>
+    <?php endif; ?>
+    <?php foreach($checkboxes as $nid => $checkbox): ?>
+      <tr class="draggable node-<?php print $nid; ?>">
+        <?php print $checkbox; ?>
+      </tr>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
