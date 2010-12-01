@@ -129,49 +129,6 @@ function ding_page_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
-    $pane->type = 'library';
-    $pane->subtype = 'library_location';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'relationship_related_library_2',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
-    $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'right';
-    $pane->type = 'library';
-    $pane->subtype = 'library_hours';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'relationship_related_library_2',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'style' => 'ding_box',
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][1] = 'new-4';
-    $pane = new stdClass;
-    $pane->pid = 'new-5';
-    $pane->panel = 'right';
     $pane->type = 'block';
     $pane->subtype = 'tagadelic-2';
     $pane->shown = TRUE;
@@ -187,11 +144,11 @@ function ding_page_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
-    $display->content['new-5'] = $pane;
-    $display->panels['right'][2] = 'new-5';
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][0] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'relevant';
     $pane->subtype = 'relevant_campaigns';
@@ -211,33 +168,9 @@ function ding_page_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
-    $display->content['new-6'] = $pane;
-    $display->panels['right'][3] = 'new-6';
-    $pane = new stdClass;
-    $pane->pid = 'new-7';
-    $pane->panel = 'top';
-    $pane->type = 'library_title';
-    $pane->subtype = 'library_title';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'display_header_image' => FALSE,
-      'header_image_imagecache_preset' => '680_200_crop',
-      'display_navigation_links' => FALSE,
-      'context' => 'argument_nid_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-7'] = $pane;
-    $display->panels['top'][0] = 'new-7';
+    $pane->position = 1;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][1] = 'new-4';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
