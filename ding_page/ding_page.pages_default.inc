@@ -86,7 +86,7 @@ function ding_page_default_page_manager_handlers() {
       'depth' => 0,
       'expanded' => 0,
       'sort' => 0,
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
