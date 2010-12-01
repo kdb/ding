@@ -158,6 +158,7 @@ function ding_reservation_list_form($form_state, $account, $records) {
         '#type' => 'checkbox',
         '#return_value' => $reservation['id'],
         '#disabled' => TRUE,
+        '#disabled_text' => t('reservation cannot be cancelled'),
       );
       if ($reservation['status'] == 'active' || ($cancel_fetchable && $reservation['status'] == 'fetchable')) {
         $form['selected'][$reservation['id']]['#disabled'] = FALSE;

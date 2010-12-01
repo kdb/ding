@@ -236,6 +236,7 @@ function ding_library_user_loan_list_form($form_state, $account, $records) {
       '#type' => 'checkbox',
       '#return_value' => $loan['id'],
       '#disabled' => TRUE,
+      '#disabled_text' => t('Unable to renew loan'),
     );
     if ($loan['is_renewable']) {
       $form['loans'][$loan['id']]['#disabled'] = FALSE;
