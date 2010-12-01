@@ -37,7 +37,7 @@ else{
     </div>
 
   </div>
-  <?php if ($user_status_available): ?>
+  <?php if ($user_status['status_available']): ?>
     <?php if ($has_cart): ?>
       <div class="cart">
         <div class="count"><?php print $cart_count; ?></div>

@@ -439,23 +439,29 @@ function ding_library_user_get_status($account, $redirect=TRUE) {
     // session lasts.
     $data = array();
 
-    $reservations = ding_provider_invoke('reservation', 'list', $account);
-    $loans = ding_provider_invoke('loan', 'get loans', $account);
-    $data['loan_overdue_count'] = 0;
+    if (ding_provider_invoke('user', 'logged in', $account)) {
+      $reservations = ding_provider_invoke('reservation', 'list', $account);
+      $loans = ding_provider_invoke('loan', 'get loans', $account);
+      $data['loan_overdue_count'] = 0;
 
-    if ($loans != DING_PROVIDER_AUTH_REQUIRED) {
-      $data['loan_count'] = count($loans);
-      foreach ($loans as $loan) {
-        if ($loan['due_date'] < date('Y-m-d', $_SERVER['REQUEST_TIME'])) {
-          $data['loan_overdue_count']++;
+      if ($loans != DING_PROVIDER_AUTH_REQUIRED) {
+        $data['loan_count'] = count($loans);
+        foreach ($loans as $loan) {
+          if ($loan['due_date'] < date('Y-m-d', $_SERVER['REQUEST_TIME'])) {
+            $data['loan_overdue_count']++;
+          }
         }
       }
-    }
 
-    if ($reservations != DING_PROVIDER_AUTH_REQUIRED) {
-      $data['reservation_count'] = count($reservations);
+      if ($reservations != DING_PROVIDER_AUTH_REQUIRED) {
+        $data['reservation_count'] = count($reservations);
+      }
+      $data['status_available'] = TRUE;
     }
-
+    else {
+      $data['status_available'] = FALSE;
+    }
+    $status[$account->uid] = $data;
     return $data;
   }
   return FALSE;
