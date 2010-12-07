@@ -834,20 +834,12 @@ function ding_event_views_default_views() {
   ));
   $handler->override_option('argument_input', array(
     'tid' => array(
-      'type' => 'panel',
-      'context' => 'node.uid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Taksonomi: Term ID',
-    ),
-    'field_library_ref_nid' => array(
       'type' => 'context',
-      'context' => 'node.nid',
+      'context' => 'term.tid',
       'context_optional' => 1,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Bibliotek (field_library_ref)',
+      'label' => 'Taksonomi: Term ID',
     ),
   ));
   $handler->override_option('link_to_view', 0);
