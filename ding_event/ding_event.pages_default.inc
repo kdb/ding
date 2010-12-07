@@ -23,6 +23,8 @@ function ding_event_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'normal',
@@ -72,6 +74,7 @@ function ding_event_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display;
+  $display->api_version = 1;
   $display->layout = 'threecol_left_stacked_right';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -89,6 +92,7 @@ function ding_event_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'categories';
@@ -111,6 +115,7 @@ function ding_event_default_page_manager_pages() {
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -132,6 +137,7 @@ function ding_event_default_page_manager_pages() {
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
     $pane = new stdClass;
+    $pane->api_version = 1;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
     $pane->type = 'relevant';

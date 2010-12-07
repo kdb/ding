@@ -814,6 +814,11 @@ function ding_event_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('cache', array(
+    'type' => 'time',
+    'results_lifespan' => '3600',
+    'output_lifespan' => '3600',
+  ));
   $handler->override_option('use_pager', '1');
   $handler->override_option('pane_title', 'Arrangementer');
   $handler->override_option('pane_description', '');
