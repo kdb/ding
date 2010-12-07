@@ -247,8 +247,8 @@ function template_preprocess_ding_library_user_status_block(&$variables) {
     $variables['profile_link'] = 'user/' . $account->uid;
   }
 
-  if (empty($variables['user_status'])) {
-    $variables['user_status_available'] = FALSE;
+  $variables['status_available'] = $variables['user_status']['status_available'];
+  if (!$variables['status_available']) {
     if (!empty($account->library_user_id)) {
       $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $account->uid . '/authenticate')));
     }
@@ -260,7 +260,6 @@ function template_preprocess_ding_library_user_status_block(&$variables) {
     }
   }
   else {
-    $variables['user_status_available'] = TRUE;
     if ($variables['user_status']['loan_overdue_count'] > 0) {
       $variables['wrapper_classes'] .= 'loans-overdue';
     }

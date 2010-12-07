@@ -6,9 +6,6 @@
  * Template for the user status block.
  */
 
-/*
- * TODO get status from mikl
- */
 if( $user_status['loan_overdue_count'] >= 1){
   $loan_status  = "warning";
 }
@@ -37,7 +34,7 @@ else{
     </div>
 
   </div>
-  <?php if ($user_status['status_available']): ?>
+  <?php if ($status_available): ?>
     <?php if ($has_cart): ?>
       <div class="cart">
         <div class="count"><?php print $cart_count; ?></div>
