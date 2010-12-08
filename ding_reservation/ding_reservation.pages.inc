@@ -6,12 +6,15 @@
  */
 function ding_reservation_page_reserve_item($object, $reservable = NULL) {
   global $user;
+  if (!$reservable) {
+    $reservable = $object->localId;
+  }
   $is_ahah = ding_reservation_detect_ahah();
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
     $reply = array();
-    $result = ding_provider_invoke('reservation', 'create', $user, $object->localId);
+    $result = ding_provider_invoke('reservation', 'create', $user, $reservable);
     switch ($result['status']) {
       case DING_RESERVATION_SUCCESS:
         $reply['status'] = 'success';
@@ -63,7 +66,7 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
     return drupal_goto('user/' . $user->uid . '/status');
   }
 
-  return drupal_get_form('ding_reservation_confirm_form', $user, $object);
+  return drupal_get_form('ding_reservation_confirm_form', $user, $object, $reservable);
 }
 
 /**
@@ -76,7 +79,7 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
  * @param TingClientObject $object
  *    The object we're acting on.
  */
-function ding_reservation_confirm_form(&$form_state, $account, $object) {
+function ding_reservation_confirm_form(&$form_state, $account, $object, $reservable) {
   // Send some form values along for the submit step.
   $form = array();
 
@@ -88,6 +91,11 @@ function ding_reservation_confirm_form(&$form_state, $account, $object) {
   $form['object'] = array(
     '#type' => 'value',
     '#value' => $object,
+  );
+
+  $form['reservable'] = array(
+    '#type' => 'value',
+    '#value' => $reservable,
   );
 
   $form['dest_url'] = array(
@@ -106,7 +114,7 @@ function ding_reservation_confirm_form(&$form_state, $account, $object) {
  * reservation options too.
  */
 function ding_reservation_confirm_form_submit($form, &$form_state) {
-  $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['object']->localId, array('pickup_branch' => $form_state['values']['account']->preferred_branch));
+  $reservation = ding_provider_invoke('reservation', 'create', $form_state['values']['account'], $form_state['values']['reservable'], array('pickup_branch' => $form_state['values']['account']->preferred_branch));
 
   if ($reservation && $reservation != DING_PROVIDER_AUTH_REQUIRED) {
     drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));

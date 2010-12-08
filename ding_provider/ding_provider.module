@@ -166,6 +166,7 @@ function ding_provider_ctools_plugin_availability() {
     'optional functions' => array(
       'settings form',
       'details',
+      'periodical',
     ),
   );
 }
