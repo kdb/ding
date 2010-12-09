@@ -45,6 +45,18 @@ function ding_panels_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implementation of hook_ctools_plugin_api().
+ *
+ * Tell panels that our styles are fresh, so it doesn't need to go
+ * into legacy mode.
+ */
+function  ding_panels_ctools_plugin_api($module, $api) {
+  if ($module == 'panels' && $api == 'styles') {
+    return array('version' => 2);
+  }
+}
+
+/**
  * Preprocess hook for the library title and navigation pane.
  */
 function template_preprocess_ding_panels_content_library_title(&$variables) {
@@ -198,15 +210,15 @@ function template_preprocess_ding_panels_library_user_staff_title(&$variables) {
  */
 function _ding_panels_get_image($path) {
   $return = $path;
-  
+
   $base_path = file_directory_path().'/ding_panels';
   file_check_directory($base_path, FILE_CREATE_DIRECTORY);
 
   $cut_path = str_ireplace("http://", "", $path);
   $image_name  = preg_replace("/[^\w]/", "-", $path);
-  
+
   $image_path = $base_path."/".$image_name;
-  if (file_exists($image_path) && 
+  if (file_exists($image_path) &&
     time() < (filectime($imagepath) + (60*60*24))) {
     // File already downloaded and within 24 hours cache lifetime
     $return = $image_path;
@@ -219,6 +231,6 @@ function _ding_panels_get_image($path) {
     }
     $return = $image_path;
   }
-   
+
   return $return;
 }
