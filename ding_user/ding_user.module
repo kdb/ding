@@ -255,6 +255,33 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
+ * Implementation of hook_mail_alter().
+ *
+ * The comment_notify module doesn't support tokens, so we have this
+ * hack to get display_name in. We'll probably find another
+ * notification module later.
+ */
+function ding_user_mail_alter($message) {
+  if ($message['id'] = 'comment_notify-comment_notify_mail') {
+    // Not perfect, but it'll do...
+    $reg_exp = '/[a-z0-9]+@[a-z0-9_]+/i';
+    $message['subject'] = preg_replace_callback($reg_exp, '_ding_user_replace_callback', $message['subject']);
+    $message['body'] = preg_replace_callback($reg_exp, '_ding_user_replace_callback', $message['body']);
+  }
+}
+
+function _ding_user_replace_callback($matches) {
+  $uid = db_result(db_query("SELECT uid FROM {authmap} WHERE authname = '%s'", $matches[0]));
+  if ($uid) {
+    $account = user_load(array('uid' => $uid));
+    if ($account->display_name) {
+      return $account->display_name;
+    }
+  }
+  return $matches[0];
+}
+
+/**
  * User login validation.
  *
  * Serves as a replacement of user_login_authenticate_validate, using
