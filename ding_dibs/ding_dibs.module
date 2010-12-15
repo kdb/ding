@@ -75,7 +75,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           }
 
           // Call the callback, which may now *read* the session.
-          call_user_func_array($callback, $transaction);
+          call_user_func($callback, $transaction);
           // Clear it in case the callback accidentally added to it.
           session_unset();
           // Reset user.
