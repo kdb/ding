@@ -94,6 +94,30 @@ function ding_debt_list_form(&$form_state, $account, $debts) {
 }
 
 /**
+ * Validation for debts details form.
+ */
+function ding_debt_list_form_validate($form, &$form_state) {
+  $selected_debts = array_keys(array_filter($form_state['values']['selected']));
+
+  if (empty($selected_debts)) {
+    form_set_error('debts', t('Please select one or more debts to pay.'));
+  }
+  $form_state['values']['selected_debts'] = $selected_debts;
+
+  //Calculate a new total based on the selected debts
+  $total = 0.0;
+  foreach ($selected_debts as $debt_id) {
+    $total += (float) $form_state['values']['debts'][$debt_id]['amount'];
+  }
+
+  if ($total <= 0.0) {
+    form_set_error('debts', t('Payment must be larger than zero.'));
+  }
+  
+  $form_state['values']['total'] = $total;
+}
+
+/**
  * Theming of debt details form.
  */
 function theme_ding_debt_list_form($form) {
