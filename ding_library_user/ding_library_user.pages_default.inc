@@ -225,7 +225,10 @@ function ding_library_user_default_page_manager_pages() {
   $page->admin_title = 'User debts page';
   $page->admin_description = 'Allow user to see and pay his dues.';
   $page->path = 'user/%user/debts';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(),
+    'logic' => 'and',
+  );
   $page->menu = array();
   $page->arguments = array(
     'user' => array(
@@ -240,11 +243,49 @@ function ding_library_user_default_page_manager_pages() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'page_ding_library_user_debts_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'ding_library_user_debts';
+  $handler->handler = 'http_response';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Not logged in',
+    'contexts' => array(
+      0 => array(
+        'name' => 'token',
+        'id' => 1,
+        'identifier' => 'Symbol',
+        'keyword' => 'token',
+      ),
+    ),
+    'relationships' => array(),
+    'code' => '301',
+    'destination' => 'user/login?destination=%token:current-page-path',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'page_ding_library_user_debts_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'ding_library_user_debts';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Panel',
     'no_blocks' => FALSE,
@@ -259,8 +300,6 @@ function ding_library_user_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = TRUE;
-  $display->title_pane = 136;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -329,9 +368,9 @@ function ding_library_user_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        '0' => 'empty',
-        '1' => 'empty',
-        '2' => 'empty',
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -343,6 +382,8 @@ function ding_library_user_default_page_manager_pages() {
     $pane->position = 2;
     $display->content['new-4'] = $pane;
     $display->panels['right'][2] = 'new-4';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
 
