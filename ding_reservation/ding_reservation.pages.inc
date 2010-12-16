@@ -122,7 +122,6 @@ function ding_reservation_confirm_form_submit($form, &$form_state) {
   else {
     drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
   }
-  break;
 
   $form_state['redirect'] = $form_state['values']['dest_url'];
 }
