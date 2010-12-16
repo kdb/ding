@@ -191,7 +191,8 @@ function ding_reservation_list_form($form_state, $account, $records) {
  * Form validation function.
  */
 function ding_reservation_list_form_validate($form, &$form_state) {
-  if (empty($form_state['values']['selected'])) {
+  $selected = array_filter($form_state['values']['selected']);
+  if (empty($selected)) {
     form_error($form['selected'], t('You must select some reservations.'));
   }
 }
