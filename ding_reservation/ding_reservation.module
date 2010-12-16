@@ -6,7 +6,9 @@ define('DING_RESERVATION_SUCCESS', 0);
 define('DING_RESERVATION_ERROR', 1);
 define('DING_RESERVATION_ERROR_NO_DEFAULT_BRANCH', 2);
 define('DING_RESERVATION_ERROR_RESERVATION_EXISTS', 3);
+// Material is not available.
 define('DING_RESERVATION_ERROR_NOT_AVAILABLE', 4);
+// Reservation is not allowed.
 define('DING_RESERVATION_ERROR_NOT_ALLOWED', 5);
 
 /**
