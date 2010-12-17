@@ -77,7 +77,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
 
           // Call the callback, which may now *read* the session.
           call_user_func($callback, $transaction);
-
+        }
         else {
           watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);
         }
