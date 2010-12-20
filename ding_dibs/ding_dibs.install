@@ -1,0 +1,16 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Ding DIBS integration.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_dibs_install() {
+  //Migrate obsolete Alma DIBS settings to Ding DIBS
+  update_sql('UPDATE variable SET name = "dibs_settings_ding_dibs_1" 
+              WHERE name = "dibs_settings_alma_dibs_1"');
+}
