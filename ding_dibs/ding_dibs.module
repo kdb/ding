@@ -63,24 +63,20 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         if (function_exists($callback)) {
           // Ensure that this session isn't saved.
           session_save_session(FALSE);
-          // Clear it.
-          session_unset();
-          $orig_user = $user;
-          $user = user_load(array('uid' => $transaction['customer_uid']));
+          $my_user = user_load(array('uid' => $transaction['customer_uid']));
           if (isset($transaction['params']['session'])) {
             $res = db_query("SELECT sid, session FROM {sessions} WHERE sid = '%s'", $transaction['params']['session']);
             $row = db_fetch_object($res);
+            // Session_decode doesn't work without any session, start one.
+            session_start();
+            // Set the user (session_start might have set it to anonymous).
+            $user = $my_user;
             // Load the session variables into $_SESSION
             session_decode($row->session);
           }
 
           // Call the callback, which may now *read* the session.
           call_user_func($callback, $transaction);
-          // Clear it in case the callback accidentally added to it.
-          session_unset();
-          // Reset user.
-          $user = $orig_user;
-          // We're not re-enabling session saving.
         }
         else {
           watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);

@@ -37,6 +37,18 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
         $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.',
                             array('!profile_settings' => l(t('profile settings page'), 'user/' . $user->uid . '/profile', array('query' => drupal_get_destination()))));
         break;
+      case DING_RESERVATION_ERROR_NOT_ALLOWED:
+        $reply['status'] = 'error';
+        $reply['error_type'] = 'reservation-not-allowed';
+        $reply['title'] = t('Not allowed');
+        $reply['message'] = t('Reservation of @item is not allowed.', array('@item' => $object->title));
+        break;
+      case DING_RESERVATION_ERROR_NOT_AVAILABLE:
+        $reply['status'] = 'error';
+        $reply['error_type'] = 'reservation-not-available';
+        $reply['title'] = t('Not available');
+        $reply['message'] = t('@item is not available for reservation.', array('@item' => $object->title));
+        break;
       case DING_RESERVATION_ERROR_RESERVATION_EXISTS:
         $reply['status'] = 'error';
         $reply['error_type'] = 'reservation-exists';
