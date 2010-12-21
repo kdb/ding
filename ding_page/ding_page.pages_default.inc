@@ -72,21 +72,14 @@ function ding_page_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'menu_tree';
-    $pane->subtype = '_active';
+    $pane->type = 'library_portal';
+    $pane->subtype = 'library_portal';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'menu_name' => '_active',
-      'parent_mlid' => 0,
-      'title_link' => 0,
-      'admin_title' => 'Current menu (level 1+)',
-      'level' => '1',
-      'follow' => 0,
-      'depth' => 0,
-      'expanded' => 0,
-      'sort' => 0,
-      'override_title' => 1,
+      'default_menu' => 'menu-organisation',
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
