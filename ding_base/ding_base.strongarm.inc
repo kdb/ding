@@ -657,6 +657,31 @@ function ding_base_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'htmLawed_format_3';
   $strongarm->value = array(
+    'library' => array(
+      'Body' => array(
+        'default' => 1,
+        'show' => 1,
+        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'id, style\'',
+        'spec' => '',
+        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd',
+        'save' => 0,
+      ),
+      'Comment' => array(
+        'default' => 1,
+        'show' => 1,
+        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'id, style\'',
+        'spec' => '',
+        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd',
+        'save' => 0,
+      ),
+      'RSS' => array(
+        'default' => 1,
+        'show' => 0,
+        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p\', \'deny_attribute\'=>\'id, style\'',
+        'spec' => '',
+        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
+      ),
+    ),
     'article' => array(
       'Body' => array(
         'default' => 1,
@@ -682,7 +707,7 @@ function ding_base_strongarm() {
         'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
       ),
     ),
-    'campaign' => array(
+    'topic' => array(
       'Body' => array(
         'default' => 1,
         'show' => 1,
@@ -757,7 +782,7 @@ function ding_base_strongarm() {
         'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
       ),
     ),
-    'library' => array(
+    'campaign' => array(
       'Body' => array(
         'default' => 1,
         'show' => 1,
@@ -807,7 +832,7 @@ function ding_base_strongarm() {
         'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
       ),
     ),
-    'page' => array(
+    'profile' => array(
       'Body' => array(
         'default' => 1,
         'show' => 1,
@@ -832,11 +857,11 @@ function ding_base_strongarm() {
         'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
       ),
     ),
-    'profile' => array(
+    'page' => array(
       'Body' => array(
         'default' => 1,
         'show' => 1,
-        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'id, style\'',
+        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'\'',
         'spec' => '',
         'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd',
         'save' => 0,
@@ -883,31 +908,6 @@ function ding_base_strongarm() {
       ),
     ),
     'flexifield_ting_refs' => array(
-      'Body' => array(
-        'default' => 1,
-        'show' => 1,
-        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'id, style\'',
-        'spec' => '',
-        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd',
-        'save' => 0,
-      ),
-      'Comment' => array(
-        'default' => 1,
-        'show' => 1,
-        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd\', \'deny_attribute\'=>\'id, style\'',
-        'spec' => '',
-        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd',
-        'save' => 0,
-      ),
-      'RSS' => array(
-        'default' => 1,
-        'show' => 0,
-        'config' => '\'safe\'=>1, \'elements\'=>\'a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p\', \'deny_attribute\'=>\'id, style\'',
-        'spec' => '',
-        'help' => 'Tags allowed: a, em, strong, cite, code, ol, ul, li, dl, dt, dd, br, p',
-      ),
-    ),
-    'topic' => array(
       'Body' => array(
         'default' => 1,
         'show' => 1,
