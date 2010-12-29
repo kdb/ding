@@ -934,7 +934,7 @@ function ding_base_strongarm() {
     ),
     'htmLawedDef' => array(
       'Body' => array(
-        'config' => '\'safe\'=>1, \'elements\'=>\'h1, h2, h3, h4, h5, h6, em, strong, code, del, blockquote, q, sub, p, br, pre, ul, ol, li, dl, dt, dd, a, b, u, i, sup, img, table, tbody, td, th, tr\', \'deny_attribute\'=>\'id, style\', \'make_tag_strict\'=>1, \'no_deprecated_attr\'=>1, \'tidy\'=>1, \'valid_xhtml\'=>1',
+        'config' => '\'safe\'=>1, \'elements\'=>\'h1, h2, h3, h4, h5, h6, em, strong, code, del, blockquote, q, sub, p, br, pre, ul, ol, li, dl, dt, dd, a, b, u, i, sup, img, table, tbody, td, th, tr\', \'deny_attribute\'=>\'\', \'make_tag_strict\'=>1, \'no_deprecated_attr\'=>1, \'tidy\'=>1, \'valid_xhtml\'=>1',
         'spec' => '',
         'help' => '',
       ),
