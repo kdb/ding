@@ -81,3 +81,18 @@ admin*
 profil/*");
 }
 
+/**
+ * Enable trampoline module.
+ */
+function ding_base_update_6004() {
+  $modules = array(
+    'trampoline',
+  );
+  $ret = array();
+  drupal_install_modules($modules);
+  $ret[] = array(
+    'success' => TRUE,
+    'query' => t('Enabled trampoline module'),
+  );
+  return $ret;
+}
