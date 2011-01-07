@@ -212,7 +212,8 @@ function ding_provider_example_reservation_options($account, $create = TRUE) {
  * @param array $options
  *   The options gathered through reservation_options.
  * @return array
- *   Reservation_id => success.
+ *   Reservation_id => TRUE for success, FALSE or an error message string
+ *   for failures.
  */
 function ding_provider_example_reservation_update($account, $reservation_ids, $options = array()) {
 

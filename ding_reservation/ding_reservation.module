@@ -208,11 +208,20 @@ function ding_reservation_list_form_update($form, &$form_state) {
 
   $result = ding_provider_invoke('reservation', 'update', $form_state['values']['account'], $reservation_ids, $form_state['values']['options']);
   foreach ($result as $reservation_id => $success) {
-    if ($success) {
+    if (is_string($success)) {
+      $error_messages[] = $success;
+    }
+    elseif ($success) {
       $successes[] = $reservation_id;
     }
     else {
       $failures[] = $reservation_id;
+    }
+  }
+
+  if (!empty($error_messages)) {
+    foreach ($error_messages as $message) {
+      drupal_set_message($message, 'warning');
     }
   }
 
@@ -222,8 +231,8 @@ function ding_reservation_list_form_update($form, &$form_state) {
   elseif ($failures && !$successes) {
     drupal_set_message(t('Could not update reservations.', 'error'));
   }
-  else {
-    drupal_set_message(t('Updated @ok_count reservations, @failed_count failed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'error');
+  elseif (empty($error_messages)) {
+    drupal_set_message(t('Updated @ok_count reservations, @failed_count failed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'warning');
   }
 }
 
