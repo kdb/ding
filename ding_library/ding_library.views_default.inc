@@ -96,7 +96,9 @@ function ding_library_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('cache', array(
-    'type' => 'rules',
+    'type' => 'time',
+    'results_lifespan' => '300',
+    'output_lifespan' => '300',
   ));
   $handler->override_option('title', 'Biblioteker');
   $handler->override_option('items_per_page', 0);
