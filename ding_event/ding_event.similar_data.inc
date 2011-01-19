@@ -10,7 +10,11 @@
  * Generate a large array of data, making it easy to find similar events.
  */
 function ding_event_similar_data_generate() {
-  $data = array();
+  $data = array(
+    'events' => array(),
+    'terms' => array(),
+    'libraries' => array(),
+  );
 
   // Get information about the datetime field from CCK, so we can make
   // SQL queries against it.
@@ -31,9 +35,6 @@ function ding_event_similar_data_generate() {
       $data['terms'][$row['tid']][$row['nid']] = $row['nid'];
     }
   }
-  if (!isset($data['terms'])) {
-    $data['terms'] = array();
-  }
 
   // Get library associations.
   if ($event_count) {
@@ -47,9 +48,6 @@ function ding_event_similar_data_generate() {
     while ($row = db_fetch_array($query)) {
       $data['libraries'][$row[$col_name]][$row['nid']] = $row['nid'];
     }
-  }
-  if (!isset($data['libraries'])) {
-    $data['libraries'] = array();
   }
 
   return $data;
