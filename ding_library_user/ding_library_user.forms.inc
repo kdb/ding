@@ -287,27 +287,32 @@ function ding_library_user_loan_list_form_submit($form, $form_state) {
   $result = ding_provider_invoke('loan', 'renew loans', $user, $selected);
   if (is_array($result)) {
     if (sizeof($result)) {
-      $types = array();
-      // Flip the array so the keys are the message and the value the affected
-      // ids.
-      foreach ($result as $id => $res) {
-        $types[$res][] = $id;
-      }
-      // TODO: Add in material titles, but that requires that
-      // ding_library_user_loan_list_form does the
-      // ding_provider_invoke('loan', 'details') thing before inserting the
-      // loans in the form, rather than the theming.
-      //
-      // Alternatively (or combined), an item_name function that attempts to
-      // use either ting_object->title, title, display_title, material_id or
-      // id to construct a name for the item.
-      foreach ($types as $res => $ids) {
-        if (is_string($res)) {
-          drupal_set_message(format_plural(sizeof($ids), '@message', '@count materials: @message', array('@message' => $res)), 'error');
+      foreach ($result as $loan_id => $status) {
+        if (is_string($status)) {
+          $error_messages[] = $status;
+        }
+        elseif ($status) {
+          $successes[] = $loan_id;
         }
         else {
-          drupal_set_message(format_plural(sizeof($ids), 'Renewed 1 material.', 'Renewed @count materials.'));
+          $failures[] = $loan_id;
         }
+      }
+
+      if (!empty($error_messages)) {
+        foreach ($error_messages as $message) {
+          drupal_set_message($message, 'warning');
+        }
+      }
+
+      if ($successes && !$failures) {
+        drupal_set_message(t('Loans renewed.'));
+      }
+      elseif ($failures && !$successes) {
+        drupal_set_message(t('Could not renew.', 'error'));
+      }
+      elseif (empty($error_messages)) {
+        drupal_set_message(t('Renewed @ok_count loans, @failed_count could not be renewed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'warning');
       }
     }
     else {
