@@ -212,6 +212,7 @@ function ding_library_user_change_password_form_submit($form, &$form_state) {
  * @todo Way too much logic in the theme function. Move some of it here.
  */
 function ding_library_user_loan_list_form($form_state, $account, $records) {
+  drupal_add_css(drupal_get_path('module', 'ding_library_user') . '/ding_library_user.css');
   $grouped = _ding_library_user_group_loans($records);
   $renew_buttons = FALSE;
   $form = array();
@@ -314,6 +315,13 @@ function ding_library_user_loan_list_form_submit($form, $form_state) {
       elseif (empty($error_messages)) {
         drupal_set_message(t('Renewed @ok_count loans, @failed_count could not be renewed', array('@ok_count' => sizeof($successes), '@failed_count' => sizeof($failures))), 'warning');
       }
+
+      // Save successes and failures so the form can highlight them on next
+      // display.
+      $_SESSION['ding_library_user_loans_renewed'] = array(
+        'successfully' => $successes,
+        'failed' => $failures,
+      );
     }
     else {
       drupal_set_message(t('Materials renewed'));
