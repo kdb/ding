@@ -1,8 +1,6 @@
 <?php
-// $Id$
-
 /**
- * @file ding_library_map.install
+ * @file
  * Install and uninstall code for the library map module.
  */
 

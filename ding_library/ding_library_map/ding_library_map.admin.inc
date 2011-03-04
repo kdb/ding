@@ -1,12 +1,11 @@
-<?php // $Id$
-
+<?php
 /**
- * @file ding_library_map.admin.inc
- * Admin forms
+ * @file
+ * Admin forms for the Ding Library Map module.
  */
 
 /**
- * The admin settings form.
+ * Main admin settings form.
  */
 function ding_library_map_admin_settings_form(&$form_state) {
   $form = array();
@@ -20,3 +19,4 @@ function ding_library_map_admin_settings_form(&$form_state) {
   
   return system_settings_form($form);
 }
+

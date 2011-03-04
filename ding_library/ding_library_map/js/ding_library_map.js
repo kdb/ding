@@ -1,5 +1,3 @@
-// $Id$
-
 /**
  * @file
  * JavaScript object to handle our library map.
