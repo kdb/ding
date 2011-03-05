@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 // Default interest period is ~six months.
 // TODO: move to ding_reservation
