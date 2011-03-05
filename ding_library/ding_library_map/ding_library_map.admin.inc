@@ -14,7 +14,7 @@ function ding_library_map_admin_settings_form(&$form_state) {
   $form['ding_library_map_center'] = array(
     '#type' => 'fieldset',
     '#title' => t('Map center'),
-    '#description' => t('The default center coordinates of the map, expressed as a decimal latitude and longitude, separated by a comma.'),
+    '#description' => t('The default center coordinates of the map, expressed as a decimal latitude and longitude.'),
     '#tree' => TRUE,
   );
 
