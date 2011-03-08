@@ -776,5 +776,17 @@ function ding_default_permissions_user_default_permissions() {
     ),
   );
 
+  // Exported permission: edit advanced node properties
+  $permissions['edit advanced node properties'] = array(
+    'name' => 'view search carousel',
+    'roles' => array(
+      '0' => 'administrator',
+      '1' => 'author',
+      '2' => 'editor',
+    ),
+  );
+
+
+
   return $permissions;
 }
