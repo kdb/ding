@@ -786,7 +786,15 @@ function ding_default_permissions_user_default_permissions() {
     ),
   );
 
-
+  // Exported permission: access environment indicator
+  $permissions['access environment indicator'] = array(
+    'name' => 'view search carousel',
+    'roles' => array(
+      '0' => 'administrator',
+      '1' => 'author',
+      '2' => 'editor',
+    ),
+  );
 
   return $permissions;
 }
