@@ -101,6 +101,10 @@ function theme_ding_library_user_loan_list_form($form) {
         'data' => theme('ding_library_user_list_item', 'loan', $loan),
       );
 
+      if (isset($form['loans'][$loan_id]['#renewed'])) {
+        $cells['title']['data'] .= '<span class="renewal-status ' . $form['loans'][$loan_id]['#renewed'] . '">' . $form['loans'][$loan_id]['#renewed_text'] . '</span>';
+      }
+
       $cells['loan_date'] = array(
         'class' => 'loan_date',
         'data' => ding_library_user_format_date($loan['loan_date'], $date_format),
@@ -113,7 +117,7 @@ function theme_ding_library_user_loan_list_form($form) {
 
       $rows[] = array(
         'data' => $cells,
-        'class' => ($checkbox) ? 'selectable' : 'immutable',
+        'class' => (($checkbox) ? 'selectable' : 'immutable'),
       );
     }
 
@@ -121,6 +125,7 @@ function theme_ding_library_user_loan_list_form($form) {
       $output .= theme('table', $header, $rows, array('colgroups' => $colgroups), $table_title);
     }
   }
+
   if (empty($output)) {
     return t('No loans found.');
   }

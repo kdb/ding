@@ -13,14 +13,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: jquery_ui_theme.info:0
-msgid "Makes jQuery UI themes available for overrides via themes."
+#: ding_default_permissions.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
+#: ding_default_permissions.info:0
+msgid "Ding! default permissions"
 msgstr ""
 
-#: jquery_ui_theme.info:0
-msgid "User interface"
-msgstr "Brugergrænseflade"
-
-#: jquery_ui_theme.info:0
-msgid "jQuery UI themes"
+#: ding_default_permissions.info:0
+msgid "Provides default roles and permissions."
 msgstr ""
