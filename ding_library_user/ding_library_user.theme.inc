@@ -101,13 +101,8 @@ function theme_ding_library_user_loan_list_form($form) {
         'data' => theme('ding_library_user_list_item', 'loan', $loan),
       );
 
-      if (isset($_SESSION['ding_library_user_loans_renewed'])) {
-        if (in_array($loan_id, $_SESSION['ding_library_user_loans_renewed']['successfully'])) {
-          $cells['title']['data'] .= '<span class="renewal-status success">' . t('Successfully renewed') . '</span>';
-        }
-        elseif (in_array($loan_id, $_SESSION['ding_library_user_loans_renewed']['failed'])) {
-          $cells['title']['data'] .= '<span class="renewal-status failed">' . t('Renewal failed') . '</span>';
-        }
+      if (isset($form['loans'][$loan_id]['#renewed'])) {
+        $cells['title']['data'] .= '<span class="renewal-status ' . $form['loans'][$loan_id]['#renewed'] . '">' . $form['loans'][$loan_id]['#renewed_text'] . '</span>';
       }
 
       $cells['loan_date'] = array(
@@ -129,11 +124,6 @@ function theme_ding_library_user_loan_list_form($form) {
     if (!empty($rows)) {
       $output .= theme('table', $header, $rows, array('colgroups' => $colgroups), $table_title);
     }
-  }
-
-  // Don't show status the next time.
-  if (isset($_SESSION['ding_library_user_loans_renewed'])) {
-    unset($_SESSION['ding_library_user_loans_renewed']);
   }
 
   if (empty($output)) {

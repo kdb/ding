@@ -243,6 +243,21 @@ function ding_library_user_loan_list_form($form_state, $account, $records) {
       $form['loans'][$loan['id']]['#disabled'] = FALSE;
       $renew_buttons = TRUE;
     }
+    if (isset($_SESSION['ding_library_user_loans_renewed'])) {
+      if (in_array($loan['id'], $_SESSION['ding_library_user_loans_renewed']['successfully'])) {
+        $form['loans'][$loan['id']]['#renewed'] = 'success';
+        $form['loans'][$loan['id']]['#renewed_text'] = t('Successfully renewed');
+      }
+      elseif (in_array($loan['id'], $_SESSION['ding_library_user_loans_renewed']['failed'])) {
+        $form['loans'][$loan['id']]['#renewed'] = 'failed';
+        $form['loans'][$loan['id']]['#renewed_text'] = t('Renewal failed');
+      }
+    }
+  }
+
+  // Don't show status the next time.
+  if (isset($_SESSION['ding_library_user_loans_renewed'])) {
+    unset($_SESSION['ding_library_user_loans_renewed']);
   }
 
   if ($renew_buttons) {
