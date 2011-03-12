@@ -2,6 +2,11 @@ name = Ding! library map
 description = Map of libraries with additional info shown on on mouseover
 package = Ding!
 core = 6.x
-dependencies[] = transliteration
-dependencies[] = gmap
 dependencies[] = ding_library
+dependencies[] = openlayers
+dependencies[] = strongarm
+features[ctools][] = openlayers:openlayers_presets:1
+features[ctools][] = strongarm:strongarm:1
+features[openlayers_map_presets][] = ding_library_map
+features[variable][] = openlayers_layers_google_language
+
