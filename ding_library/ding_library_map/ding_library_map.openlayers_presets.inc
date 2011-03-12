@@ -58,4 +58,3 @@ function ding_library_map_openlayers_presets() {
   $export['ding_library_map'] = $openlayers_presets;
   return $export;
 }
-

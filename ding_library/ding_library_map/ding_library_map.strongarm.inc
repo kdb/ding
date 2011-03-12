@@ -14,4 +14,3 @@ function ding_library_map_strongarm() {
   $export['openlayers_layers_google_language'] = $strongarm;
   return $export;
 }
-

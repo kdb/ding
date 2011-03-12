@@ -12,4 +12,3 @@ function ding_library_map_ctools_plugin_api() {
     return array("version" => 1);
   }
 }
-

@@ -46,12 +46,13 @@ Drupal.DingLibraryMapController = function (mapId, options) {
     // Add expand/contract control to the map.
     $('<a class="resize expand" href="#">Expand map</a>')
       .appendTo(self.mapContainer)
-      .toggle(function(event) {
-        self.resizeMap(450);
-        $(event.target).toggleClass('expand').toggleClass('contract');
+      .toggle(function (event) {
+        self.expandMap();
+        return false;
       }, function(event) {
         self.resizeMap(200);
-        $(event.target).toggleClass('expand').toggleClass('contract');
+        $(event.target).addClass('expand').removeClass('contract');
+        return false;
       });
 
     // If a position is specified in the URL params, go there.
@@ -59,7 +60,8 @@ Drupal.DingLibraryMapController = function (mapId, options) {
     initLon = $.url.param('lon');
     if (initLat && initLon) {
       self.map.openlayers.setCenter(self.convertPosition(initLon, initLat));
-      self.map.openlayers.zoomTo(14);
+      self.map.openlayers.zoomTo(15);
+      self.expandMap();
       $.scrollTo(self.mapContainer, '500', { offset: -20 });
     }
 
@@ -106,6 +108,16 @@ Drupal.DingLibraryMapController = function (mapId, options) {
   };
 
   /**
+   * Helper function to expand the map to the large size.
+   *
+   * Mainly used for the expand button, but also called from other places.
+   */
+  self.expandMap = function () {
+    self.resizeMap(450);
+    self.mapContainer.find('a.resize').removeClass('expand').addClass('contract');
+  };
+
+  /**
    * Resize the map to a new size.
    *
    * Currently, only the height can be changed.
@@ -113,7 +125,9 @@ Drupal.DingLibraryMapController = function (mapId, options) {
   self.resizeMap = function (height) {
     var center = self.map.openlayers.getCenter();
 
-    self.infoBox.hide();
+    if (self.infoBox) {
+      self.infoBox.hide();
+    }
 
     // The height is some times set on both the map container and the
     // parent. This causes issues with resing, so remove it.
@@ -228,7 +242,8 @@ jQuery(function($) {
     // scroll the browser to it.
     if (latMatch[1] && lonMatch[1]) {
       lmc.map.openlayers.setCenter(lmc.convertPosition(lonMatch[1], latMatch[1]));
-      lmc.map.openlayers.zoomTo(14);
+      lmc.map.openlayers.zoomTo(15);
+      lmc.expandMap();
       $.scrollTo(lmc.mapContainer, '500', { offset: -20 });
     }
 
