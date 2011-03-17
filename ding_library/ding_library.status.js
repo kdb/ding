@@ -10,6 +10,9 @@
 Drupal.DingLibraryStatusUpdater = function () {
   var self = this;
 
+  // Mapping of return values from Date.getDay() to day names.
+  self.weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
   /**
    * Constructor for the updater.
    */
@@ -25,19 +28,87 @@ Drupal.DingLibraryStatusUpdater = function () {
   };
 
   /**
+   * Recalculate opening status for a library.
+   *
+   * Returns true if library is open, false if not.
+   */
+  self.calculateOpenStatus = function (nid, data, datetime) {
+    var rules, isOpen = false;
+    if (!datetime) { datetime = self.getDatetime(); }
+
+    $.each(data.week[datetime.day], function (idx, rule) {
+      var open = self.parseTimeString(rule.open),
+          close = self.parseTimeString(rule.close);
+
+      // Now we have all the data we need, figure out if we're open.
+      if ((datetime.hours > open.hours ||
+           datetime.hours == open.hours && datetime.minutes > open.minutes) &&
+          (datetime.hours < close.hours ||
+           datetime.hours == close.hours && datetime.minutes < close.minutes)) {
+        isOpen = true;
+      }
+    });
+
+    return isOpen;
+  };
+
+  /**
+   * Get the current date/time as a structured object.
+   *
+   * Returns the data we need for calculation preformatted.
+   */
+  self.getDatetime = function () {
+    var date = new Date(),
+        datetime = {};
+
+    datetime.day = self.weekdays[date.getDay()];
+    datetime.hours = date.getHours();
+    datetime.minutes = date.getMinutes();
+    return datetime;
+  };
+
+  /**
+   * Parse the time string returned from office hours module.
+   */
+  self.parseTimeString = function (timeString) {
+    var parts = timeString.split(':');
+
+    if (parts.length > 1) {
+      return {
+        'hours': parseInt(parts[0], 10),
+        'minutes': parseInt(parts[1], 10)
+      };
+    }
+  };
+
+  /**
    * Reload the status data from the server.
    */
   self.reloadData = function () {
     $.getJSON(self.settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + self.settings.field_name, {}, function (response, textStatus) {
+      // Generate the datetime outside the loop, so to only do it once.
+      var datetime = self.getDatetime();
+      self.statusData = response.data;
       $.each(response.data, function (nid, hoursData) {
+        var label, statusClass;
+
+        if (self.calculateOpenStatus(nid, hoursData)) {
+          label = Drupal.t('open');
+          statusClass = 'open';
+        }
+        else {
+          label = Drupal.t('closed');
+          statusClass = 'closed';
+        }
+
         $('#node-' + nid + ' .library-openstatus')
           // Update the label.
-          .text(hoursData.status_local)
+          .text(label)
           // Remove the existing status classes.
           .removeClass('open')
           .removeClass('closed')
           // Add the current status as a class.
-          .addClass(hoursData.status);
+          .addClass(statusClass);
       });
     });
   };
