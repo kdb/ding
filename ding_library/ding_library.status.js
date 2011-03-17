@@ -21,13 +21,13 @@ Drupal.DingLibraryStatusUpdater = function () {
     self.settings = Drupal.settings.officeHours['node' + Drupal.settings.dingLibraryNids[0]];
 
     // When done initialising, call refresh the first time.
-    self.refresh();
+    self.reloadData();
   };
 
   /**
-   * Refresh the opening status.
+   * Reload the status data from the server.
    */
-  self.refresh = function () {
+  self.reloadData = function () {
     $.getJSON(self.settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + self.settings.field_name, {}, function (response, textStatus) {
       $.each(response.data, function (nid, hoursData) {
         $('#node-' + nid + ' .library-openstatus')
@@ -43,12 +43,12 @@ Drupal.DingLibraryStatusUpdater = function () {
   };
 
   /**
-   * Helper function to refresh status regularly.
+   * Helper function to reload status regularly.
    */
-  self.refreshEvery = function (interval) {
+  self.reloadDataEvery = function (interval) {
     window.clearInterval(self.refreshInterval);
 
-    self.refreshInterval = window.setInterval(self.refresh, interval);
+    self.reloadInterval = window.setInterval(self.reloadData, interval);
   };
 
   self.init();
@@ -60,7 +60,7 @@ jQuery(function($) {
   // Set up status updater.
   var updater = new Drupal.DingLibraryStatusUpdater();
 
-  // Refresh library status every 5 minutes.
-  updater.refreshEvery(300000);
+  // Reload library status data every 10 minutes.
+  updater.reloadDataEvery(600000);
 });
 
