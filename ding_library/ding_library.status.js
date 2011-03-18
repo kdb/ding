@@ -86,30 +86,7 @@ Drupal.DingLibraryStatusUpdater = function () {
    */
   self.reloadData = function () {
     $.getJSON(self.settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + self.settings.field_name, {}, function (response, textStatus) {
-      // Generate the datetime outside the loop, so to only do it once.
-      var datetime = self.getDatetime();
       self.statusData = response.data;
-      $.each(response.data, function (nid, hoursData) {
-        var label, statusClass;
-
-        if (self.calculateOpenStatus(nid, hoursData)) {
-          label = Drupal.t('open');
-          statusClass = 'open';
-        }
-        else {
-          label = Drupal.t('closed');
-          statusClass = 'closed';
-        }
-
-        $('#node-' + nid + ' .library-openstatus')
-          // Update the label.
-          .text(label)
-          // Remove the existing status classes.
-          .removeClass('open')
-          .removeClass('closed')
-          // Add the current status as a class.
-          .addClass(statusClass);
-      });
     });
   };
 
@@ -120,6 +97,49 @@ Drupal.DingLibraryStatusUpdater = function () {
     window.clearInterval(self.reloadInterval);
 
     self.reloadInterval = window.setInterval(self.reloadData, interval);
+
+    // The status is always updated every 10 seconds. This does not
+    // remote calls, and is not computationally intensive, so it should
+    // not be a burden on either server or client.
+    self.updateInterval = window.setInterval(self.updateStatusAll, 10000);
+  };
+
+  /**
+   * Update the status for a single library.
+   */
+  self.updateStatus = function (nid, data, datetime) {
+    var label, statusClass;
+
+    if (self.calculateOpenStatus(nid, data, datetime)) {
+      label = Drupal.t('open');
+      statusClass = 'open';
+    }
+    else {
+      label = Drupal.t('closed');
+      statusClass = 'closed';
+    }
+
+    $('#node-' + nid + ' .library-openstatus')
+      // Update the label.
+      .text(label)
+      // Remove the existing status classes.
+      .removeClass('open')
+      .removeClass('closed')
+      // Add the current status as a class.
+      .addClass(statusClass);
+  };
+
+  /**
+   * Update the status for a all libraries.
+   */
+  self.updateStatusAll = function () {
+    // Generate the datetime outside the loop, so to only do it once.
+    var datetime = self.getDatetime();
+    if (!self.statusData) { return; }
+
+    $.each(self.statusData, function (nid, data) {
+      self.updateStatus(nid, data, datetime);
+    });
   };
 
   self.init();
