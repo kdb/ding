@@ -117,7 +117,7 @@ Drupal.DingLibraryStatusUpdater = function () {
    * Helper function to reload status regularly.
    */
   self.reloadDataEvery = function (interval) {
-    window.clearInterval(self.refreshInterval);
+    window.clearInterval(self.reloadInterval);
 
     self.reloadInterval = window.setInterval(self.reloadData, interval);
   };
