@@ -25,12 +25,12 @@ Drupal.DingLibraryMapController = function (mapId, options) {
     // Get the map object instance from jQuery data.
     self.map = self.mapContainer.data('openlayers');
 
+    // Set up the icons we use for markers.
+    iconSize = new OpenLayers.Size(20, 20);
+
     // Determine the icon's offset, so the tip of the arrow on the icon
     // will be at the marker's location.
-    iconOffset = new OpenLayers.Pixel(-7, -28);
-
-    // Set up the icons we use for markers.
-    iconSize = new OpenLayers.Size(22, 30);
+    iconOffset = new OpenLayers.Pixel(-10, -15);
     self.icons = {
       'closed': new OpenLayers.Icon(self.options.path + '/markers/marker_closed.png', iconSize, iconOffset),
       'open': new OpenLayers.Icon(self.options.path + '/markers/marker_open.png', iconSize, iconOffset)
