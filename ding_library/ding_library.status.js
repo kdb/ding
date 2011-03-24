@@ -117,6 +117,9 @@ Drupal.DingLibraryStatusUpdater = function () {
     if (!self.libraryStatus.hasOwnProperty(nid) || self.libraryStatus[nid] != isOpen) {
       self.libraryStatus[nid] = isOpen;
 
+      // Send an event so other scripts may react to the change.
+      $('body').trigger('DingLibraryStatusChange', [nid, isOpen]);
+
       if (isOpen) {
         label = Drupal.t('open');
         statusClass = 'open';
