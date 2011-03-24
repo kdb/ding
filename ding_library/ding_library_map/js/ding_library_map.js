@@ -108,6 +108,23 @@ Drupal.DingLibraryMapController = function (mapId, options) {
   };
 
   /**
+   * Update marker open/closed status.
+   */
+  self.updateMarkerStatus = function (nid, isOpen) {
+    var marker = self.markers['library-' + nid];
+
+    // Bail if marker was not found.
+    if (!marker) { return; }
+
+    if (isOpen) {
+      marker.icon.setUrl(self.icons.open.url);
+    }
+    else {
+      marker.icon.setUrl(self.icons.closed.url);
+    }
+  };
+
+  /**
    * Helper function to expand the map to the large size.
    *
    * Mainly used for the expand button, but also called from other places.
@@ -137,7 +154,6 @@ Drupal.DingLibraryMapController = function (mapId, options) {
       self.map.openlayers.updateSize();
       self.map.openlayers.panTo(center);
     });
-
   };
 
   /**
@@ -248,6 +264,10 @@ jQuery(function($) {
     }
 
     return false;
+  });
+
+  $('body').bind('DingLibraryStatusChange', function (event, nid, isOpen) {
+    lmc.updateMarkerStatus(nid, isOpen);
   });
 });
 
