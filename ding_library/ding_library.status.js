@@ -87,6 +87,7 @@ Drupal.DingLibraryStatusUpdater = function () {
   self.reloadData = function () {
     $.getJSON(self.settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + self.settings.field_name, {}, function (response, textStatus) {
       self.statusData = response.data;
+      self.updateStatusAll();
     });
   };
 
