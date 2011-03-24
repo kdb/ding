@@ -42,7 +42,7 @@ Drupal.DingLibraryStatusUpdater = function () {
 
       // Now we have all the data we need, figure out if we're open.
       if ((datetime.hours > open.hours ||
-           datetime.hours == open.hours && datetime.minutes > open.minutes) &&
+           datetime.hours == open.hours && datetime.minutes >= open.minutes) &&
           (datetime.hours < close.hours ||
            datetime.hours == close.hours && datetime.minutes < close.minutes)) {
         isOpen = true;
