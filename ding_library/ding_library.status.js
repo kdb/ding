@@ -9,6 +9,7 @@
  */
 Drupal.DingLibraryStatusUpdater = function () {
   var self = this;
+  self.libraryStatus = {};
 
   // Mapping of return values from Date.getDay() to day names.
   self.weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -109,25 +110,31 @@ Drupal.DingLibraryStatusUpdater = function () {
    * Update the status for a single library.
    */
   self.updateStatus = function (nid, data, datetime) {
-    var label, statusClass;
+    var isOpen = self.calculateOpenStatus(nid, data, datetime),
+        label, statusClass;
 
-    if (self.calculateOpenStatus(nid, data, datetime)) {
-      label = Drupal.t('open');
-      statusClass = 'open';
-    }
-    else {
-      label = Drupal.t('closed');
-      statusClass = 'closed';
-    }
+    // Only act when the status changes.
+    if (!self.libraryStatus.hasOwnProperty(nid) || self.libraryStatus[nid] != isOpen) {
+      self.libraryStatus[nid] = isOpen;
 
-    $('#node-' + nid + ' .library-openstatus')
-      // Update the label.
-      .text(label)
-      // Remove the existing status classes.
-      .removeClass('open')
-      .removeClass('closed')
-      // Add the current status as a class.
-      .addClass(statusClass);
+      if (isOpen) {
+        label = Drupal.t('open');
+        statusClass = 'open';
+      }
+      else {
+        label = Drupal.t('closed');
+        statusClass = 'closed';
+      }
+
+      $('#node-' + nid + ' .library-openstatus')
+        // Update the label.
+        .text(label)
+        // Remove the existing status classes.
+        .removeClass('open')
+        .removeClass('closed')
+        // Add the current status as a class.
+        .addClass(statusClass);
+    }
   };
 
   /**
