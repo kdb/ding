@@ -214,7 +214,7 @@ Drupal.DingLibraryMapController = function (mapId, options) {
 
       //Position and show info
       point = self.map.openlayers.getPixelFromLonLat(marker.lonlat);
-      self.infoBox.css({ 'left': (point.x - 7) + 'px', 'top': (point.y - self.infoBox.outerHeight()) + 'px' }).show();
+      self.infoBox.css({ 'left': (point.x - 10) + 'px', 'top': (point.y - self.infoBox.outerHeight()) + 4 + 'px' }).show();
   };
 
   // Initialize the map if OpenLayers is available.
