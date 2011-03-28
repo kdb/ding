@@ -438,7 +438,7 @@ function ding_library_views_default_views() {
     'perm' => 'access content',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'rules',
   ));
   $handler->override_option('title', 'Medarbejdere');
   $handler->override_option('empty_format', '1');
