@@ -199,6 +199,16 @@ function ding_user_ctools_plugin_api($module, $api) {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function ding_user_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'ding_user') .'/views',
+  );
+}
+
+/**
  * Implementation of hook_form_alter().
  *
  * Alter the login form to disable the standard Drupal username/password
