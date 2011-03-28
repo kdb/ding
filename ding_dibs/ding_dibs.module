@@ -7,13 +7,6 @@
  */
 
 /**
- * Implementation of hook_form_FORM_ID_alter().
- */
-function ding_dibs_form_user_forms_debts_details_alter(&$form, &$form_state) {
-  $form['#submit'][] ='ding_dibs_forms_debts_details_submit';
-}
-
-/**
  * Implementation of hook_dibsapi().
  */
 function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
