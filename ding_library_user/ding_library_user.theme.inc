@@ -152,7 +152,7 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
    */
   if (ding_provider_supports($vars['provider_type'], 'details')) {
     $item = ding_provider_invoke($vars['provider_type'], 'details', $vars['item']);
-  $vars['item'] = $item;
+    $vars['item'] = $item;
   }
   else {
     $item = $vars['item'];
