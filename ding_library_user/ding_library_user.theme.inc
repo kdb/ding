@@ -160,13 +160,16 @@ function template_preprocess_ding_library_user_list_item(&$vars) {
 
   if ($item['ting_object']) {
     $object = $item['ting_object'];
-    $vars['title'] = $vars['title_plain'] = check_plain($object->title);
+    //Fall back to object title if no title is specified
+    $vars['title'] = $vars['title_plain'] = ($item['title']) ? check_plain($item['title']) : check_plain($object->title);
 
     if ($object->url) {
       $vars['url'] = $object->url;
-      $vars['title'] = l($object->title, $object->url);
+      $vars['title'] = l($vars['title'], $object->url);
     }
-    $vars['authors'] = $object->creators_string ? check_plain($object->creators_string) : '';
+    
+    //Fall back to object authors if no authors are specified
+    $vars['authors'] = ($item['authors']) ? check_plain($item['authors']) : (($object->creators_string) ? check_plain($object->creators_string) : '');
     $image_url = ting_covers_object_url($object, '80_x');
     $vars['image'] = $image_url ? theme('image', $image_url, '', '', NULL, FALSE) : '';
     $vars['type'] = $object->type ? check_plain($object->type) : '';
