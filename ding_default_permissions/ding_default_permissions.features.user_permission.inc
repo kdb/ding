@@ -469,15 +469,6 @@ function ding_default_permissions_user_default_permissions() {
     ),
   );
 
-  // Exported permission: display admin pages in another language
-  $permissions['display admin pages in another language'] = array(
-    'name' => 'display admin pages in another language',
-    'roles' => array(
-      '0' => 'administrator',
-      '1' => 'editor',
-    ),
-  );
-
   // Exported permission: edit any article content
   $permissions['edit any article content'] = array(
     'name' => 'edit any article content',
