@@ -1,8 +1,7 @@
 <?php
-
 /**
- * @file relevant.inc
- * Provides several library portal page related panels content types.
+ * @file
+ * Provides several panels content types for the library patron profile.
  */
 
 /**

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Theming of a records list.
