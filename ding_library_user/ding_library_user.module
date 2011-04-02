@@ -84,18 +84,8 @@ function ding_library_user_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
     case 'view':
       if ($account->uid == $user->uid) {
+        // Hide the standard summary, since the rest is provided by Panels.
         $account->content['summary']['#access'] = FALSE;
-        $account->content['personal_info'] = array(
-          '#type' => 'user_profile_category',
-          '#title' => t('Your profile'),
-        );
-
-        // I know this is not pretty, should be refactored to something more
-        // like standard profile view.
-        $account->content['personal_info']['vcard'] = array(
-          '#value' => theme('ding_library_user_personal_info', $account, NULL),
-        );
-
       }
       break;
   }
