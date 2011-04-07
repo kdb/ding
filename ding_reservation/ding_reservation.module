@@ -91,15 +91,16 @@ function ding_reservation_ding_cart_list_form_reserve($form, &$form_state) {
           // If reservation is impossible, remove the item from the cart.
           ding_cart_remove_item($form_state['values']['account'], $local_id);
         case DING_RESERVATION_ERROR_RESERVATION_EXISTS:
-          drupal_set_message(t('“@title” is already on your reservation list. Removed from cart.', $t_param), 'warning');
+          drupal_set_message(t('“@title” is already on your reservation list, and has been removed from your cart.', $t_param), 'warning');
           // If reservation is already made, remove the item from the cart.
           ding_cart_remove_item($form_state['values']['account'], $local_id);
           return;
       }
     }
 
-    // If none of the cases above pass, give a generic error message.
-    drupal_set_message(t('Reservation of “@title” failed. It may be on your reservation list already.', $t_param), 'error');
+    // If none of the cases above apply (and thus return the function, 
+    // skipping this part, provide a generic error message.
+    drupal_set_message(t('Reservation of “@title” failed. Please try again later, and contact technical support if the problem persists.', $t_param), 'error');
   }
 }
 
