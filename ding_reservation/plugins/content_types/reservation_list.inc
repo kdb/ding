@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file reservation_list.inc

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file debt_list.inc

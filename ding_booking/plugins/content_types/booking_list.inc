@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file booking_list.inc

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Page callback to handle adding stuff to the cart.

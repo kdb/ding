@@ -1,4 +1,4 @@
-<?php // $Id$
+<?php
 
 /**
  * @file draggable_checkboxes_element.tpl.php

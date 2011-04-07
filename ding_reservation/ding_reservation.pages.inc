@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Reserve an item immediately.

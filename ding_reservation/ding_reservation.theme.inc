@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Theming of reservation detailed list form.

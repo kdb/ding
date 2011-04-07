@@ -1,6 +1,5 @@
 <?php
 
-// $Id$
 
 /**
  * Magic value for providers to return if not authenticated, md5('DING_PROVIDER_AUTH_REQUIRED').

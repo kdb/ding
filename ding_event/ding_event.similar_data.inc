@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file ding_event.similar_data.inc
