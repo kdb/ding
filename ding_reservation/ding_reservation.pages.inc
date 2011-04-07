@@ -71,7 +71,7 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
     }
 
     // We are returning JavaScript, so tell the browser.
-    drupal_set_header('Content-Type: application/json; charset=utf-8');
+    drupal_set_header('Content-Type: application/json');
     echo json_encode($reply);
     return;
   }
