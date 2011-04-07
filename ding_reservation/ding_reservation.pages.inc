@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Page callbacks for Ding reservation module.
+ */
 
 /**
  * Reserve an item immediately.
@@ -34,6 +38,12 @@ function ding_reservation_page_reserve_item($object, $reservable = NULL) {
         $reply['error_type'] = 'not-logged-in';
         $reply['title'] = t('Not logged in');
         $reply['message'] = t('You have to log in to make reservations.');
+        break;
+      case DING_PROVIDER_AUTH_BLOCKED:
+        $reply['status'] = 'error';
+        $reply['error_type'] = 'account-blocked';
+        $reply['title'] = t('Account blocked');
+        $reply['message'] = t('Your are not allowed to make reservations, as your account is blocked. Contact your local library to have your account reinstated.');
         break;
       case DING_RESERVATION_ERROR_NO_DEFAULT_BRANCH:
         $reply['status'] = 'error';
