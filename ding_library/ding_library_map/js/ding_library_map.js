@@ -246,8 +246,21 @@ Drupal.DingLibraryMapController = function (mapId, options) {
   return self;
 };
 
-// Set up our controller when the document is loaded.
-jQuery(function($) {
+/**
+ * Set up a behavior for configuring the library map.
+ */
+Drupal.behaviors.openlayersDingLibraryMap = function (context) {
+  // Make sure this behavior is run only once.
+  if (Drupal.settings.dingLibraryMap.initialised) { return; }
+
+  // If OpenLayers is not done initialising yet, we wait for a while and
+  // try again.
+  if (!$('#library-map').data('openlayers')) {
+    window.setTimeout(Drupal.behaviors.openlayersDingLibraryMap, 100);
+    return;
+  }
+  Drupal.settings.dingLibraryMap.initialised = true;
+
   var lmc = new Drupal.DingLibraryMapController('library-map', Drupal.settings.dingLibraryMap);
 
   // On the page with the library list, there are links to view the
@@ -274,7 +287,7 @@ jQuery(function($) {
   $('body').bind('DingLibraryStatusChange', function (event, nid, isOpen) {
     lmc.updateMarkerStatus(nid, isOpen);
   });
-});
+};
 
 })(jQuery);
 
