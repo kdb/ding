@@ -90,7 +90,9 @@ Drupal.DingLibraryMapController = function (mapId, options) {
     });
 
     // Triggers for hiding info: mouseout, resize, zoom, move.
-    self.mapContainer.bind('widthchange heightchange zoom move', self.infoBox.hide());
+    self.mapContainer.bind('widthchange heightchange zoom move', function () {
+      self.infoBox.hide();
+    });
   };
 
   /**
