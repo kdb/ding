@@ -225,12 +225,13 @@ Drupal.DingLibraryMapController = function (mapId, options) {
         day = nextDay; //step to day after last day in current section
       }
 
-      // Add click handler
+      // Add click handler to make a click on the infobox go to the
+      // marker URL, ie. the library page.
       self.infoBox.unbind('click').click(function() {
         window.location = markerData.url;
       });
 
-      //Position and show info
+      // Position and show information box.
       point = self.map.openlayers.getPixelFromLonLat(marker.lonlat);
       self.infoBox.css({ 'left': (point.x - 10) + 'px', 'top': (point.y - self.infoBox.outerHeight()) + 4 + 'px' }).show();
   };
