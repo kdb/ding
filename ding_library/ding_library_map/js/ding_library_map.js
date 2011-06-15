@@ -3,6 +3,8 @@
  * JavaScript to handle our library map.
  */
 
+(function ($) {
+
 /**
  * Prototype for controlling the map.
  */
@@ -270,4 +272,6 @@ jQuery(function($) {
     lmc.updateMarkerStatus(nid, isOpen);
   });
 });
+
+})(jQuery);
 
