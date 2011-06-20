@@ -81,7 +81,7 @@ function theme_ding_reservation_list_form($form) {
 
       $cells['pickup_number'] = array(
         'class' => 'pickup_number',
-        'data' => '<label for="edit-selected-'.$item['id'].'">'.$item['pickup_number'],
+        'data' => '<label for="edit-selected-'.$item['id'].'">'.$item['pickup_number'].'</label>',
       );
 
       $cells['pickup_expire_date'] = array(
