@@ -59,7 +59,7 @@ function theme_ding_reservation_list_form($form) {
       if (isset($form['selected'][$item['id']])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
-          'data' => '<label for="edit-selected-'.$item['id'].'">'.drupal_render($form['selected'][$item['id']]).'</label>',
+          'data' => drupal_render($form['selected'][$item['id']]),
         );
       }
       else {
@@ -155,7 +155,7 @@ function theme_ding_reservation_list_form($form) {
       if (isset($form['selected'][$item['id']])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
-          'data' => '<label for="edit-selected-'.$item['id'].'">'.drupal_render($form['selected'][$item['id']]).'</label>',
+          'data' => drupal_render($form['selected'][$item['id']]),
         );
       }
       else {

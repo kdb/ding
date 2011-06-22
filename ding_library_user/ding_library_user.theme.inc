@@ -88,7 +88,7 @@ function theme_ding_library_user_loan_list_form($form) {
 
       $cells['checkbox'] = array(
         'class' => 'checkbox',
-        'data' => '<label for="edit-loans-'.$item['id'].'">'.drupal_render($form['loans'][$loan_id]).'</label>',
+        'data' => drupal_render($form['loans'][$loan_id]),
       );
 
       $cells['image'] = array(
