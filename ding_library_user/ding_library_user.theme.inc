@@ -88,31 +88,32 @@ function theme_ding_library_user_loan_list_form($form) {
 
       $cells['checkbox'] = array(
         'class' => 'checkbox',
-        'data' => drupal_render($form['loans'][$loan_id]),
+        'data' => '<label for="edit-loans-'.$item['id'].'">'.drupal_render($form['loans'][$loan_id]).'</label>',
       );
 
       $cells['image'] = array(
         'class' => 'image',
-        'data' => theme('ding_library_user_list_item_image', 'loan', $loan, '80_x'),
+        'data' => '<label for="edit-loans-'.$item['id'].'">'.theme('ding_library_user_list_item_image', 'loan', $loan, '80_x').'</label>',
       );
 
       $cells['title'] = array(
         'class' => 'title',
-        'data' => theme('ding_library_user_list_item', 'loan', $loan),
+        'data' => '<label for="edit-loans-'.$item['id'].'">'.theme('ding_library_user_list_item', 'loan', $loan).'</label>',
       );
 
+
       if (isset($form['loans'][$loan_id]['#renewed'])) {
-        $cells['title']['data'] .= '<span class="renewal-status ' . $form['loans'][$loan_id]['#renewed'] . '">' . $form['loans'][$loan_id]['#renewed_text'] . '</span>';
+          $cells['title']['data'] .= '<label for="edit-loans-'.$item['id'].'">'.'<span class="renewal-status ' . $form['loans'][$loan_id]['#renewed'] . '">' . $form['loans'][$loan_id]['#renewed_text'] . '</span>'.'</label>';
       }
 
       $cells['loan_date'] = array(
         'class' => 'loan_date',
-        'data' => ding_library_user_format_date($loan['loan_date'], $date_format),
+        'data' => '<label for="edit-loans-'.$item['id'].'">'.ding_library_user_format_date($loan['loan_date'], $date_format).'</label>',
       );
 
       $cells['due_date'] = array(
         'class' => 'due_date',
-        'data' => ding_library_user_format_date($loan['due_date'], $date_format),
+        'data' => '<label for="edit-loans-'.$item['id'].'">'.ding_library_user_format_date($loan['due_date'], $date_format).'</label>',
       );
 
       $rows[] = array(
