@@ -175,7 +175,7 @@ Drupal.DingLibraryMapController = function (mapId, options) {
    * Update the infobox for the marker being hovered on.
    */
   self.updateInfoBox = function(marker, markerData) {
-      var day, days, section, sectionDays, nextDay, startTime, endTime, startDay, endDay, point;
+      var day, days, section, sectionDays, nextDay, startTime, endTime, startDay, endDay, currentlyOpen, point;
       // Add address attributes. Each field has a container with the
       // corresponding class name.
       $.each(['name', 'street', 'postal-code', 'city'], function (i, val) {
@@ -245,6 +245,19 @@ Drupal.DingLibraryMapController = function (mapId, options) {
       self.infoBox.unbind('click').click(function() {
         window.location = markerData.url;
       });
+
+      // Set open/closed classes on the infobox depending on the current
+      // state of the library.
+      if (Drupal.dingLibraryStatusUpdaterInstance && Drupal.dingLibraryStatusUpdaterInstance.libraryStatus.hasOwnProperty(markerData.nid)) {
+        currentlyOpen = Drupal.dingLibraryStatusUpdaterInstance.libraryStatus[markerData.nid];
+
+        if (currentlyOpen) {
+          self.infoBox.removeClass('closed').addClass('open');
+        }
+        else {
+          self.infoBox.removeClass('open').addClass('closed');
+        }
+      }
 
       // Position and show information box.
       point = self.map.openlayers.getPixelFromLonLat(marker.lonlat);
