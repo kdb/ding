@@ -1768,17 +1768,27 @@ function ding_content_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Library topic list';
   $page->admin_description = '';
-  $page->path = 'biblioteker/%slug/lokalt';
+  $page->path = 'node/%nid/lokalt';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
+    'plugins' => array(
+      0 => array(
+        'name' => 'perm',
+        'settings' => array(
+          'perm' => 'access content',
+        ),
+        'context' => 'logged-in-user',
+        'not' => FALSE,
+      ),
+    ),
   );
   $page->menu = array();
   $page->arguments = array(
-    'slug' => array(
+    'nid' => array(
       'id' => 1,
-      'identifier' => 'Library slug',
-      'name' => 'ding_slug',
+      'identifier' => 'Library node',
+      'name' => 'nid',
       'settings' => array(),
     ),
   );
@@ -1799,6 +1809,18 @@ function ding_content_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_page_type',
+          'settings' => array(
+            'library_page_type' => 'normal',
+          ),
+          'context' => 'argument_nid_1',
+          'not' => FALSE,
+        ),
+      ),
+    ),
   );
   $display = new panels_display;
   $display->api_version = 1;
@@ -1838,10 +1860,11 @@ function ding_content_default_page_manager_pages() {
       'url' => '',
       'display' => 'default',
       'context' => array(
-        0 => 'argument_ding_slug_1.nid',
+        0 => 'argument_nid_1.nid',
       ),
       'override_title' => 1,
       'override_title_text' => 'Lokale emnesamlinger',
+      'override_pager_settings' => 1,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1863,7 +1886,7 @@ function ding_content_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => array(
         0 => 'empty',
-        1 => 'argument_ding_slug_1',
+        1 => 'argument_nid_1',
         2 => 'empty',
       ),
       'override_title' => 0,
@@ -1888,9 +1911,9 @@ function ding_content_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'display_header_image' => FALSE,
-      'header_image_imagecache_preset' => '2',
+      'header_image_imagecache_preset' => '120_120',
       'display_navigation_links' => TRUE,
-      'context' => 'argument_ding_slug_1',
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -1916,7 +1939,7 @@ function ding_content_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Library PC booking page';
   $page->admin_description = '';
-  $page->path = 'biblioteker/%slug/bookpc';
+  $page->path = 'node/%nid/bookpc';
   $page->access = array(
     'plugins' => array(
       1 => array(
@@ -1933,10 +1956,10 @@ function ding_content_default_page_manager_pages() {
   );
   $page->menu = array();
   $page->arguments = array(
-    'slug' => array(
+    'nid' => array(
       'id' => 1,
-      'identifier' => 'Library slug',
-      'name' => 'ding_slug',
+      'identifier' => 'Library node',
+      'name' => 'nid',
       'settings' => array(),
     ),
   );
@@ -1959,6 +1982,16 @@ function ding_content_default_page_manager_pages() {
     'relationships' => array(),
     'access' => array(
       'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_page_type',
+          'settings' => array(
+            'library_page_type' => 'normal',
+          ),
+          'context' => 'argument_nid_1',
+          'not' => FALSE,
+        ),
+      ),
     ),
   );
   $display = new panels_display;
@@ -1975,7 +2008,7 @@ function ding_content_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Book pc';
+  $display->title = 'Book pc på %nid:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1987,7 +2020,7 @@ function ding_content_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_ding_slug_1',
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -2009,7 +2042,7 @@ function ding_content_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_ding_slug_1',
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -2031,7 +2064,7 @@ function ding_content_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_ding_slug_1',
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -2055,7 +2088,7 @@ function ding_content_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => array(
         0 => 'empty',
-        1 => 'argument_ding_slug_1',
+        1 => 'argument_nid_1',
         2 => 'empty',
       ),
       'override_title' => 0,
@@ -2080,9 +2113,9 @@ function ding_content_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'display_header_image' => FALSE,
-      'header_image_imagecache_preset' => '2',
+      'header_image_imagecache_preset' => '120_120',
       'display_navigation_links' => TRUE,
-      'context' => 'argument_ding_slug_1',
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -2120,6 +2153,8 @@ function ding_content_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'normal',
