@@ -283,7 +283,7 @@ function ding_library_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_library_pattern';
-  $strongarm->value = 'biblioteker/[ding_slug]';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]';
 
   $export['pathauto_node_library_pattern'] = $strongarm;
   return $export;
