@@ -277,8 +277,50 @@ function ding_library_strongarm() {
   $strongarm->value = array(
     0 => 'status',
   );
-
   $export['node_options_library'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_about_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/om';
+  $export['pathauto_library_about_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_blog_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/blog';
+  $export['pathauto_library_blog_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_bookpc_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/bookpc';
+  $export['pathauto_library_bookpc_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_event_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/arrangementer';
+  $export['pathauto_library_event_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_facilities_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/faciliteter';
+  $export['pathauto_library_facilities_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_library_local_page_pattern';
+  $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]/lokalt';
+  $export['pathauto_library_local_page_pattern'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -333,7 +375,7 @@ function ding_library_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_library_pattern';
   $strongarm->value = '[panels_subsites_prefix]/[panels_subsites_slug]';
-
   $export['pathauto_node_library_pattern'] = $strongarm;
+
   return $export;
 }
