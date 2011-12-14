@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Provides the library node type for the Ding! project.
@@ -35,6 +34,17 @@ function ding_library_menu() {
     'access arguments' => array('configure libraries'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_library.admin.inc',
+  );
+
+  // Since we switched the library URLs to be node/%/something, we need
+  // to redirect the old ones that might not be covered by URL aliases.
+  $items['biblioteker/%'] = array(
+    'title' => 'Redirect from old library URLs',
+    'page callback' => 'ding_library_legacy_redirect_page',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_library.pages.inc',
   );
 
   return $items;
