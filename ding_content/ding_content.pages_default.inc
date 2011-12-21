@@ -150,19 +150,18 @@ function ding_content_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
-    $pane->type = 'library';
-    $pane->subtype = 'library_hours';
+    $pane->type = 'block';
+    $pane->subtype = 'opening_hours-week';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
-      'style' => 'ding_box',
       'settings' => NULL,
+      'style' => 'ding_box',
     );
     $pane->css = array();
     $pane->extras = array();
