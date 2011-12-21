@@ -8,7 +8,7 @@ function ding_content_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context';
+  $handler->name = 'node_view_library_normal';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -221,7 +221,7 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
 
-  $export['node_view_panel_context'] = $handler;
+  $export['node_view_library_normal'] = $handler;
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
