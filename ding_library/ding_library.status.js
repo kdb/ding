@@ -23,6 +23,18 @@
       return self;
     };
 
+    // Helper function to split time string into numbers.
+    self.splitTime = function (time) {
+      var parts = time.split(':');
+
+      if (parts.length === 2) {
+        return {
+          hours: parseInt(parts[0], 10),
+          minutes: parseInt(parts[1], 10),
+        };
+      }
+    };
+
     // Recalculate opening status for a library.
     // Returns true if library is open, false if not.
     self.calculateOpenStatus = function () {
@@ -32,16 +44,16 @@
       instances = Drupal.OpeningHours.dataStore[self.nid][self.date.getISODate()] || [];
 
       $.each(instances, function () {
-        var open = this.start_time.split(":"),
-            close = this.end_time.split(":"),
+        var open = self.splitTime(this.start_time),
+            close = self.splitTime(this.end_time),
             hours = self.date.getHours(),
             minutes = self.date.getMinutes();
 
         // Now we have all the data we need, figure out if we're open.
-        if ((hours > open[0] ||
-            hours === open[0] && minutes >= open[1]) &&
-            (hours < close[0] ||
-            hours === close[0] && minutes < close[1])) {
+        if ((hours > open.hours ||
+            hours === open.hours && minutes >= open.minutes) &&
+            (hours < close.hours ||
+            hours === close.hours && minutes < close.minutes)) {
          isOpen = true;
         }
       });
