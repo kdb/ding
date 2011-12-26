@@ -91,6 +91,9 @@
         self.el.removeClass('open');
         self.el.text(Drupal.t('Closed'));
       }
+
+      // Trigger an evert so other scripts can react to the change.
+      $(window).trigger('DingLibraryStatusChange', [self.nid, self.isOpen]);
     };
 
     // Update our display with a new date value.

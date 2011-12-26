@@ -276,7 +276,7 @@ Drupal.behaviors.openlayersDingLibraryMap = function (context) {
     return false;
   });
 
-  $('body').bind('DingLibraryStatusChange', function (event, nid, isOpen) {
+  $(window).bind('DingLibraryStatusChange', function (event, nid, isOpen) {
     lmc.updateMarkerStatus(nid, isOpen);
   });
 };
