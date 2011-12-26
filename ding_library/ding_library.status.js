@@ -57,6 +57,9 @@
       if (!self.el) {
         self.el = $('<div class="library-openstatus"></div>');
         self.el.appendTo($(self.options.container).parent('.node-teaser-library').find('.picture'));
+
+        // Save the view instance for later reference.
+        self.el.data('statusIndicatorInstance', self);
       }
 
       if (self.isOpen) {
