@@ -42,9 +42,11 @@
             hours === open[0] && minutes >= open[1]) &&
             (hours < close[0] ||
             hours === close[0] && minutes < close[1])) {
-          self.isOpen = true;
+         isOpen = true;
         }
       });
+
+      self.isOpen = isOpen;
     };
 
     // Render the current opening status.
