@@ -177,7 +177,7 @@ Drupal.DingLibraryMapController = function (mapId, options) {
 
   // Get the opening hours data for the week and prepare them for rendering.
   self.weekValues = function (nid) {
-    var day, days, sectionDays, nextDay, startTime, endTime, startDay, endDay, sections = [];
+    var sections = [];
 
     _.each(self.week.dates, function (date) {
       var instances = Drupal.OpeningHours.dataStore[nid][date.getISODate()];
