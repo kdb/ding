@@ -14,6 +14,7 @@
 
     // Constructor for the updater.
     self.constructor = function () {
+      self.isOpen = false;
       self.options = options;
 
       self.date = options.date;
@@ -41,20 +42,15 @@
             hours === open[0] && minutes >= open[1]) &&
             (hours < close[0] ||
             hours === close[0] && minutes < close[1])) {
-          isOpen = true;
+          self.isOpen = true;
         }
       });
-
-      return isOpen;
     };
-
 
     // Render the current opening status.
     self.render = function () {
-      var isOpen = false;
-
       if (Drupal.OpeningHours.dataStore[self.nid]) {
-        isOpen = self.calculateOpenStatus();
+        self.calculateOpenStatus();
       }
 
       // Add our element to the DOM, if neccessary.
@@ -63,7 +59,7 @@
         self.el.appendTo($(self.options.container).parent('.node-teaser-library').find('.picture'));
       }
 
-      if (isOpen) {
+      if (self.isOpen) {
         self.el.removeClass('closed');
         self.el.addClass('open');
         self.el.text(Drupal.t('Open'));
