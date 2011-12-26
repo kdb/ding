@@ -20,6 +20,11 @@
       self.date = options.date;
       self.nid = options.nid;
 
+      // The status is always updated every 10 seconds. This does not
+      // remote calls, and is not computationally intensive, so it should
+      // not be a burden on either server or client.
+      self.updateInterval = window.setInterval(self.update, 10000);
+
       return self;
     };
 
@@ -85,6 +90,22 @@
         self.el.addClass('closed');
         self.el.removeClass('open');
         self.el.text(Drupal.t('Closed'));
+      }
+    };
+
+    // Update our display with a new date value.
+    self.update = function (date) {
+      var currentState = self.isOpen;
+      // Default to current date.
+      date = date || new Date();
+
+      // Overwrite the date and recalculate status.
+      self.date = date;
+      self.calculateOpenStatus();
+
+      // If state changed, re-render.
+      if (currentState !== self.isOpen) {
+        self.render();
       }
     };
 
