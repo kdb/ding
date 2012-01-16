@@ -476,6 +476,16 @@ function ding_content_default_page_manager_handlers() {
         'identifier' => 'Library node',
         'keyword' => 'related_library',
       ),
+      1 => array(
+        'context' => 'argument_nid_1',
+        'name' => 'node_from_noderef',
+        'id' => 1,
+        'identifier' => 'Tema-site node',
+        'keyword' => 'tema',
+        'relationship_settings' => array(
+          'field_name' => 'field_tema_ref',
+        ),
+      ),
     ),
     'access' => array(
       'plugins' => array(
@@ -746,11 +756,33 @@ function ding_content_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-10'] = $pane;
     $display->panels['top'][0] = 'new-10';
+    $pane = new stdClass;
+    $pane->pid = 'new-11';
+    $pane->panel = 'top';
+    $pane->type = 'header';
+    $pane->subtype = 'tema_header';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'display_header_image' => FALSE,
+      'context' => 'relationship_node_from_noderef_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-11'] = $pane;
+    $display->panels['top'][1] = 'new-11';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
   $export['node_view_panel_context_4'] = $handler;
+
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -877,6 +909,16 @@ function ding_content_default_page_manager_handlers() {
         'id' => 2,
         'identifier' => 'Library node',
         'keyword' => 'related_library',
+      ),
+      1 => array(
+        'context' => 'argument_nid_1',
+        'name' => 'node_from_noderef',
+        'id' => 1,
+        'identifier' => 'Tema-site node',
+        'keyword' => 'tema',
+        'relationship_settings' => array(
+          'field_name' => 'field_tema_ref',
+        ),
       ),
     ),
     'access' => array(
@@ -1063,11 +1105,33 @@ function ding_content_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-6'] = $pane;
     $display->panels['top'][0] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top';
+    $pane->type = 'header';
+    $pane->subtype = 'tema_header';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'display_header_image' => FALSE,
+      'context' => 'relationship_node_from_noderef_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-7'] = $pane;
+    $display->panels['top'][1] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
-
   $export['node_view_panel_context_6'] = $handler;
+
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
