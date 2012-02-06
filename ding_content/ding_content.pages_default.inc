@@ -224,7 +224,7 @@ function ding_content_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_2';
+  $handler->name = 'node_view_library_portal';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -442,11 +442,11 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
 
-  $export['node_view_panel_context_2'] = $handler;
+  $export['node_view_library_portal'] = $handler;
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_4';
+  $handler->name = 'node_view_article';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -772,12 +772,12 @@ function ding_content_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  $export['node_view_panel_context_4'] = $handler;
+  $export['node_view_article'] = $handler;
 
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_5';
+  $handler->name = 'node_view_feature';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -876,11 +876,11 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
 
-  $export['node_view_panel_context_5'] = $handler;
+  $export['node_view_feature'] = $handler;
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_6';
+  $handler->name = 'node_view_event';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -1121,19 +1121,19 @@ function ding_content_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
-  $export['node_view_panel_context_6'] = $handler;
+  $export['node_view_event'] = $handler;
 
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_7';
+  $handler->name = 'node_view_topic';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
   $handler->weight = 5;
   $handler->conf = array(
     'autogenerate_title' => TRUE,
-    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Topic"',
+    'title' => 'Topic collection',
     'no_blocks' => 0,
     'css_id' => '',
     'css' => '',
@@ -1294,11 +1294,11 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = 'new-5';
   $handler->conf['display'] = $display;
 
-  $export['node_view_panel_context_7'] = $handler;
+  $export['node_view_topic'] = $handler;
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'term_view_panel_context';
+  $handler->name = 'term_view_ding_default';
   $handler->task = 'term_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -1454,7 +1454,7 @@ function ding_content_default_page_manager_handlers() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
 
-  $export['term_view_panel_context'] = $handler;
+  $export['term_view_ding_default'] = $handler;
   return $export;
 }
 
