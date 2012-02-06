@@ -5,20 +5,21 @@
  */
 function ding_library_strongarm() {
   $export = array();
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ant_library';
   $strongarm->value = '0';
-
   $export['ant_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_library';
   $strongarm->value = '0';
-
   $export['comment_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -32,36 +33,36 @@ function ding_library_strongarm() {
     'taxonomy' => '4',
     'path' => '8',
   );
-
   $export['content_extra_weights_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_library';
   $strongarm->value = '0';
-
   $export['language_content_type_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'location_defaultnum_library';
   $strongarm->value = '1';
-
   $export['location_defaultnum_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'location_geocode_dk';
   $strongarm->value = 'google';
-
   $export['location_geocode_dk'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'location_maxnum_library';
   $strongarm->value = '1';
-
   $export['location_maxnum_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -153,8 +154,8 @@ function ding_library_strongarm() {
       'mode' => 'simple',
     ),
   );
-
   $export['location_settings_node_library'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
