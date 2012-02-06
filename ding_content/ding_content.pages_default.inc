@@ -810,18 +810,19 @@ function ding_content_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
-    $pane->type = 'block';
-    $pane->subtype = 'opening_hours-week';
+    $pane->type = 'week';
+    $pane->subtype = 'week';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'hide_if_empty' => 1,
+      'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
-      'style' => 'ding_box',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -1023,18 +1024,18 @@ function ding_content_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
-    $pane->type = 'library';
-    $pane->subtype = 'library_hours';
+    $pane->type = 'week';
+    $pane->subtype = 'week';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'hide_if_empty' => 1,
       'context' => 'argument_nid_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
-      'style' => 'ding_box',
       'settings' => NULL,
     );
     $pane->css = array();
