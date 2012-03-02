@@ -35,7 +35,7 @@
       if (parts.length === 2) {
         return {
           hours: parseInt(parts[0], 10),
-          minutes: parseInt(parts[1], 10),
+          minutes: parseInt(parts[1], 10)
         };
       }
     };
