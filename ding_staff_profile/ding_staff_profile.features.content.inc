@@ -53,7 +53,6 @@ function ding_staff_profile_content_default_fields() {
     'widget' => array(
       'file_extensions' => 'png gif jpg jpeg',
       'file_path' => 'profile_image/[uid]',
-      'progress_indicator' => 'bar',
       'max_filesize_per_file' => '',
       'max_filesize_per_node' => '',
       'max_resolution' => 0,
@@ -62,9 +61,10 @@ function ding_staff_profile_content_default_fields() {
       'custom_alt' => 1,
       'title' => '',
       'custom_title' => 0,
-      'title_type' => 'textfield',
       'default_image' => NULL,
       'use_default_image' => 0,
+      'progress_indicator' => 'bar',
+      'title_type' => 'textfield',
       'insert' => NULL,
       'insert_styles' => NULL,
       'insert_default' => NULL,
@@ -276,6 +276,7 @@ function ding_staff_profile_content_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Arbejder med');
+  t('Biblioteker');
   t('Profilbillede');
   t('Stilling');
 
