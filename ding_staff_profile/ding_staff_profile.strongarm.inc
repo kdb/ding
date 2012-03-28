@@ -96,12 +96,14 @@ function ding_staff_profile_strongarm() {
   $strongarm->name = 'content_extra_weights_profile';
   $strongarm->value = array(
     'title' => '-1',
-    'body_field' => '3',
-    'revision_information' => '5',
-    'comment_settings' => '6',
-    'menu' => '4',
-    'taxonomy' => '-3',
-    'path' => '7',
+    'body_field' => '4',
+    'revision_information' => '6',
+    'author' => '9',
+    'options' => '10',
+    'comment_settings' => '7',
+    'menu' => '5',
+    'path' => '8',
+    'path_redirect' => '11',
   );
   $export['content_extra_weights_profile'] = $strongarm;
 
