@@ -11,8 +11,19 @@ function ding_staff_profile_content_default_fields() {
     'field_name' => 'field_image',
     'type_name' => 'profile',
     'display_settings' => array(
-      'weight' => '2',
+      'weight' => '-2',
       'parent' => '',
+      'label' => array(
+        'format' => 'hidden',
+      ),
+      'teaser' => array(
+        'format' => '120_120_linked',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => '120_120_default',
+        'exclude' => 0,
+      ),
       '2' => array(
         'format' => '120_120_default',
         'exclude' => 0,
@@ -26,17 +37,6 @@ function ding_staff_profile_content_default_fields() {
         'exclude' => 0,
       ),
       '4' => array(
-        'format' => '120_120_default',
-        'exclude' => 0,
-      ),
-      'label' => array(
-        'format' => 'hidden',
-      ),
-      'teaser' => array(
-        'format' => '120_120_linked',
-        'exclude' => 0,
-      ),
-      'full' => array(
         'format' => '120_120_default',
         'exclude' => 0,
       ),
@@ -83,9 +83,10 @@ function ding_staff_profile_content_default_fields() {
     'field_name' => 'field_multi_library_ref',
     'type_name' => 'profile',
     'display_settings' => array(
+      'weight' => 0,
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -148,13 +149,91 @@ function ding_staff_profile_content_default_fields() {
     ),
   );
 
+  // Exported field: field_staff_phone
+  $fields['profile-field_staff_phone'] = array(
+    'field_name' => 'field_staff_phone',
+    'type_name' => 'profile',
+    'display_settings' => array(
+      'weight' => '3',
+      'parent' => '',
+      'label' => array(
+        'format' => 'above',
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'mobile' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '+45',
+    'suffix' => '',
+    'min' => '20000000',
+    'max' => '99999999',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_staff_phone][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Telefonnummer',
+      'weight' => '3',
+      'description' => 'Dit telefonnummer, hvis du ønsker det offentliggjort. Kun tal, ingen mellemrum eller specialtegn.',
+      'type' => 'number',
+      'module' => 'number',
+    ),
+  );
+
   // Exported field: field_staff_title
   $fields['profile-field_staff_title'] = array(
     'field_name' => 'field_staff_title',
     'type_name' => 'profile',
     'display_settings' => array(
-      'weight' => '4',
+      'weight' => '1',
       'parent' => '',
+      'label' => array(
+        'format' => 'above',
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
       '2' => array(
         'format' => 'default',
         'exclude' => 0,
@@ -169,17 +248,6 @@ function ding_staff_profile_content_default_fields() {
       ),
       '4' => array(
         'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      'label' => array(
-        'format' => 'hidden',
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
         'exclude' => 0,
       ),
     ),
@@ -216,9 +284,10 @@ function ding_staff_profile_content_default_fields() {
     'field_name' => 'field_work_area',
     'type_name' => 'profile',
     'display_settings' => array(
+      'weight' => '2',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -279,6 +348,7 @@ function ding_staff_profile_content_default_fields() {
   t('Biblioteker');
   t('Profilbillede');
   t('Stilling');
+  t('Telefonnummer');
 
   return $fields;
 }
