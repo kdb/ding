@@ -30,6 +30,8 @@ function ding_panels_library_title_content_type_render($subtype, $conf, $panel_a
   $node = isset($context->data) ? drupal_clone($context->data) : NULL;
 
   $block = new stdClass();
+  // @todo: move this into a visibility rule for the pane. At current the rules are not 
+  //        saved when during this in the UI.
   if ($node->type != 'tema_site') {
     $block->content = theme('ding_panels_content_library_title', $node, $conf);
   }
